@@ -43,8 +43,12 @@
   // Build recipes
   "latex-workshop.latex.recipes": [
     {
-      "name": "latexmk (Docker)",
-      "tools": ["latexmk-docker"]
+      "name": "latexmk-lualatex (Docker)",
+      "tools": ["latexmk-lualatex-docker"]
+    },
+    {
+      "name": "latexmk-pdflatex (Docker)",
+      "tools": ["latexmk-pdflatex-docker"]
     },
     {
       "name": "pdflatex (Docker)",
@@ -55,7 +59,20 @@
   // Build tools
   "latex-workshop.latex.tools": [
     {
-      "name": "latexmk-docker",
+      "name": "latexmk-lualatex-docker",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-lualatex",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "latexmk-pdflatex-docker",
       "command": "latexmk",
       "args": [
         "-synctex=1",
