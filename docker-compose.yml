@@ -1,0 +1,7 @@
+services:
+  latex:
+    build: .
+    image: en-605-202-latex
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
