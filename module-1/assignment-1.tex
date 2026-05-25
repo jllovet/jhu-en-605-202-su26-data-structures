@@ -103,7 +103,7 @@ Consider the first few non-negative integers represented in a few of the number 
 Numbers in binary and ternary might be represented in the following way to disambiguate them from their decimal equivalents.
 
 \[
-10_2 \ne 10_{10} \ne 10_3
+  10_2 \ne 10_{10} \ne 10_3
 \]
 
 From the preceding, we can see that these numerical representations to each other mathematically, but each has slightly different properties. Some of the bases are easily convertible to each other, for example when one base is an integer power of another (i.e., $log_{b_1}b_2 \in \mathbb{Z}^+$), in which case conversion between bases can be done by grouping digits. This is the easiest strategy when converting between binary and hexadecimal, for example. Such conversion is possible but requires more steps between ternary and the common bases used in computer science, such as octal and hexadecimal. It might be objected that this obstacle is a red herring, since there are other bases that have an analogous position to ternary as octal and hexadecimal have to binary (such as base 9 and 27). However, there are other disadvantages to ternary as a number system for classical computing. What is such a disadvantage? In a word, ternary introduces complexity to physical implementations of classical computers, and binary can be used to represent integers (and other numbers) with less physical complexity.
@@ -115,6 +115,46 @@ The larger the base, the more numbers can be expressed with a single position. T
 \noindent\textbf{Problem 2:}  If each element of an array $RM$, with 10 rows and 20 columns, stored in row major order, takes four bytes of space, where the first element of $RM$ starts at 100, what is the address of $RM[5][3]$ and $RM[9][19]$?
 
 \noindent\textbf{Answer:}
+
+When indexing matrices in row-major order to lay out the data in memory as a sequence of contiguous addresses, we iterate through all of the entries in a row before going on to the next row. \textcite{byteology2014array}
+
+Here we are using 0-based indexing and indicating rows, then columns. Since we are indexing from $0$, $RM[5][3]$ is the cell in the 6th row, 4rd column. Assuming that the machine is byte addressable, since each element of the array consumes four byes, there are four bytes consumed per cell in the matrix.
+
+Using 100 as the base address, we can see a few representative entries in the table below.
+\begin{center}
+  \begin{tabular}{|c|c|c|}
+    \hline
+    $100 + (20 \times 0 \times 4) + (0 \times 4)$ = 100 & $100 + (20 \times 0 \times 4) + (1 \times 4) = 104$ & $\ldots$ \\
+    $100 + (20 \times 1 \times 4) + (0 \times 4) = 180$ & $100 + (20 \times 1 \times 4) + (1 \times 4) = 184$ & $\ldots$ \\
+    $\ldots$ & $\ldots$ & $\ldots$ \\
+    $\ldots$ & $\ldots$ & $\ldots$ \\
+    \hline
+  \end{tabular}
+\end{center}
+
+The address for a specific location in the table $RM[i][j]$, where $i$ is the row and $j$ is the column, is given by
+\[
+100 + x_i + x_j
+\]
+where the row-based offset is $x_i = i \times 20 \times 4$, and the column-based offset is $x_j = j \times 4$. From the preceding, the address can be calculated by the function below, which takes the two values $i, j$ as arguments.
+
+\[f(i,j) = 100 + 80i + 4j\]
+
+For the entries we are interested in:
+
+Address of $RM[5][3]$: 
+\begin{align*}
+  f(5,3) &= 100 + 80(5) + 4(3) \\
+  &= 100 + 400 + 12 \\
+  &= 512 \\
+\end{align*}
+
+Address of $RM[9][19]$: 
+\begin{align*}
+  f(9,19) &= 100 + 80(9) + 4(19) \\
+  &= 100 + 720 + 76 \\
+  &= 896 \\
+\end{align*}
 
 \bigskip
 \noindent\textbf{Problem 3:}  A lower triangular matrix is an nxn array in which has $a[i][j] == 0$ if $i<j$. What is the maximum number of non zero elements? How can they be stored in memory sequentially? Find a formula $k = f(i,j)$ to store location $a[i][j]$ in $k$ (you only want to store the nonzero elements). Do not write code. Code would work if you were manually converting the matrix from one form to the other all at once, but you need the formula to convert otherwise.
