@@ -13,6 +13,12 @@
 \usepackage{tikz}
 \usepackage{tikz-qtree}
 \usetikzlibrary{automata,arrows}
+\usepackage[
+  backend=biber,
+  style=authoryear,
+  sorting=nyt          % sort by name, year, title
+]{biblatex}
+\addbibresource{references.bib}
 
 % Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
 
@@ -183,6 +189,8 @@ To append in the  latex file a .jpg file (for a photo), use
 
 \bigskip
 
-\noindent\textbf{Problem 4:}  Here is the solution for problem 4. ...
+\noindent\textbf{Problem 4:}  Here is the solution for problem 4. Here is a citation: \textcite[p.204]{sipser2013} ...
+
+\printbibliography
 
 \end{document}
