@@ -1,0 +1,65 @@
+\documentclass[12pt,letterpaper,final]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\renewcommand\qedsymbol{$\blacksquare$}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{automata,arrows}
+\usepackage[
+  backend=biber,
+  style=authoryear,
+  sorting=nyt          % sort by name, year, title
+]{biblatex}
+\addbibresource{references.bib}
+
+% Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
+
+\begin{document}
+
+\fbox{
+  \vbox{
+    \begin{flushleft}
+      Jonathan Llovet \\  % authors' names
+      EN.605.202.81 \\  %class
+      2026-05-26 \\  % date
+      Module 1 - Homework 1 \\ % ID
+    \end{flushleft}
+    \center{\Large{\textbf{Complexity and ADTs - Data Structures}}}
+    %\end{mdframed}
+  } % end vbox
+} % end fbox
+\vline
+
+
+\noindent\textbf{Problem 1:}  Show how nonnegative integers can be represented in an imaginary ternary computer using trits $(0,1,2)$ instead of bits $(0,1)$. Why don't we do things this way?
+
+\bigskip
+
+\noindent\textbf{Problem 2:}  If each element of an array $RM$, with 10 rows and 20 columns, stored in row major order, takes four bytes of space, where the first element of $RM$ starts at 100, what is the address of $RM[5][3]$ and $RM[9][19]$?
+
+\bigskip
+\noindent\textbf{Problem 3:}  A lower triangular matrix is an nxn array in which has $a[i][j] == 0$ if $i<j$. What is the maximum number of non zero elements? How can they be stored in memory sequentially? Find a formula $k = f(i,j)$ to store location $a[i][j]$ in $k$ (you only want to store the nonzero elements). Do not write code. Code would work if you were manually converting the matrix from one form to the other all at once, but you need the formula to convert otherwise.
+
+\bigskip
+\noindent\textbf{Problem 4:}  A tridiagonal matrix is an $n \times n$ array in which has $a[i][j] == 0$ if $|i-j| > 1$. What is the maximum number of non zero elements? How can they be stored in memory sequentially? Find a formula $k = f(i,j)$ to store location $a[i][j]$ in $k$, when $|i-j| \le 1$ (you only want to store the nonzero elements). Do not write code. Code would work if you were manually converting the matrix from one form to the other all at once, but you need the formula to convert otherwise.
+
+\bigskip
+\noindent\textbf{Problem 5:}  Consider two functions $f(n) = a \cdot n^2$, and $g(n) = b \cdot lg(n)$. ($lg(n)$ is $log$ base $2$ of $n$). For what value of $n$ do they intersect, and at which value(s) of the constants $a$ and $b$? Pick some values of $a$ and $b$ and then find $n$.  Experiment with different sets of values for $a$ and $b$. What trends do you observe? $a \cdot n^2$ and $b \cdot lg(n)$ are terms that might come from an expression representing the amount of work done by a piece of code. Looking for where they are equal will help you decide which part is dominant. We suggest solving this problem empirically, rather than mathematically, i.e. draw graph of the functions. Remember that $a$ and $b$ are constants, but may not necessarily be integers.
+
+\bigskip
+\noindent\textbf{Problem 6:} What is the maximum size of a problem that can be solved in one hour if the algorithm takes $lg(n)$ microseconds?
+
+\bigskip
+\noindent\textbf{Problem 7:} What is the maximum size of a problem that can be solved in one hour if the algorithm take $n^3$ microseconds?
+
+\printbibliography
+
+\end{document}
