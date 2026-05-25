@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug: Proj0",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "proj0",
+      "args": [
+        "resources/input/in.txt",
+        "resources/out.txt"
+      ]
+    }
+  ]
+}
