@@ -126,15 +126,15 @@ Using 100 as the base address, we can see a few representative entries in the ta
     \hline
     $100 + (20 \times 0 \times 4) + (0 \times 4)$ = 100 & $100 + (20 \times 0 \times 4) + (1 \times 4) = 104$ & $\ldots$ \\
     $100 + (20 \times 1 \times 4) + (0 \times 4) = 180$ & $100 + (20 \times 1 \times 4) + (1 \times 4) = 184$ & $\ldots$ \\
-    $\ldots$ & $\ldots$ & $\ldots$ \\
-    $\ldots$ & $\ldots$ & $\ldots$ \\
+    $\ldots$                                            & $\ldots$                                            & $\ldots$ \\
+    $\ldots$                                            & $\ldots$                                            & $\ldots$ \\
     \hline
   \end{tabular}
 \end{center}
 
 The address for a specific location in the table $RM[i][j]$, where $i$ is the row and $j$ is the column, is given by
 \[
-100 + x_i + x_j
+  100 + x_i + x_j
 \]
 where the row-based offset is $x_i = i \times 20 \times 4$, and the column-based offset is $x_j = j \times 4$. From the preceding, the address can be calculated by the function below, which takes the two values $i, j$ as arguments.
 
@@ -142,24 +142,134 @@ where the row-based offset is $x_i = i \times 20 \times 4$, and the column-based
 
 For the entries we are interested in:
 
-Address of $RM[5][3]$: 
+Address of $RM[5][3]$:
 \begin{align*}
-  f(5,3) &= 100 + 80(5) + 4(3) \\
-  &= 100 + 400 + 12 \\
-  &= 512 \\
+  f(5,3) & = 100 + 80(5) + 4(3) \\
+         & = 100 + 400 + 12     \\
+         & = 512                \\
 \end{align*}
 
-Address of $RM[9][19]$: 
+Address of $RM[9][19]$:
 \begin{align*}
-  f(9,19) &= 100 + 80(9) + 4(19) \\
-  &= 100 + 720 + 76 \\
-  &= 896 \\
+  f(9,19) & = 100 + 80(9) + 4(19) \\
+          & = 100 + 720 + 76      \\
+          & = 896                 \\
 \end{align*}
 
 \bigskip
 \noindent\textbf{Problem 3:}  A lower triangular matrix is an nxn array in which has $a[i][j] == 0$ if $i<j$. What is the maximum number of non zero elements? How can they be stored in memory sequentially? Find a formula $k = f(i,j)$ to store location $a[i][j]$ in $k$ (you only want to store the nonzero elements). Do not write code. Code would work if you were manually converting the matrix from one form to the other all at once, but you need the formula to convert otherwise.
 
+In questions 3 and 4, we suggest indexing the array from one, since matrices are normally indexed from (1,1). After you find your formula, then you can adjust it to index the array from zero.
+
 \noindent\textbf{Answer:}
+
+To build an intuition for a lower triangular matrix, let's look at a few examples. We will set the values of each entry to 0 when $i < j$, otherwise we will set them to 1.
+\[
+  A_1 =
+  \begin{bmatrix}
+    a_{11}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1
+  \end{bmatrix}
+\]
+
+\[
+  A_2 =
+  \begin{bmatrix}
+    a_{11} & a_{12} \\
+    a_{21} & a_{22}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1 & 0 \\
+    1 & 1
+  \end{bmatrix}
+\]
+
+\[
+  A_3 =
+  \begin{bmatrix}
+    a_{11} & a_{12} & a_{13} \\
+    a_{21} & a_{22} & a_{23} \\
+    a_{31} & a_{32} & a_{33}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1 & 0 & 0 \\
+    1 & 1 & 0 \\
+    1 & 1 & 1
+  \end{bmatrix}
+\]
+
+\[
+  A_4 =
+  \begin{bmatrix}
+    a_{11} & a_{12} & a_{13} & a_{14} \\
+    a_{21} & a_{22} & a_{23} & a_{24} \\
+    a_{31} & a_{32} & a_{33} & a_{34} \\
+    a_{41} & a_{42} & a_{43} & a_{44}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1 & 0 & 0 & 0 \\
+    1 & 1 & 0 & 0 \\
+    1 & 1 & 1 & 0 \\
+    1 & 1 & 1 & 1
+  \end{bmatrix}
+\]
+
+\[
+  A_5 =
+  \begin{bmatrix}
+    a_{11} & a_{12} & a_{13} & a_{14} & a_{15} \\
+    a_{21} & a_{22} & a_{23} & a_{24} & a_{25} \\
+    a_{31} & a_{32} & a_{33} & a_{34} & a_{35} \\
+    a_{41} & a_{42} & a_{43} & a_{44} & a_{45} \\
+    a_{51} & a_{52} & a_{53} & a_{54} & a_{55} \\
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1 & 0 & 0 & 0 & 0 \\
+    1 & 1 & 0 & 0 & 0 \\
+    1 & 1 & 1 & 0 & 0 \\
+    1 & 1 & 1 & 1 & 0 \\
+    1 & 1 & 1 & 1 & 1
+  \end{bmatrix}
+\]
+
+\begin{enumerate}
+  \item What is the maximum number of non-zero elements?
+        Here's one pattern that is emerging from the preceding $n \times n$ matrices: There are $n$ 1's in the nth row, $n-1$ of them in the $n-1$th row, and so on. Considering an entire matrix, the number of 1's in each is $\sum_{i=1}^{n} i$, which is the sum of the first $n$ positive integers. The maximum number of non-zero elements in a lower-triangular $n \times n$ matrix is therefore given by the function
+        \begin{equation}
+          g(n) = \frac{n(n+1)}{2} \label{eq:sum_of_first_n_ints}
+        \end{equation}
+  \item How can they be stored in memory sequentially?
+        We can use the constraints of the problem to inform the layout of these non-zero elements in memory. For each row of the matrix, there are at most $n$ non-zero elements in that row. Because there are $n$ rows in the matrix, we can store 1 element, then 2 elements, 3 elements, and so on, up to $n$ elements. By arranging the elements this way, we can enumerate the non-zero elements of the matrix in order. Mathematically speaking, what we get here is a bijection between the natural numbers and these elements, which means that we can provide a unique index as a label to each of the non-zero elements of the matrix. Put another way, this enumeration provides us a way to place all of those elements in a list.
+  \item Find a formula $k = f(i,j)$ to store location $a[i][j]$ in $k$ (you only want to store the nonzero elements).
+        To find the $k$th element of the array, we can use the formula that we were using previously to our advantage. The function $g(n)$ \eqref{eq:sum_of_first_n_ints} above gives use the sum of the first $n$ integers. As we stated in the previous subsection, that is the number of elements in the first $n$ rows. Based on our scheme above for enumerating the non-zero elements of matrix in row-major order, this sum can provide us the initial part of the offset by evaluating $g(i-1)$, where $i$ is provided as an argument to $f(i, j)$. This initial offset from the beginning of the array indicates, more precisely, the location of the beginning of the non-zero elements of row $i$ in the matrix. For example, if we are concerned with elements of the 4th row of the matrix, $i = 4$. Evaluating $g(i-1)$ returns $6$. This is the index immediately preceding the elements of row 4. Now the second part of the offset is provided by the value of $j$, which indicates which element of the row indicated by $i$ we want. In particular, if we consider $i = 4$ and $j = 2$, this means that we will offset two more elements from the 6th element in the array, which gives us the desired element in the 4th row, 2nd column. Putting this together, the index $k$ of a particular element in the array $a$ described is above is given by the function
+
+        \begin{align*}
+          k & = \frac{(i - 1)((i - 1) + 1)}{2} + j \\
+            & = \frac{(i - 1)i}{2} + j             \\
+            & = \frac{i^2 - i}{2} + j
+        \end{align*}
+
+        Which can be expressed as the function
+
+        \begin{equation}
+          f(i,j) = \frac{i^2 - i}{2} + j
+        \end{equation}
+
+        In the preceding, the analysis was according to 1-based indexing. In a program that uses 0-based indexing for arrays, the values provided by the caller of the function are $i-1$ and $j-1$. To translate this to the functions that we just developed for determining the position in the array $a$, we must add 1 to $i$ and to $j$.
+        In particular, the function we would need in a program would be the following. Note however, that in a program, we would need to implement input validation that enforced the constraints of our construction. For example, the input should only support indexing where $i \ge j$.
+
+        \begin{equation}
+          f'(i,j) = \frac{(i+1)^2 - (i+1)}{2} + j + 1
+        \end{equation}
+
+\end{enumerate}
 
 \bigskip
 \noindent\textbf{Problem 4:}  A tridiagonal matrix is an $n \times n$ array in which has $a[i][j] == 0$ if $|i-j| > 1$. What is the maximum number of non zero elements? How can they be stored in memory sequentially? Find a formula $k = f(i,j)$ to store location $a[i][j]$ in $k$, when $|i-j| \le 1$ (you only want to store the nonzero elements). Do not write code. Code would work if you were manually converting the matrix from one form to the other all at once, but you need the formula to convert otherwise.
