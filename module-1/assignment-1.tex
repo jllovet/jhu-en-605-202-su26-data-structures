@@ -270,11 +270,75 @@ To build an intuition for a lower triangular matrix, let's look at a few example
         \end{equation}
 
         In the preceding, the analysis was according to 1-based indexing. In a program that uses 0-based indexing for arrays, the values provided by the caller of the function are $i-1$ and $j-1$. To translate this to the functions that we just developed for determining the position in the array $a$, we must add 1 to $i$ and to $j$.
-        In particular, the function we would need in a program would be the following. Note however, that in a program, we would need to implement input validation that enforced the constraints of our construction. For example, the input should only support indexing where $i \ge j$.
+        
+        In particular, the function we would need in a program is $f'(i,j)$, described below. (Note however, that in a real implementation, we would need to include input validation that enforced the constraints of our construction. For example, the input should only support indexing where $i \ge j$.)
 
-        \begin{equation}
-          f'(i,j) = \frac{(i+1)^2 - (i+1)}{2} + j + 1
-        \end{equation}
+        Consider the illustration using the $f(i,j)$ for a 1-based matrix $B_1$, where we have labelled the entries in the order they would be in memory, starting from 1.
+
+        \[
+          B_1 =
+          \begin{bmatrix}
+            b_{11}         & b_{12} & b_{13} & b_{14} & b_{15} \\
+            \boxed{b_{21}} & b_{22} & b_{23} & b_{24} & b_{25} \\
+            b_{31}         & b_{32} & b_{33} & b_{34} & b_{35} \\
+            b_{41}         & b_{42} & b_{43} & b_{44} & b_{45} \\
+            b_{51}         & b_{52} & b_{53} & b_{54} & b_{55} \\
+          \end{bmatrix}
+          =
+          \begin{bmatrix}
+            1         & 0  & 0  & 0  & 0  \\
+            \boxed{2} & 3  & 0  & 0  & 0  \\
+            4         & 5  & 6  & 0  & 0  \\
+            7         & 8  & 9  & 10 & 0  \\
+            11        & 12 & 13 & 14 & 15
+          \end{bmatrix}
+        \]
+
+        We want to access the boxed value in our array $a$ by using the offset provided by $f(i,j)$. Let $i=2,j=1$.
+
+        \begin{align*}
+          f_{1-based}(i,j) & = \frac{i^2 - i}{2} + j \\
+                           & = \frac{2^2 - 2}{2} + 1 \\
+                           & = \frac{2}{2} + 1       \\
+                           & = 2
+        \end{align*}
+        This is the value that we desired. Now, to adapt this to the 0-based implementation, we need to adjust our function. We will access the same location, but with the indices shifted to 0-based indexing.
+
+        \[
+          B_0 =
+          \begin{bmatrix}
+            b_{00}         & b_{01} & b_{02} & b_{03} & b_{04} \\
+            \boxed{b_{10}} & b_{11} & b_{12} & b_{13} & b_{14} \\
+            b_{20}         & b_{21} & b_{22} & b_{23} & b_{24} \\
+            b_{30}         & b_{31} & b_{32} & b_{33} & b_{34} \\
+            b_{40}         & b_{41} & b_{42} & b_{43} & b_{44} \\
+          \end{bmatrix}
+          =
+          \begin{bmatrix}
+            1         & 0  & 0  & 0  & 0  \\
+            \boxed{2} & 3  & 0  & 0  & 0  \\
+            4         & 5  & 6  & 0  & 0  \\
+            7         & 8  & 9  & 10 & 0  \\
+            11        & 12 & 13 & 14 & 15
+          \end{bmatrix}
+        \]
+        For this, if the user calls the function with the arguments $f(1,0)$, we can access the appropriate element. Consider the following adaptation of the function $f(i,j)$ to be used with a 0-based matrix or multidimensional array to access an arbitrary element when the non-zero elements are arranged into a single linear array.
+        \begin{align*}
+          f'_{0-based}(i,j) & = \frac{(i+1)^2 - (i+1)}{2} + j + 1      \\
+                            & = \frac{i^2 + 2i + 1 - i - 1}{2} + j + 1 \\
+                            & = \frac{i^2 + i}{2} + j + 1
+        \end{align*}
+
+        Let $i = 1, j = 0$. Evaluating $f(i,j)$:
+
+        \begin{align*}
+          f'_{0-based}(1,0) & = \frac{i^2 + i}{2} + j + 1 \\
+                            & = \frac{1^2 + 1}{2} + 0 + 1 \\
+                            & = \frac{2}{2} + 1 \\
+                            & = 2
+        \end{align*}
+        
+        This is also the value desired.
 
 \end{enumerate}
 
