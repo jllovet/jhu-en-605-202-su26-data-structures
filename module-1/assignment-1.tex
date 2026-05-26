@@ -438,7 +438,12 @@ A pattern that becomes evident from the examples above: There are three diagonal
           g(n) = 3n - 2
         \end{equation}
   \item How can they be stored in memory sequentially?
+        Similar to the case in the previous question, there is an enumeration of the elements, which means that we can uniquely associate the non-zero elements with integer indices of an array. We can arrange the non-zero elements in row-major order, and because we know how many non-zero elements are in each row of the matrix based on the size of $n$, we can create a function that gives us the index mentioned above. In the case $n=1$, we only need to store a single element, and it will have index 0. In the case $n=2$, we will store the two elements of the first row, then the two elements of the second row. In cases where $n \ge 3$, we can store the first two elements from row one, then each three elements of the intermediate rows, then the final two elements from the last row.
   \item Find a formula $k = f(i,j)$ to store location $a[i][j]$ in $k$, when $|i - j| \le 1$.
+
+        Calculate offset from start of array based on the value of $i$ and what we know about the structure already.
+
+        In row $i$, the elements start from index $i-1$. Use that as the new base, then move forward to the row indicated by $j$. Need to calculate new offset to factor in $j$. Likely $j - (i - 1) = j - i + 1$
 \end{enumerate}
 
 \bigskip
