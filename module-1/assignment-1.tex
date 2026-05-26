@@ -428,11 +428,11 @@ A pattern that becomes evident from the examples above: There are three diagonal
 
 \begin{enumerate}
   \item What is the maximum number of non-zero elements?
-  
+
         For these $n \times n$ matrices, there are at most two non-zero elements in the first and last rows. (This is because the diagonals reach the upper left and bottom right corners of the matrices here, and consequently there is not sufficient space to have more non-zero elements.) The intermediate rows each have at most 3 non-zero elements.
-        
+
         We may need to be sensitive to the possible boundary case $n = 1$. In this case, there is only a single element in the $1 \times 1$ matrix, and it is non-zero. In the case that $n \ge 2$, we have $2 \times 2 + 3(n-2)$ non-zero elements. Simplifying this, we have $4 + 3n - 6 = 3n - 2$ non-zero elements. However, if we evaluate $3n -2$ with $n = 1$, we find that this expression yields the correct result as well ($3(1) - 2 = 1$). Hence, we do not need to handle the case $n=1$ as a special instance.
-        
+
         Therefore, the maximum number of non-zero elements in a tridiangular matrix is given accordingly by the function
         \begin{equation}
           g(n) = 3n - 2
