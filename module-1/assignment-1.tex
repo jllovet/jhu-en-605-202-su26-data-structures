@@ -270,7 +270,7 @@ To build an intuition for a lower triangular matrix, let's look at a few example
         \end{equation}
 
         In the preceding, the analysis was according to 1-based indexing. In a program that uses 0-based indexing for arrays, the values provided by the caller of the function are $i-1$ and $j-1$. To translate this to the functions that we just developed for determining the position in the array $a$, we must add 1 to $i$ and to $j$.
-        
+
         In particular, the function we would need in a program is $f'(i,j)$, described below. (Note however, that in a real implementation, we would need to include input validation that enforced the constraints of our construction. For example, the input should only support indexing where $i \ge j$.)
 
         Consider the illustration using the $f(i,j)$ for a 1-based matrix $B_1$, where we have labelled the entries in the order they would be in memory, starting from 1.
