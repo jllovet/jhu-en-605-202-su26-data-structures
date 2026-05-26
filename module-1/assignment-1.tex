@@ -276,6 +276,100 @@ To build an intuition for a lower triangular matrix, let's look at a few example
 
 \noindent\textbf{Answer:}
 
+To build an intuition for a tridiangular matrix, let's look at a few examples. We will set the values of each entry to 0 when $|i - j| > 1$, otherwise we will set them to 1.
+
+\[
+  A_1 =
+  \begin{bmatrix}
+    a_{11}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1
+  \end{bmatrix}
+\]
+
+\[
+  A_2 =
+  \begin{bmatrix}
+    a_{11} & a_{12} \\
+    a_{21} & a_{22}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1 & 1 \\
+    1 & 1
+  \end{bmatrix}
+\]
+
+\[
+  A_3 =
+  \begin{bmatrix}
+    a_{11} & a_{12} & a_{13} \\
+    a_{21} & a_{22} & a_{23} \\
+    a_{31} & a_{32} & a_{33}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1 & 1 & 0 \\
+    1 & 1 & 1 \\
+    0 & 1 & 1
+  \end{bmatrix}
+\]
+
+\[
+  A_4 =
+  \begin{bmatrix}
+    a_{11} & a_{12} & a_{13} & a_{14} \\
+    a_{21} & a_{22} & a_{23} & a_{24} \\
+    a_{31} & a_{32} & a_{33} & a_{34} \\
+    a_{41} & a_{42} & a_{43} & a_{44}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1 & 1 & 0 & 0 \\
+    1 & 1 & 1 & 0 \\
+    0 & 1 & 1 & 1 \\
+    0 & 0 & 1 & 1
+  \end{bmatrix}
+\]
+
+\[
+  A_5 =
+  \begin{bmatrix}
+    a_{11} & a_{12} & a_{13} & a_{14} & a_{15} \\
+    a_{21} & a_{22} & a_{23} & a_{24} & a_{25} \\
+    a_{31} & a_{32} & a_{33} & a_{34} & a_{35} \\
+    a_{41} & a_{42} & a_{43} & a_{44} & a_{45} \\
+    a_{51} & a_{52} & a_{53} & a_{54} & a_{55} \\
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1 & 1 & 0 & 0 & 0 \\
+    1 & 1 & 1 & 0 & 0 \\
+    0 & 1 & 1 & 1 & 0 \\
+    0 & 0 & 1 & 1 & 1 \\
+    0 & 0 & 0 & 1 & 1
+  \end{bmatrix}
+\]
+
+A pattern that becomes evident from the examples above: There are three diagonals that are non-zero values (whence this type of matrix receives its name). In the cases where $n > 1$, the first and last rows of the matrix only have two non-zero values, while each of the intermediate rows have up to three non-zero values. This provides as means for finding the upper bound to the number of non-zero elements in the matrix and a pattern that can be used to construct an arrangement of the elements in memory.
+
+\begin{enumerate}
+  \item What is the maximum number of non-zero elements?
+  
+        For these $n \times n$ matrices, there are at most two non-zero elements in the first and last rows. (This is because the diagonals reach the upper left and bottom right corners of the matrices here, and consequently there is not sufficient space to have more non-zero elements.) The intermediate rows each have at most 3 non-zero elements.
+        
+        We may need to be sensitive to the possible boundary case $n = 1$. In this case, there is only a single element in the $1 \times 1$ matrix, and it is non-zero. In the case that $n \ge 2$, we have $2 \times 2 + 3(n-2)$ non-zero elements. Simplifying this, we have $4 + 3n - 6 = 3n - 2$ non-zero elements. However, if we evaluate $3n -2$ with $n = 1$, we find that this expression yields the correct result as well ($3(1) - 2 = 1$). Hence, we do not need to handle the case $n=1$ as a special instance.
+        
+        Therefore, the maximum number of non-zero elements in a tridiangular matrix is given accordingly by the function
+        \begin{equation}
+          g(n) = 3n - 2
+        \end{equation}
+  \item How can they be stored in memory sequentially?
+  \item Find a formula $k = f(i,j)$ to store location $a[i][j]$ in $k$, when $|i - j| \le 1$.
+\end{enumerate}
+
 \bigskip
 \noindent\textbf{Problem 5:}  Consider two functions $f(n) = a \cdot n^2$, and $g(n) = b \cdot lg(n)$. ($lg(n)$ is $log$ base $2$ of $n$). For what value of $n$ do they intersect, and at which value(s) of the constants $a$ and $b$? Pick some values of $a$ and $b$ and then find $n$.  Experiment with different sets of values for $a$ and $b$. What trends do you observe? $a \cdot n^2$ and $b \cdot lg(n)$ are terms that might come from an expression representing the amount of work done by a piece of code. Looking for where they are equal will help you decide which part is dominant. We suggest solving this problem empirically, rather than mathematically, i.e. draw graph of the functions. Remember that $a$ and $b$ are constants, but may not necessarily be integers.
 
