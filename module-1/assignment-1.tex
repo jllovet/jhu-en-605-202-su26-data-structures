@@ -584,12 +584,12 @@ A pattern that becomes evident from the examples above: There are three diagonal
 \end{enumerate}
 
 \bigskip
-\noindent\textbf{Problem 5:}  Consider two functions $f(n) = a \cdot n^2$, and $g(n) = b \cdot lg(n)$. ($lg(n)$ is $log$ base $2$ of $n$). For what value of $n$ do they intersect, and at which value(s) of the constants $a$ and $b$? Pick some values of $a$ and $b$ and then find $n$.  Experiment with different sets of values for $a$ and $b$. What trends do you observe? $a \cdot n^2$ and $b \cdot lg(n)$ are terms that might come from an expression representing the amount of work done by a piece of code. Looking for where they are equal will help you decide which part is dominant. We suggest solving this problem empirically, rather than mathematically, i.e. draw graph of the functions. Remember that $a$ and $b$ are constants, but may not necessarily be integers.
+\noindent\textbf{Problem 5:}  Consider two functions $f(n) = a \cdot n^2$, and $g(n) = b \cdot \lg(n)$. ($\lg(n)$ is $log$ base $2$ of $n$). For what value of $n$ do they intersect, and at which value(s) of the constants $a$ and $b$? Pick some values of $a$ and $b$ and then find $n$.  Experiment with different sets of values for $a$ and $b$. What trends do you observe? $a \cdot n^2$ and $b \cdot \lg(n)$ are terms that might come from an expression representing the amount of work done by a piece of code. Looking for where they are equal will help you decide which part is dominant. We suggest solving this problem empirically, rather than mathematically, i.e. draw graph of the functions. Remember that $a$ and $b$ are constants, but may not necessarily be integers.
 
 \noindent\textbf{Answer:}
 
 \bigskip
-\noindent\textbf{Problem 6:} What is the maximum size of a problem that can be solved in one hour if the algorithm takes $lg(n)$ microseconds?
+\noindent\textbf{Problem 6:} What is the maximum size of a problem that can be solved in one hour if the algorithm takes $\lg(n)$ microseconds?
 
 \noindent\textbf{Answer:}
 
@@ -601,13 +601,13 @@ One microsecond is equal to $2^{-20}$ seconds. \textcite{null2023essentials} How
                                                                                                                                & \approx \frac{3.6 \times 2^{30} \text{ \mu sec}}{\text{hour}}
 \end{align*}
 
-If an algorithm takes $lg(n)$ microseconds, then to determine how large $n$ can be such that the algorithm can finish running in an hour, we can solve for $n$ in the approximate equation below:
+If an algorithm takes $\lg(n)$ microseconds, then to determine how large $n$ can be such that the algorithm can finish running in an hour, we can solve for $n$ in the approximate equation below:
 
 \begin{align*}
-  lg(n) & \approx 3.6 \times 2^{30}
+  \lg(n) & \approx 3.6 \times 2^{30}
 \end{align*}
 
-The value of $n$ will be the size of the problem that can be solved by the algorithm in the given time. Note that by the definition of $lg(n)$,
+The value of $n$ will be the size of the problem that can be solved by the algorithm in the given time. Note that by the definition of $\lg(n)$,
 
 \begin{align*}
   \log_{2}(n) & \approx 3.6 \times 2^{30}
@@ -644,7 +644,7 @@ Taking the cube root of both sides:
   n & \approx \sqrt[3]{3.6 \times 2^{30}}
 \end{align*}
 
-That is quite a bit smaller. The difference between $lg(n)$ and $n^3$ is nothing to sneeze at.
+That is quite a bit smaller. The difference between $\lg(n)$ and $n^3$ is nothing to sneeze at.
 
 \pagebreak
 
