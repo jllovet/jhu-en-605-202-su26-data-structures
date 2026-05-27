@@ -631,9 +631,20 @@ That's \emph{really} big.
 \bigskip
 \noindent\textbf{Problem 7:} What is the maximum size of a problem that can be solved in one hour if the algorithm take $n^3$ microseconds?
 
-As above, this analysis will be done according to base 2. One microsecond is equal to $2^{-20}$ seconds. \textcite{null2023essentials}
-
 \noindent\textbf{Answer:}
+
+Starting our analysis the same way as we did for the preceding problem, note that if an algorithm takes $n^3$ microseconds, then to determine how large $n$ can be such that the algorithm can finish running in an hour, we can solve for $n$ in the approximate equation below:
+\begin{align*}
+  n^3 & \approx 3.6 \times 2^{30}
+\end{align*}
+
+Taking the cube root of both sides:
+
+\begin{align*}
+  n & \approx \sqrt[3]{3.6 \times 2^{30}}
+\end{align*}
+
+That is quite a bit smaller. The difference between $lg(n)$ and $n^3$ is nothing to sneeze at.
 
 \pagebreak
 
