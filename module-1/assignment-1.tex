@@ -271,7 +271,7 @@ To build an intuition for a lower triangular matrix, let's look at a few example
 
         In the preceding, the analysis was according to 1-based indexing. In a program that uses 0-based indexing for arrays, the values provided by the caller of the function are $i-1$ and $j-1$. To translate this to the functions that we just developed for determining the position in the array $a$, we must add 1 to $i$ and to $j$.
 
-        In particular, the function we would need in a program is $f'(i,j)$, described below. (Note however, that in a real implementation, we would need to include input validation that enforced the constraints of our construction. For example, the input should only support indexing where $i \ge j$.)
+        In particular, the function we would need in a program is $f_{0-\text{based}}(i,j)$, described below. (Note however, that in a real implementation, we would need to include input validation that enforced the constraints of our construction. For example, the input should only support indexing where $i \ge j$.)
 
         Consider the illustration using the $f(i,j)$ for a 1-based matrix $B_1$, where we have labelled the entries in the order they would be in memory, starting from 1.
 
@@ -324,18 +324,18 @@ To build an intuition for a lower triangular matrix, let's look at a few example
         \]
         For this, if the user calls the function with the arguments $f(1,0)$, we can access the appropriate element. Consider the following adaptation of the function $f(i,j)$ to be used with a 0-based matrix or multidimensional array to access an arbitrary element when the non-zero elements are arranged into a single linear array.
         \begin{align*}
-          f'_{0-based}(i,j) & = \frac{(i+1)^2 - (i+1)}{2} + j + 1      \\
-                            & = \frac{i^2 + 2i + 1 - i - 1}{2} + j + 1 \\
-                            & = \frac{i^2 + i}{2} + j + 1
+          f_{0-\text{based}}(i,j) & = \frac{(i+1)^2 - (i+1)}{2} + j + 1      \\
+                                  & = \frac{i^2 + 2i + 1 - i - 1}{2} + j + 1 \\
+                                  & = \frac{i^2 + i}{2} + j + 1
         \end{align*}
 
         Let $i = 1, j = 0$. Evaluating $f(i,j)$:
 
         \begin{align*}
-          f'_{0-based}(1,0) & = \frac{i^2 + i}{2} + j + 1 \\
-                            & = \frac{1^2 + 1}{2} + 0 + 1 \\
-                            & = \frac{2}{2} + 1           \\
-                            & = 2
+          f_{0-\text{based}}(1,0) & = \frac{i^2 + i}{2} + j + 1 \\
+                                  & = \frac{1^2 + 1}{2} + 0 + 1 \\
+                                  & = \frac{2}{2} + 1           \\
+                                  & = 2
         \end{align*}
 
         This is also the value desired.
@@ -591,7 +591,40 @@ A pattern that becomes evident from the examples above: There are three diagonal
 \bigskip
 \noindent\textbf{Problem 6:} What is the maximum size of a problem that can be solved in one hour if the algorithm takes $lg(n)$ microseconds?
 
-Since the algorithm's speed is described in $lg(n)$, which is in base 2, the rest of our consideration will be in base 2. One microsecond is equal to $2^{-20}$ seconds. \textcite{null2023essentials}
+One microsecond is equal to $2^{-20}$ seconds. \textcite{null2023essentials} How many microseconds are in an hour?
+
+\begin{align*}
+  \frac{2^{20} \text{ \mu sec}}{\text{sec}} \times \frac{60 \text{ sec}}{\text{min}} \times \frac{60 \text{ min}}{\text{hour}} & = \frac{2^{20} \text{ \mu sec}}{\text{sec}} \times \frac{3600 \text{ sec}}{\text{hour}}                    \\
+                                                                                                                               & \approx \frac{2^{20} \text{ \mu sec}}{\text{sec}} \times \frac{3.6 \times 2^{10} \text{ sec}}{\text{hour}} \\
+                                                                                                                               & \approx \frac{3.6 \times 2^{30} \text{ \mu sec}}{\text{hour}}
+\end{align*}
+
+If an algorithm takes $lg(n)$ microseconds, then to determine how large $n$ can be such that the algorithm can finish running in an hour, we can solve for $n$ in the approximate equation below:
+
+\begin{align*}
+  lg(n) & \approx 3.6 \times 2^{30}
+\end{align*}
+
+The value of $n$ will be the size of the problem that can be solved by the algorithm in the given time. Note that by the definition of $lg(n)$,
+
+\begin{align*}
+  \log_{2}(n) & \approx 3.6 \times 2^{30}
+\end{align*}
+
+But by the definition of $\log_{a}(b)$,
+
+\begin{align*}
+  b = a^{\log_{a}(b)}
+\end{align*}
+
+Using this, we can solve for $n$:
+
+\begin{align*}
+  \log_{2}(n) & \approx 3.6 \times 2^{30}                              \\
+  n           & \approx 2^{3.6 \times 2^{30}} \label{by def of $\log$}
+\end{align*}
+
+That's \emph{really} big.
 
 \noindent\textbf{Answer:}
 
