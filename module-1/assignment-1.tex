@@ -584,11 +584,51 @@ A pattern that becomes evident from the examples above: There are three diagonal
 \end{enumerate}
 
 \bigskip
+\pagebreak
 \noindent\textbf{Problem 5:}  Consider two functions $f(n) = a \cdot n^2$, and $g(n) = b \cdot \lg(n)$. ($\lg(n)$ is $log$ base $2$ of $n$). For what value of $n$ do they intersect, and at which value(s) of the constants $a$ and $b$? Pick some values of $a$ and $b$ and then find $n$.  Experiment with different sets of values for $a$ and $b$. What trends do you observe? $a \cdot n^2$ and $b \cdot \lg(n)$ are terms that might come from an expression representing the amount of work done by a piece of code. Looking for where they are equal will help you decide which part is dominant. We suggest solving this problem empirically, rather than mathematically, i.e. draw graph of the functions. Remember that $a$ and $b$ are constants, but may not necessarily be integers.
 
 \noindent\textbf{Answer:}
 
+Here are several figures comparing the growth rates of the two functions. Note that in Geogebra, I used $x$ in place of $n$. \textcite{llovet2026geogebra-problem5}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{growth-comparison-1-1.png}
+    \caption{No intersection when $a=1$ and $b=1$}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{growth-comparison-1-3.8.png}
+    \caption{Intersection around n = 1.5, notably quite small}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{growth-comparison-1-8.1.png}
+    \caption{Two intersection points if $b$ is scaled sufficiently large}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{growth-comparison-1-30.png}
+    \caption{As $b$ continues to scale, the growth rate of $g(n)$ is still dwarfed by that of $f(n)$. Even at this scale it is clear why asymptotic time complexity ignores constants, since the function's dominant term dominates clearly.}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{growth-comparison-0.1-1.png}
+    \caption{Two intersection points appear when scaling $a$ down below 1. It is still clear that $f(n)$ grows tremendously faster than $g(n)$}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{growth-comparison-2.5-1.png}
+    \caption{No intersection if $a$ is scaled up relative to $b$. In cases like this, $f(n)$ never performs as well as $g(n)$. It is unambiguously worse performing for all inputs.}
+\end{figure}
+
+
 \bigskip
+\pagebreak
 \noindent\textbf{Problem 6:} What is the maximum size of a problem that can be solved in one hour if the algorithm takes $\lg(n)$ microseconds?
 
 \noindent\textbf{Answer:}
