@@ -38,36 +38,79 @@
 } % end fbox
 \vline
 
+Write pseudo-code for problems requiring code. Do not write Java, Python or C++. You are responsible for the appropriate level of detail.
+
+\medskip
 
 \noindent\textbf{Problem 1:}
+Using stack operations: push, pop, peek and empty:
+
+\begin{enumerate}
+  \item Write a pseudo-code function which returns the value of the item at the bottom of the stack, leaving the stack unchanged. (Hint: use an auxiliary stack.)
+  \item Write a pseudo-code function which returns the value of the third element from the bottom of the stack. The stack may be left changed.
+\end{enumerate}
 
 \noindent\textbf{Answer:}
 
 \noindent\textbf{Problem 2:}
+Simulate the action of the algorithm for checking delimiters for each of these strings by using a stack and showing the contents of the stack at each point. Do not write an algorithm.
+
+\begin{enumerate}
+  \item \{[A+B]-[(C-D)]
+  \item ((H) * {([J+K])})
+\end{enumerate}
 
 \noindent\textbf{Answer:}
 
 \noindent\textbf{Problem 3:}
+Write an algorithm to determine whether an input character string is of the form
+\begin{enumerate}
+  \item xCy
+  \item where x is a string consisting only of the letters `A' and `B' and y is the reverse of the x (i.e.\ if x=”ABABBA” then y must equal “ABBABA”)
+  \item At each point you may read only the next character in the string, i.e.\ you must process the string on a left to right basis one character at a time
+  \item You may not use string functions (ie reverse)
+\end{enumerate}
 
 \noindent\textbf{Answer:}
 
 \noindent\textbf{Problem 4:}
+Consider a language that does not have arrays but does have stacks defined as a data type.
+\begin{enumerate}
+  \item That is, one can declare: `stack s' which defines push, pop, empty, and peek operations. Show how a one-dimensional array can be implemented by using these operations on two stacks.
+  \item Show how you can insert into and read from such an array.
+\end{enumerate}
 
 \noindent\textbf{Answer:}
 
 \noindent\textbf{Problem 5:}
+Design a method for keeping two stacks within a single linear array s[SPACESIZE] so that neither stack overflows until all of memory is used and an entire stack is never shifted to a different location within the array.
+\begin{enumerate}
+  \item Write methods push1, push2, pop1, and pop2 to manipulate the two stacks.
+  \item Hint: the two stacks grow toward each other.
+\end{enumerate}
 
 \noindent\textbf{Answer:}
 
 \noindent\textbf{Problem 6:}
+Transform each of the following expressions to prefix and postfix expressions. \$ is exponentiation.
+\begin{enumerate}
+  \item (A+B)*(C\$(D-E)+F)-G
+  \item A+(((B-C)*(D-E)+F)/G)\$(H-J)
+\end{enumerate}
 
 \noindent\textbf{Answer:}
 
 \noindent\textbf{Problem 7:}
+Transform each of the following expressions to infix expressions.
+\begin{enumerate}
+  \item ++A-*\$BCD/+EF*GHI
+  \item ABCDE-+\$*EF*-
+\end{enumerate}
 
 \noindent\textbf{Answer:}
 
 \noindent\textbf{Problem 8:}
+Write a prefix pseudo-code function to accept an infix string and create the prefix form of that string, assuming that the string is read from right to left and that the prefix string is created from right to left. Handle variables, +,-,/,*,\$,(,).
 
 \noindent\textbf{Answer:}
 
