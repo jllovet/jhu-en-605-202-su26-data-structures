@@ -13,6 +13,7 @@
 \usepackage{tikz}
 \usepackage{tikz-qtree}
 \usetikzlibrary{automata,arrows}
+\usepackage{mdframed}
 \usepackage[
   backend=biber,
   style=authoryear,
@@ -50,8 +51,97 @@ Using stack operations: push, pop, peek and empty:
   \item Write a pseudo-code function which returns the value of the third element from the bottom of the stack. The stack may be left changed.
 \end{enumerate}
 
+\pagebreak
 \noindent\textbf{Answer:}
 
+\begin{mdframed}
+  \begin{verbatim}
+function peekBottom(s Stack) {
+  raise an error if s is null
+  bottom = null
+  if empty(s) {
+    // s doesn't contain anything,
+    // so we just return the null value in bottom.
+    return bottom
+  }
+  auxStack = Stack() Unbounded Stack
+  // Move items from s to auxStack until s is empty.
+  while true {
+    top = pop(s)
+    push(auxStack, top)
+    if empty(s) {
+      bottom = top // store this to return
+      break out of loop
+    }
+  }
+  // Put things back the way they were.
+  // Move items back from auxStack to s
+  // until auxStack is empty.
+  while true {
+    top = pop(auxStack)
+    push(s, top)
+    if empty(auxStack) {
+      break out of loop
+    }
+  }
+  return bottom
+}
+\end{verbatim}
+\end{mdframed}
+
+\pagebreak
+\begin{mdframed}
+  \begin{verbatim}
+function peekNthFromBottom(s Stack, n int) {
+  raise an error if s is null
+  validate that n is nonnegative
+  bottom = null
+  if empty(s) {
+    // s doesn't contain anything,
+    // so we just return the null value in bottom.
+    return bottom
+  }
+  auxStack = Stack() // Unbounded Stack
+  // Move items from s to auxStack until s is empty.
+  while true {
+    top = pop(s)
+    push(auxStack, top)
+    if empty(s) {
+      break out of loop
+    }
+  }
+  // Use a counter to track number of pops
+  counter = 1
+  datum = null
+  // Count up to n, pushing intermediate items back onto s.
+  while counter <= n {
+    datum = pop(auxStack)
+    push(s, datum) // push back onto s
+    counter = counter + 1
+  }
+  // Finish putting things back the way they were.
+  while true {
+    top = pop(auxStack)
+    push(s, top)
+    if empty(auxStack) {
+      break out of loop
+    }
+  }
+  return datum
+}
+\end{verbatim}
+\end{mdframed}
+
+To get the antepenultimate item on the stack, call
+\[
+  \verb|peekNthFromBottom(s Stack, n int)|
+\]
+with a given stack \verb|s| and \verb|n = 3|:
+\[
+  \verb|peekNthFromBottom(s, 3)|
+\]
+
+\pagebreak
 \noindent\textbf{Problem 2:}
 Simulate the action of the algorithm for checking delimiters for each of these strings by using a stack and showing the contents of the stack at each point. Do not write an algorithm.
 
