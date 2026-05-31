@@ -145,13 +145,65 @@ with a given stack \verb|s| and \verb|n = 3|:
 \noindent\textbf{Problem 2:}
 Simulate the action of the algorithm for checking delimiters for each of these strings by using a stack and showing the contents of the stack at each point. Do not write an algorithm.
 
-\begin{enumerate}
-  \item \{[A+B]-[(C-D)]
-  \item ((H) * {([J+K])})
-\end{enumerate}
-
 \noindent\textbf{Answer:}
 
+\begin{enumerate}
+  \item \{[A+B]-[(C-D)]
+        \begin{center}
+          \begin{tabular}{|c|l|l|}
+            \hline
+            \text{Input} & \text{Stack}                   & \text{Result}     \\ \hline
+                         &                                &                   \\
+            $\{$         & $ $                            & Push $\boxed{\{}$ \\ [10pt]
+            $[$          & $\boxed{\{}$                   & Push $\boxed{[}$  \\ [10pt]
+            $A$          & $\boxed{\{}\boxed{[}$          & Ignore $A$        \\ [10pt]
+            $+$          & $\boxed{\{}\boxed{[}$          & Ignore $+$        \\ [10pt]
+            $B$          & $\boxed{\{}\boxed{[}$          & Ignore $B$        \\ [10pt]
+            $]$          & $\boxed{\{}\boxed{[}$          & Pop $\boxed{[}$   \\ [10pt]
+            $-$          & $\boxed{\{}$                   & Ignore $-$        \\ [10pt]
+            $[$          & $\boxed{\{}$                   & Push \boxed{[}    \\ [10pt]
+            $($          & $\boxed{\{}\boxed{[}$          & Push \boxed{(}    \\ [10pt]
+            $C$          & $\boxed{\{}\boxed{[}\boxed{(}$ & Ignore $C$        \\ [10pt]
+            $-$          & $\boxed{\{}\boxed{[}\boxed{(}$ & Ignore $-$        \\ [10pt]
+            $D$          & $\boxed{\{}\boxed{[}\boxed{(}$ & Ignore $D$        \\ [10pt]
+            $)$          & $\boxed{\{}\boxed{[}\boxed{(}$ & Pop \boxed{(}     \\ [10pt]
+            $]$          & $\boxed{\{}\boxed{[}$          & Pop \boxed{[}     \\ [10pt]
+            $\ $         & $\boxed{\{}$                   & Reject            \\ [10pt]
+            \hline
+          \end{tabular}
+        \end{center}
+        The stack was not empty at the end of the input. So, the program would reject or return false to indicate that the pairings are not valid.
+        \pagebreak
+  \item ((H) * {([J+K])})
+        \begin{center}
+          \begin{tabular}{|c|l|l|}
+            \hline
+            \text{Input} & \text{Stack}                            & \text{Result}     \\ \hline
+                         &                                         &                   \\
+            $($          & $ $                                     & Push $\boxed{(}$  \\ [10pt]
+            $($          & $\boxed{(}$                             & Push $\boxed{(}$  \\ [10pt]
+            $H$          & $\boxed{(}\boxed{(}$                    & Ignore $H$        \\ [10pt]
+            $)$          & $\boxed{(}\boxed{(}$                    & Pop $\boxed{(}$   \\ [10pt]
+            $*$          & $\boxed{(}$                             & Ignore $*$        \\ [10pt]
+            $\{$         & $\boxed{(}$                             & Push $\boxed{\{}$ \\ [10pt]
+            $($          & $\boxed{(}\boxed{\{}$                   & Push $\boxed{(}$  \\ [10pt]
+            $[$          & $\boxed{(}\boxed{\{}\boxed{(}$          & Push $\boxed{[}$  \\ [10pt]
+            $J$          & $\boxed{(}\boxed{\{}\boxed{(}\boxed{[}$ & Ignore $J$        \\ [10pt]
+            $+$          & $\boxed{(}\boxed{\{}\boxed{(}\boxed{[}$ & Ignore $+$        \\ [10pt]
+            $K$          & $\boxed{(}\boxed{\{}\boxed{(}\boxed{[}$ & Ignore $K$        \\ [10pt]
+            $]$          & $\boxed{(}\boxed{\{}\boxed{(}\boxed{[}$ & Pop $\boxed{[}$   \\ [10pt]
+            $)$          & $\boxed{(}\boxed{\{}\boxed{(}$          & Pop $\boxed{(}$   \\ [10pt]
+            $\}$         & $\boxed{(}\boxed{\{}$                   & Pop $\boxed{\{}$  \\ [10pt]
+            $)$          & $\boxed{(}$                             & Pop $\boxed{(}$   \\ [10pt]
+            $\ $         &                                         & Accept            \\ [10pt]
+
+            \hline
+          \end{tabular}
+        \end{center}
+        The stack was empty at the end of the input. So, the program would accept or return true to indicate that the pairings are valid.
+\end{enumerate}
+
+\pagebreak
 \noindent\textbf{Problem 3:}
 Write an algorithm to determine whether an input character string is of the form
 \begin{enumerate}
