@@ -244,7 +244,7 @@ Walking through this algorithm:
   \item When an input symbol $C$ is encountered, transition to $q_2$ and do nothing to the stack.
   \item For the next input symbol, which must be $A$ or $B$, the value popped of the stack must match the input symbol. If anything besides $A$ or $B$ is read from input, reject the string. If the symbol popped from the stack does not match the symbol read from input, reject the string. Loop back to $q_2$ if $A$ or $B$ is read and the popped symbol matches. Repeat this until all of the input symbols are read.
   \item If all of the symbols have been read from input and the stack is empty, then transition from $q_2$ to $q_3$, which is the accepting state. During the transition, pop the $\$$ off the stack, which is equivalent to having \verb|empty(s)| return \verb|true|. Accept the string.
-  \item If all of the symbols have been read from input and the stack is not empty, then the string does not match the specified format, and there will not be a transition defined in the graph. Reject the string.  
+  \item If all of the symbols have been read from input and the stack is not empty, then the string does not match the specified format, and there will not be a transition defined in the graph. Reject the string.
 \end{itemize}
 
 An interesting edge case worth considering is when a string is in the format $xCy$, but $x$ and $y$ are both empty. In this case, the computation will run as follows:
@@ -277,12 +277,40 @@ Design a method for keeping two stacks within a single linear array s[SPACESIZE]
 
 \noindent\textbf{Problem 6:}
 Transform each of the following expressions to prefix and postfix expressions. \$ is exponentiation.
-\begin{enumerate}
-  \item (A+B)*(C\$(D-E)+F)-G
-  \item A+(((B-C)*(D-E)+F)/G)\$(H-J)
-\end{enumerate}
 
 \noindent\textbf{Answer:}
+
+I'm using the notation $\alpha \implies \beta$ to represent that the expression $\alpha$ can be transformed into the expression $\beta$ with one step.
+\begin{enumerate}
+  \item \texttt{(A+B)*(C\$(D-E)+F)-G}
+
+        Postfix
+        \begin{align*}
+                   & \texttt{(A+B)*(C\$(D-E)+F)-G}                                \\
+          \implies & \underbrace{\texttt{(AB+)}}\texttt{*(C\$(D-E)+F)-G}          \\
+          \implies & \underbrace{\texttt{(AB+)(C\$(D-E)+F)*}}\texttt{-G}          \\
+          \implies & \texttt{(AB+)(}\underbrace{\texttt{C(D-E)\$}}\texttt{+F)*-G} \\
+          \implies & \texttt{(AB+)(C(}\underbrace{\texttt{DE-}}\texttt{)\$+F)*-G} \\
+          \implies & \texttt{(AB+)(C(DE-)\$}\underbrace{\texttt{F+}}\texttt{)*-G} \\
+          \implies & \texttt{(AB+)(C(DE-)\$F+)*}\underbrace{\texttt{G-}}          \\
+          \implies & \texttt{AB+CDE-\$F+*G-}
+        \end{align*}
+
+        Prefix
+        \begin{align*}
+                   & \texttt{(A+B)*(C\$(D-E)+F)-G}                       \\
+          \implies & \underbrace{\texttt{(+AB)}}\texttt{*(C\$(D-E)+F)-G} \\
+          \implies & \texttt{(+AB)*(}\underbrace{\texttt{\$C(D-E)}}\texttt{+F)-G} \\
+          \implies & \texttt{(+AB)*(\$C}\underbrace{\texttt{(-DE)}}\texttt{+F)-G} \\
+          \implies & \texttt{(+AB)*}\underbrace{\texttt{(+\$C(-DE)F)}}\texttt{-G} \\
+          \implies & \underbrace{\texttt{*(+AB)(+\$C(-DE)F)}}\texttt{-G} \\
+          \implies & \underbrace{\texttt{-*(+AB)(+\$C(-DE)F)G}} \\
+          \implies & \texttt{-*+AB+\$C-DEFG}
+        \end{align*}
+
+  \item \texttt{A+(((B-C)*(D-E)+F)/G)\$(H-J)}
+\end{enumerate}
+
 
 \noindent\textbf{Problem 7:}
 Transform each of the following expressions to infix expressions.
