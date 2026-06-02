@@ -286,7 +286,7 @@ I'm using the notation $\alpha \implies \beta$ to represent that the expression 
 
         Postfix
         \begin{align*}
-                   & \texttt{(A+B)*(C\$(D-E)+F)-G}                                \\
+                   & \texttt{(A+B)*(C\$(D-E)+F)-G}                           \\
           \implies & \boxed{\texttt{(AB+)}}\texttt{*(C\$(D-E)+F)-G}          \\
           \implies & \boxed{\texttt{(AB+)(C\$(D-E)+F)*}}\texttt{-G}          \\
           \implies & \texttt{(AB+)(}\boxed{\texttt{C(D-E)\$}}\texttt{+F)*-G} \\
@@ -298,7 +298,7 @@ I'm using the notation $\alpha \implies \beta$ to represent that the expression 
 
         Prefix
         \begin{align*}
-                   & \texttt{(A+B)*(C\$(D-E)+F)-G}                                \\
+                   & \texttt{(A+B)*(C\$(D-E)+F)-G}                           \\
           \implies & \boxed{\texttt{(+AB)}}\texttt{*(C\$(D-E)+F)-G}          \\
           \implies & \texttt{(+AB)*(}\boxed{\texttt{\$C(D-E)}}\texttt{+F)-G} \\
           \implies & \texttt{(+AB)*(\$C}\boxed{\texttt{(-DE)}}\texttt{+F)-G} \\
@@ -312,7 +312,7 @@ I'm using the notation $\alpha \implies \beta$ to represent that the expression 
 
         Postfix
         \begin{align*}
-                   & \texttt{A+(((B-C)*(D-E)+F)/G)\$(H-J)}                                \\
+                   & \texttt{A+(((B-C)*(D-E)+F)/G)\$(H-J)}                           \\
           \implies & \texttt{A+(((}\boxed{\texttt{BC-}}\texttt{)*(D-E)+F)/G)\$(H-J)} \\
           \implies & \texttt{A+(((BC-)*(}\boxed{\texttt{DE-}}\texttt{)+F)/G)\$(H-J)} \\
           \implies & \texttt{A+(((BC-)*(DE-)+F)/G)\$(}\boxed{\texttt{HJ-}}\texttt{)} \\
@@ -320,35 +320,66 @@ I'm using the notation $\alpha \implies \beta$ to represent that the expression 
           \implies & \texttt{A+(((BC-)(DE-)*}\boxed{\texttt{F+}}\texttt{)/G)\$(HJ-)} \\
           \implies & \texttt{A+(((BC-)(DE-)*F+)}\boxed{\texttt{G/}}\texttt{)\$(HJ-)} \\
           \implies & \texttt{A+(((BC-)(DE-)*F+)G/)}\boxed{\texttt{(HJ-)\$}}          \\
-          \implies & \boxed{\texttt{A(((BC-)(DE-)*F+)G/)(HJ-)\$+}}                                \\
-          \implies & \texttt{ABC-DE-*F+G/HJ-\$+}                                \\
+          \implies & \boxed{\texttt{A(((BC-)(DE-)*F+)G/)(HJ-)\$+}}                   \\
+          \implies & \texttt{ABC-DE-*F+G/HJ-\$+}                                     \\
         \end{align*}
 
         Prefix
         \begin{align*}
-                   & \texttt{A+(((B-C)*(D-E)+F)/G)\$(H-J)} \\
+                   & \texttt{A+(((B-C)*(D-E)+F)/G)\$(H-J)}                           \\
           \implies & \texttt{A+(((}\boxed{\texttt{-BC}}\texttt{)*(D-E)+F)/G)\$(H-J)} \\
           \implies & \texttt{A+(((-BC)*(}\boxed{\texttt{-DE}}\texttt{)+F)/G)\$(H-J)} \\
           \implies & \texttt{A+(((-BC)*(-DE)+F)/G)\$(}\boxed{\texttt{-HJ}}\texttt{)} \\
           \implies & \texttt{A+((}\boxed{\texttt{*(-BC)(-DE)}}\texttt{+F)/G)\$(-HJ)} \\
           \implies & \texttt{A+((}\boxed{\texttt{+*(-BC)(-DE)F)}}\texttt{/G)\$(-HJ)} \\
           \implies & \texttt{A+(}\boxed{\texttt{/(+*(-BC)(-DE)F)G}}\texttt{)\$(-HJ)} \\
-          \implies & \texttt{A+}\boxed{\texttt{\$(/(+*(-BC)(-DE)F)G)(-HJ)}} \\
-          \implies & \boxed{\texttt{+A}}\texttt{\$(/(+*(-BC)(-DE)F)G)(-HJ)} \\
-          \implies & \texttt{+A\$/+*-BC-DEFG-HJ} \\
+          \implies & \texttt{A+}\boxed{\texttt{\$(/(+*(-BC)(-DE)F)G)(-HJ)}}          \\
+          \implies & \boxed{\texttt{+A}}\texttt{\$(/(+*(-BC)(-DE)F)G)(-HJ)}          \\
+          \implies & \texttt{+A\$/+*-BC-DEFG-HJ}                                     \\
         \end{align*}
 
 \end{enumerate}
 
-
+\pagebreak
 \noindent\textbf{Problem 7:}
 Transform each of the following expressions to infix expressions.
-\begin{enumerate}
-  \item ++A-*\$BCD/+EF*GHI
-  \item ABCDE-+\$*EF*-
-\end{enumerate}
 
 \noindent\textbf{Answer:}
+
+I start by grouping with parentheses according to where there will be two operands for the operation.
+Then I convert each operation to infix notation.
+As above, I'm using the notation $\alpha \implies \beta$ to represent that the expression $\alpha$ can be transformed into the expression $\beta$ with one step.
+
+\begin{enumerate}
+  \item \texttt{++A-*\$BCD/+EF*GHI}
+        \begin{align*}
+                   & \texttt{++A-*\$BCD/+EF*GHI}                                         \\
+          \implies & \texttt{+(+A(-(*(\$BC)D)(/(+EF)(*GH))))I}                           \\
+          \implies & \boxed{\texttt{(+A(-(*(\$BC)D)(/(+EF)(*GH))))+I}}                   \\
+          \implies & \texttt{(}\boxed{\texttt{A+}}\texttt{(-(*(\$BC)D)(/(+EF)(*GH))))+I} \\
+          \implies & \texttt{(A+(}\boxed{\texttt{(*(\$BC)D)-(/(+EF)(*GH))}}\texttt{))+I} \\
+          \implies & \texttt{(A+((*}\boxed{\texttt{(B\$C)}}\texttt{D)-(/(+EF)(*GH))))+I} \\
+          \implies & \texttt{(A+(}\boxed{\texttt{((B\$C)*D)}}\texttt{-(/(+EF)(*GH))))+I} \\
+          \implies & \texttt{(A+(((B\$C)*D)-}\boxed{\texttt{((+EF)/(*GH))}}\texttt{))+I} \\
+          \implies & \texttt{(A+(((B\$C)*D)-(}\boxed{\texttt{(E+F)}}\texttt{/(*GH))))+I} \\
+          \implies & \texttt{(A+(((B\$C)*D)-((E+F)/}\boxed{\texttt{(G*H)}}\texttt{)))+I} \\
+          \implies & \texttt{(A+(((B\$C)*D)-((E+F)/(G*H)))+I}
+        \end{align*}
+
+  \item \texttt{ABCDE-+\$*EF*-}
+        \begin{align*}
+                   & \texttt{ABCDE-+\$*EF*-} \\
+          \implies & \texttt{(A(B(C(DE-)+)\$)*)(EF*)-} \\
+          \implies & \boxed{\texttt{(A(B(C(DE-)+)\$)*)-(EF*)}} \\
+          \implies & \texttt{(A(B(C(}\boxed{\texttt{D-E}}\texttt{)+)\$)*)-(EF*)} \\
+          \implies & \texttt{(A(B(C(D-E)+)\$)*)-(}\boxed{\texttt{E*F}}\texttt{)} \\
+          \implies & \texttt{(A(B(}\boxed{\texttt{C+(D-E)}}\texttt{)\$)*)-(E*F)} \\
+          \implies & \texttt{(A(}\boxed{\texttt{B\$(C+(D-E))}}\texttt{)*)-(E*F)} \\
+          \implies & \texttt{(}\boxed{\texttt{A*(B\$(C+(D-E)))}}\texttt{)-(E*F)} \\
+          \implies & \texttt{(A*(B\$(C+(D-E))))-(E*F)}
+        \end{align*}
+\end{enumerate}
+
 
 \noindent\textbf{Problem 8:}
 Write a prefix pseudo-code function to accept an infix string and create the prefix form of that string, assuming that the string is read from right to left and that the prefix string is created from right to left. Handle variables, +,-,/,*,\$,(,).
