@@ -266,6 +266,19 @@ Consider a language that does not have arrays but does have stacks defined as a 
 
 \noindent\textbf{Answer:}
 
+An array \texttt{C} can be implemented by using two stacks in concert. Let the two stacks be \texttt{A} and \texttt{B}. The elements of the array are contained in \texttt{A} to start, with the top of \texttt{A} equal to the first element in \texttt{C}, the bottom of \texttt{A} equal to the last element in \texttt{C}, and the intermediate elements of the stack \texttt{A} equal to the corresponding elements of \texttt{C} in order. That is, \texttt{C[0]} is equal to \texttt{pop(A)}, \texttt{C[1]} to the result of executing \texttt{pop(A)} twice, and so on, with \texttt{C[n]} equal to the result of executing \texttt{pop(A)} \texttt{n+1} times. The stack \texttt{B} is initially empty.
+
+To describe the rest of the implementation of the array, we have to consider reading from and writing to the array.
+
+To read from the array while it is in this initial configuration, we can pop from \texttt{A} and push to \texttt{B} until we reach the element in \texttt{A} we are interested in reading. Let there be a function \texttt{transfer(\alpha, \beta, n)} that has two stacks \texttt{\alpha} and \texttt{\beta}, along with an integer \texttt{n}. This function pops \texttt{n} elements from \texttt{\alpha} and pushes each element onto \texttt{\beta} as is it popped.
+
+Let there be a function \texttt{read(\gamma, index)}, which takes an array \texttt{\gamma} and an integer \texttt{index}. The function \texttt{read} can use the function \texttt{transfer(\alpha, \beta, n)} as a helper function to iterate through the elements of \texttt{\gamma} until the desired element at \texttt{index} is reached. That element can be peeked or popped to read the element from the array. Once the element at \texttt{\gamma[index]} is read, the transfer function can be called again, but with \texttt{\alpha} and \texttt{\beta} reversed, i.e. \texttt{transfer(\beta, \alpha, n)}, which will reset the elements back to their original state.
+
+Writing is similar. Use \texttt{transfer} to move elements from \texttt{\alpha} to \texttt{\beta}, until the desired location is reached, then push the desired element onto \texttt{\alpha}, then finally transfer elements back from \texttt{\beta} to \texttt{\alpha}.
+
+As a word of commentary: this implementation can be thought of as using a cursor, which is implicitly at the top of stack \texttt{A}. More efficient implementations could keep track of additional fields, such as the cursor index on the array \texttt{C}, so that the reset step done after reading and writing in the implementation above could be avoided in many cases. If the array needs performance similar to a regular array, that would be important to do. In the same vein of thinking, this implementation is similar to a doubly linked list, where we shift the node we are pointing at back and forth as we read. There are important differences though, for example that this implementation does not have something like a reference to the head of the list.
+
+\medskip
 \noindent\textbf{Problem 5:}
 Design a method for keeping two stacks within a single linear array s[SPACESIZE] so that neither stack overflows until all of memory is used and an entire stack is never shifted to a different location within the array.
 \begin{enumerate}
@@ -368,9 +381,9 @@ As above, I'm using the notation $\alpha \implies \beta$ to represent that the e
 
   \item \texttt{ABCDE-+\$*EF*-}
         \begin{align*}
-                   & \texttt{ABCDE-+\$*EF*-} \\
-          \implies & \texttt{(A(B(C(DE-)+)\$)*)(EF*)-} \\
-          \implies & \boxed{\texttt{(A(B(C(DE-)+)\$)*)-(EF*)}} \\
+                   & \texttt{ABCDE-+\$*EF*-}                                     \\
+          \implies & \texttt{(A(B(C(DE-)+)\$)*)(EF*)-}                           \\
+          \implies & \boxed{\texttt{(A(B(C(DE-)+)\$)*)-(EF*)}}                   \\
           \implies & \texttt{(A(B(C(}\boxed{\texttt{D-E}}\texttt{)+)\$)*)-(EF*)} \\
           \implies & \texttt{(A(B(C(D-E)+)\$)*)-(}\boxed{\texttt{E*F}}\texttt{)} \\
           \implies & \texttt{(A(B(}\boxed{\texttt{C+(D-E)}}\texttt{)\$)*)-(E*F)} \\
