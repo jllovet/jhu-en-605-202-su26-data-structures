@@ -288,6 +288,108 @@ Design a method for keeping two stacks within a single linear array \texttt{s[SP
 
 \noindent\textbf{Answer:}
 
+The core principle of the design is that the two arrays will have their bottoms on opposite ends of the array, with the tops of the stacks going towards the middle of the array as elements are added.
+
+Let there be an array \texttt{s} and two stacks \texttt{A} and \texttt{B}. The two stacks \texttt{A} and \texttt{B} will be implemented within \texttt{s}. The array \texttt{s} will be of size \texttt{SPACESIZE}. The stack \texttt{A} will be based on the front of the \texttt{s}, and the stack \texttt{B} will be based on the back of \texttt{s}. The first and last elements of \texttt{s} will be marked with special symbols \texttt{\$}, and the tops of each stack will be tracked with \texttt{T\_A} and \texttt{T\_B}. The functions \texttt{push1} and \texttt{pop1} operate on \texttt{A}, while \texttt{push2} and \texttt{pop2} operate on \texttt{B}.
+
+In the diagrams below, let Z represent \texttt{SPACESIZE - 1}. For simplicity, I will use \texttt{\varepsilon} to represent that that a cell is empty, \texttt{a} to represent that there is a data entry for stack \texttt{A}, and \texttt{b} to represent that there is a data entry for stack \texttt{B}. In addition to this, I will use a special symbol \texttt{\$} to indicate the bottom of the stacks, which will allow us to disambiguate the stacks from each other and make some edge cases simpler to handle.
+
+The diagram below shows the state where both stacks are empty. The top of \texttt{A} is at \texttt{s[0]}, and the top of \texttt{B} is at \texttt{s[Z]}.
+
+\begin{center}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \hline
+    Index & 0     & 1           & 2           & \ldots & Z - 2       & Z - 1       & Z     \\ \hline
+    Data  & \$    & \varepsilon & \varepsilon & \ldots & \varepsilon & \varepsilon & \$    \\ \hline
+    Heads & $T_A$ &             &             &        &             &             & $T_B$ \\ \hline
+  \end{tabular}
+\end{center}
+
+The result of \texttt{push1(a)} from this initial state will be the following:
+
+\begin{center}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \hline
+    Index & 0  & 1     & 2           & \ldots & Z - 2       & Z - 1       & Z     \\ \hline
+    Data  & \$ & a     & \varepsilon & \ldots & \varepsilon & \varepsilon & \$    \\ \hline
+    Heads &    & $T_A$ &             &        &             &             & $T_B$ \\ \hline
+  \end{tabular}
+\end{center}
+
+Similarly, if we were then to execute \texttt{push2(b)}, that would result in:
+
+\begin{center}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \hline
+    Index & 0  & 1     & 2           & \ldots & Z - 2       & Z - 1 & Z  \\ \hline
+    Data  & \$ & a     & \varepsilon & \ldots & \varepsilon & b     & \$ \\ \hline
+    Heads &    & $T_A$ &             &        &             & $T_B$ &    \\ \hline
+  \end{tabular}
+\end{center}
+
+After each of these \texttt{push} methods is called, the top of each of the stacks moves towards the center of the array by one position.
+
+In the case that a \texttt{pop} function is called for either of the stacks, the corresponding element at the position \texttt{T\_A} or \texttt{T\_B} is read, and then the position of \texttt{T\_A} or \texttt{T\_B} is moved towards the corresponding end of the array by one position. The exception to this case is when the arrays are empty, in which case a \texttt{null} value will be returned, and the position of \texttt{T\_A} or \texttt{T\_B} will remain the same at \texttt{0} or \texttt{Z}.
+
+If we begin with the state depicted in the previous diagram and then execute \texttt{pop1}, then the following modifications will occur:
+
+Before Execution:
+
+\begin{center}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \hline
+    Index & 0  & 1     & 2           & \ldots & Z - 2       & Z - 1 & Z  \\ \hline
+    Data  & \$ & a     & \varepsilon & \ldots & \varepsilon & b     & \$ \\ \hline
+    Heads &    & $T_A$ &             &        &             & $T_B$ &    \\ \hline
+  \end{tabular}
+\end{center}
+
+After Execution:
+
+\texttt{pop1()} returns the value \texttt{a} from \texttt{s[1]}.
+
+\begin{center}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \hline
+    Index & 0     & 1 & 2           & \ldots & Z - 2       & Z - 1 & Z  \\ \hline
+    Data  & \$    & a & \varepsilon & \ldots & \varepsilon & b     & \$ \\ \hline
+    Heads & $T_A$ &   &             &        &             & $T_B$ &    \\ \hline
+  \end{tabular}
+\end{center}
+
+If the same function \texttt{pop1} is executed again, there is no change to the data, and \texttt{pop1()} will return \texttt{null}. It's worth noting that with this design, there is no effect on \texttt{B} by any of the executions of \texttt{pop1}, which is what we wanted.
+
+What happens if the stacks fill the available space \texttt{SPACESIZE}? The underlying array will have to resize, and the elements will have to be placed in the same positions, importantly, relative to the beginning and end of the underlying array. That is, when the underlying array \texttt{s} is resized, the elements of the stacks can be placed into the new underlying array \texttt{s} starting from index \texttt{0} for elements of \texttt{A} and from index \texttt{Z} for elements of \texttt{B}, preserving the positions of \texttt{A} and \texttt{B} relative to the start and end of \texttt{s}.
+
+We must use the indices indicated by \texttt{T\_A} and \texttt{T\_B} to ensure that the stacks do not collide with each other. If \texttt{T\_B - T\_A == 1}, then all of the available space in \texttt{s} has been consumed, and the array must be resized before a \texttt{push} operation can be performed on either stack. Consider the case below, where $Z = 8$
+
+\begin{center}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+    \hline
+    0 & 1 & 2     & Z - 4 & Z - 3 & Z - 2 & Z - 1 & Z \\ \hline
+    a & a & a     & b     & b     & b     & b     & b \\ \hline
+      &   & $T_A$ & $T_B$ &       &       &       &   \\ \hline
+  \end{tabular}
+\end{center}
+
+\begin{align*}
+  T_B - T_A & = 1 \\
+  3 - 2     & = 1 \\
+\end{align*}
+
+Here, the underlying array has been exhausted, and the next \texttt{push} operation will require the array to be resized. Assume for illustration that the array is doubled. Once the resizing is completed, the two stacks are placed in their positions relative to their respective ends of the array.
+
+\begin{center}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    0 & 1 & 2     & 3           & 4           & 5           & 6           & 7           & 8           & 9           & 10          & 11          & Z - 4 & Z - 3 & Z - 2 & Z - 1 & Z \\ \hline
+    a & a & a     & \varepsilon & \varepsilon & \varepsilon & \varepsilon & \varepsilon & \varepsilon & \varepsilon & \varepsilon & \varepsilon & b     & b     & b     & b     & b \\ \hline
+      &   & $T_A$ &             &             &             &             &             &             &             &             &             & $T_B$ &       &       &       &   \\ \hline
+  \end{tabular}
+\end{center}
+
+
+\pagebreak
 \noindent\textbf{Problem 6:}
 Transform each of the following expressions to prefix and postfix expressions. \$ is exponentiation.
 
