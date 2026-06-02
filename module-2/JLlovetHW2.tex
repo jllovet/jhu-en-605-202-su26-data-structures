@@ -287,28 +287,57 @@ I'm using the notation $\alpha \implies \beta$ to represent that the expression 
         Postfix
         \begin{align*}
                    & \texttt{(A+B)*(C\$(D-E)+F)-G}                                \\
-          \implies & \underbrace{\texttt{(AB+)}}\texttt{*(C\$(D-E)+F)-G}          \\
-          \implies & \underbrace{\texttt{(AB+)(C\$(D-E)+F)*}}\texttt{-G}          \\
-          \implies & \texttt{(AB+)(}\underbrace{\texttt{C(D-E)\$}}\texttt{+F)*-G} \\
-          \implies & \texttt{(AB+)(C(}\underbrace{\texttt{DE-}}\texttt{)\$+F)*-G} \\
-          \implies & \texttt{(AB+)(C(DE-)\$}\underbrace{\texttt{F+}}\texttt{)*-G} \\
-          \implies & \texttt{(AB+)(C(DE-)\$F+)*}\underbrace{\texttt{G-}}          \\
+          \implies & \boxed{\texttt{(AB+)}}\texttt{*(C\$(D-E)+F)-G}          \\
+          \implies & \boxed{\texttt{(AB+)(C\$(D-E)+F)*}}\texttt{-G}          \\
+          \implies & \texttt{(AB+)(}\boxed{\texttt{C(D-E)\$}}\texttt{+F)*-G} \\
+          \implies & \texttt{(AB+)(C(}\boxed{\texttt{DE-}}\texttt{)\$+F)*-G} \\
+          \implies & \texttt{(AB+)(C(DE-)\$}\boxed{\texttt{F+}}\texttt{)*-G} \\
+          \implies & \texttt{(AB+)(C(DE-)\$F+)*}\boxed{\texttt{G-}}          \\
           \implies & \texttt{AB+CDE-\$F+*G-}
         \end{align*}
 
         Prefix
         \begin{align*}
-                   & \texttt{(A+B)*(C\$(D-E)+F)-G}                       \\
-          \implies & \underbrace{\texttt{(+AB)}}\texttt{*(C\$(D-E)+F)-G} \\
-          \implies & \texttt{(+AB)*(}\underbrace{\texttt{\$C(D-E)}}\texttt{+F)-G} \\
-          \implies & \texttt{(+AB)*(\$C}\underbrace{\texttt{(-DE)}}\texttt{+F)-G} \\
-          \implies & \texttt{(+AB)*}\underbrace{\texttt{(+\$C(-DE)F)}}\texttt{-G} \\
-          \implies & \underbrace{\texttt{*(+AB)(+\$C(-DE)F)}}\texttt{-G} \\
-          \implies & \underbrace{\texttt{-*(+AB)(+\$C(-DE)F)G}} \\
+                   & \texttt{(A+B)*(C\$(D-E)+F)-G}                                \\
+          \implies & \boxed{\texttt{(+AB)}}\texttt{*(C\$(D-E)+F)-G}          \\
+          \implies & \texttt{(+AB)*(}\boxed{\texttt{\$C(D-E)}}\texttt{+F)-G} \\
+          \implies & \texttt{(+AB)*(\$C}\boxed{\texttt{(-DE)}}\texttt{+F)-G} \\
+          \implies & \texttt{(+AB)*}\boxed{\texttt{(+\$C(-DE)F)}}\texttt{-G} \\
+          \implies & \boxed{\texttt{*(+AB)(+\$C(-DE)F)}}\texttt{-G}          \\
+          \implies & \boxed{\texttt{-*(+AB)(+\$C(-DE)F)G}}                   \\
           \implies & \texttt{-*+AB+\$C-DEFG}
         \end{align*}
 
   \item \texttt{A+(((B-C)*(D-E)+F)/G)\$(H-J)}
+
+        Postfix
+        \begin{align*}
+                   & \texttt{A+(((B-C)*(D-E)+F)/G)\$(H-J)}                                \\
+          \implies & \texttt{A+(((}\boxed{\texttt{BC-}}\texttt{)*(D-E)+F)/G)\$(H-J)} \\
+          \implies & \texttt{A+(((BC-)*(}\boxed{\texttt{DE-}}\texttt{)+F)/G)\$(H-J)} \\
+          \implies & \texttt{A+(((BC-)*(DE-)+F)/G)\$(}\boxed{\texttt{HJ-}}\texttt{)} \\
+          \implies & \texttt{A+((}\boxed{\texttt{(BC-)(DE-)*}}\texttt{+F)/G)\$(HJ-)} \\
+          \implies & \texttt{A+(((BC-)(DE-)*}\boxed{\texttt{F+}}\texttt{)/G)\$(HJ-)} \\
+          \implies & \texttt{A+(((BC-)(DE-)*F+)}\boxed{\texttt{G/}}\texttt{)\$(HJ-)} \\
+          \implies & \texttt{A+(((BC-)(DE-)*F+)G/)}\boxed{\texttt{(HJ-)\$}}          \\
+          \implies & \boxed{\texttt{A(((BC-)(DE-)*F+)G/)(HJ-)\$+}}                                \\
+          \implies & \texttt{ABC-DE-*F+G/HJ-\$+}                                \\
+        \end{align*}
+
+        Prefix
+        \begin{align*}
+                   & \texttt{A+(((B-C)*(D-E)+F)/G)\$(H-J)} \\
+          \implies & \texttt{A+(((}\boxed{\texttt{-BC}}\texttt{)*(D-E)+F)/G)\$(H-J)} \\
+          \implies & \texttt{A+(((-BC)*(}\boxed{\texttt{-DE}}\texttt{)+F)/G)\$(H-J)} \\
+          \implies & \texttt{A+(((-BC)*(-DE)+F)/G)\$(}\boxed{\texttt{-HJ}}\texttt{)} \\
+          \implies & \texttt{A+((}\boxed{\texttt{*(-BC)(-DE)}}\texttt{+F)/G)\$(-HJ)} \\
+          \implies & \texttt{A+((}\boxed{\texttt{+*(-BC)(-DE)F)}}\texttt{/G)\$(-HJ)} \\
+          \implies & \texttt{A+(}\boxed{\texttt{/(+*(-BC)(-DE)F)G}}\texttt{)\$(-HJ)} \\
+          \implies & \texttt{A+}\boxed{\texttt{\$(/(+*(-BC)(-DE)F)G)(-HJ)}} \\
+          \implies & \boxed{\texttt{+A}}\texttt{\$(/(+*(-BC)(-DE)F)G)(-HJ)} \\
+          \implies & \texttt{+A\$/+*-BC-DEFG-HJ} \\
+        \end{align*}
+
 \end{enumerate}
 
 
