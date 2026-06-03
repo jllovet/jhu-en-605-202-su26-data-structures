@@ -389,6 +389,83 @@ Here, the underlying array has been exhausted, and the next \texttt{push} operat
 \end{center}
 
 
+Let there be a class doubleStackArray.
+This class will implement the design above, and the array \texttt{s} from the prompt will be the underlying array for \texttt{doubleStackArray}.
+
+\texttt{doubleStackArray} has the following data fields:
+\begin{itemize}
+  \item \texttt{s[]} which is the underlying array
+  \item \texttt{SPACESIZE int} which is the initial size of the array
+  \item \texttt{Z int} which is set to \texttt{SPACESIZE - 1}
+  \item \texttt{T\_A int} which represents the index of the top of the stack \texttt{A}, calculated up from \texttt{0}
+  \item \texttt{T\_B int} which represents the index of the top of the stack \texttt{B}, calculated down from \texttt{Z}
+\end{itemize}
+  
+\texttt{doubleStackArray} has the following methods:
+\pagebreak
+\begin{mdframed}
+\begin{verbatim}
+resizeArray() {
+    create a new array s1 of size SPACESIZE*2
+    copy the elements
+      from s[0] through s[T_A] inclusive
+      to s1[0] through s1[T_A] inclusive
+    copy the elements
+      from s[T_B] through s[Z] inclusive
+      to s1[T_B] through s1[Z] inclusive
+    Assign s = s1 so that the underlying
+      array s now points to the array s1
+}
+
+isArrayFull() {
+    return T_B - T_A == 1
+}
+
+isEmpty(s stack) {
+    if s == A {
+        return T_A == 0
+    }
+    if s == B {
+        return T_B == Z
+    }
+}
+
+push1(data T) {
+    if isArrayFull() {
+        resizeArray()
+    }
+    T_A = T_A + 1
+    s[T_A] = data
+}
+
+push2(data T) {
+    if isArrayFull() {
+        resizeArray()
+    }
+    T_B = T_B + 1
+    s[T_B] = data
+}
+
+pop1() {
+    if isEmpty(A) {
+        return null
+    }
+    data = s[T_A]
+    T_A = T_A - 1
+    return data
+}
+
+pop2() {
+    if isEmpty(B) {
+        return null
+    }
+    data = s[T_B]
+    T_B = T_B + 1
+    return data
+}
+\end{verbatim}
+\end{mdframed}
+
 \pagebreak
 \noindent\textbf{Problem 6:}
 Transform each of the following expressions to prefix and postfix expressions. \$ is exponentiation.
