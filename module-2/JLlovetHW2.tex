@@ -578,6 +578,70 @@ Write a prefix pseudo-code function to accept an infix string and create the pre
 
 \noindent\textbf{Answer:}
 
+% Postfix version from lecture notes
+% postfix() {
+%   while input {
+%     read expression from left {
+%     if operand {
+%       send to output
+%     }
+%     if operation {
+%       while stacktop has precedence {
+%         pop
+%       }
+%       push operator
+%     }
+%     }
+%   }
+%   pop stack until empty
+% }
+
+In the steps below, as the prefix notation string is constructed, each subsequent element is prepended to the substring, so that the resulting string is also read RTL. This algorithm is an adaptation of the analogous algorithm found in \cite{wse-hopkins-605-202-81-02B-Slides} that discusses conversion from infix to postfix notation.
+
+The core difference here is that the input characters are prepended to the existing substring, rather than appended as in the infix to postfix conversion.
+
+\pagebreak
+\begin{mdframed}
+\begin{verbatim}
+prefix(s) {
+  ps = ""; stack = emptyStack() // initialize
+  while input {
+    read expression from right {
+      c = current symbol from input
+      isOperation = c in ["+", "-", "/", "*", "$", "(", ")"]
+      isOperand = not isOperation
+      if isOperand {
+        ps = c + ps
+      }
+      if isOperation {
+        if c == ")" {
+          stack.push(c)
+          continue // at top of loop (i.e. while input)
+        }
+        if c == "(" {
+            while stack.peek() != ")" {
+                ps = stack.pop() + ps
+            }
+            if stack.peek() == ")" {
+                _ = stack.pop() // discard parentheses
+            }
+            continue // at top of loop (i.e. while input)
+        }
+        while stack.peek() not in ["(", ")"] and
+              stack.peek() has higher precedence than c {
+            ps = stack.pop() + ps
+        }
+        stack.push(c)
+      }
+    }
+  }
+  while stack not empty {
+    ps = stack.pop() + ps
+  }
+  return ps
+}
+\end{verbatim}
+\end{mdframed}
 
 \pagebreak
 
