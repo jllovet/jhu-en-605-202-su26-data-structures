@@ -1,0 +1,135 @@
+\documentclass[10pt,letterpaper,final]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\renewcommand\qedsymbol{$\blacksquare$}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{automata,arrows}
+\usepackage{mdframed}
+\usepackage[
+  backend=biber,
+  style=authoryear,
+  sorting=nyt          % sort by name, year, title
+]{biblatex}
+\addbibresource{references.bib}
+
+% Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
+
+\begin{document}
+
+\fbox{
+  \vbox{
+    \begin{flushleft}
+      Jonathan Llovet \\  % authors' names
+      EN.605.202.81 \\  %class
+      2026-06-09 \\  % date
+      Module 3 - Homework 3 \\ % ID
+    \end{flushleft}
+    \center{\Large{\textbf{Data Structures - Recursion}}}
+    %\end{mdframed}
+  } % end vbox
+} % end fbox
+\vline
+
+\noindent\textbf{Problem 1:}
+
+Write a recursive algorithm to compute \verb|a+b|, where \verb|a| and \verb|b| are nonnegative integers.
+
+\noindent\textbf{Answer:}
+
+\pagebreak
+\noindent\textbf{Problem 2:}
+
+Let \verb|A| be an array of integers. Write a recursive algorithm to compute the average of the elements of the array. Solutions calculating the sum recursively, instead of the average, are worth fewer points.
+
+\noindent\textbf{Answer:}
+
+\pagebreak
+\noindent\textbf{Problem 3:}
+
+If an array contains \verb|n| elements, what is the maximum number of recursive calls made by the binary search algorithm?
+
+\noindent\textbf{Answer:}
+
+\pagebreak
+\noindent\textbf{Problem 4:}
+
+The expression \verb|m \% n| yields the remainder of \verb|m| upon (integer) division by \verb|n|. Define the greatest common divisor (GCD) of two integers \verb|x| and \verb|y| by:
+\begin{itemize}
+  \item \verb|gcd(x, y) = y if (y \le x and x\%y == 0)|
+  \item \verb|gcd(x, y) = gcd(y, x) if (x < y)|
+  \item \verb|gcd(x, y) = gcd(y, x\%y) otherwise|
+\end{itemize}
+
+Write a recursive method to compute \verb|gcd(x,y)|.
+
+\noindent\textbf{Answer:}
+
+\pagebreak
+\noindent\textbf{Problem 5:}
+
+A generalized Fibonacci function is like the standard Fibonacci function,, except that the starting points are passed in as parameters. Define the generalized Fibonacci sequence of \verb|f0| and \verb|f1| as the sequence
+
+\verb|gfib( f0, f1, 0), gfib(f0, f1, 1), gfib(f0, f1, 2), ...,| where
+\begin{itemize}
+  \item \verb|gfib(f0, f1, 0) = f0|
+  \item \verb|gfib(f0, f1, 1) = f1|
+  \item \verb|gfib(f0, f1, n) = gfib(f0, f1, n-1) + gfib(f0, f1, n-2) if n> 1|
+\end{itemize}
+
+Write a recursive method to compute \verb|gfib(f0,f1,n)|.
+
+\noindent\textbf{Answer:}
+
+\pagebreak
+\noindent\textbf{Problem 6:}
+
+Ackerman's function is defined recursively on the nonnegative integers as follows:
+\begin{itemize}
+  \item \verb|a(m, n) = n + 1 if m = 0|
+  \item \verb|a(m, n) = a(m-1, 1) if m \ne 0, n = 0|
+  \item \verb|a(m, n) = a(m-1, a(m, n-1)) if m \ne 0, n \ne 0|
+\end{itemize}
+Using the above definition, show that \verb|a(2,2)| equals \verb|7|.
+
+\noindent\textbf{Answer:}
+
+\pagebreak
+\noindent\textbf{Problem 7:}
+
+Convert the following recursive program scheme into an iterative version that does not use a stack. \verb|f(n)| is a method that returns \verb|TRUE| or \verb|FALSE| based on the value of \verb|n|, and \verb|g(n)| is a method that returns a value of the same type as \verb|n| (without modifying \verb|n| itself).
+
+\begin{mdframed}
+\begin{verbatim}
+int rec(int n) {
+  if (f(n) == FALSE) {
+    /* any group of statements that
+    do not change the value of n */
+    return (rec(g(n)));
+  }//end if
+  return (0);
+}//end rec
+\end{verbatim}
+\end{mdframed}
+
+\noindent\textbf{Answer:}
+
+\pagebreak
+
+\section*{Source Code}
+The full source code, including LaTeX, tooling, other artifacts, and git history is available on my Github repository for the class here:
+\begin{center}
+  \url{https://github.com/jllovet/jhu-en-605-202-su26-data-structures}
+\end{center}
+
+\printbibliography
+
+\end{document}
