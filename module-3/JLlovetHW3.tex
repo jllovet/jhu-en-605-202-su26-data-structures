@@ -45,6 +45,18 @@ Write a recursive algorithm to compute \verb|a+b|, where \verb|a| and \verb|b| a
 
 \noindent\textbf{Answer:}
 
+\begin{mdframed}
+\begin{verbatim}
+function add(a,b) {
+  if b == 0 {
+    return a
+  } else {
+    return add(a+1,b-1)
+  }
+}
+\end{verbatim}
+\end{mdframed}
+
 \pagebreak
 \noindent\textbf{Problem 2:}
 
