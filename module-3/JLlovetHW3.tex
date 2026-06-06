@@ -64,6 +64,37 @@ Let \verb|A| be an array of integers. Write a recursive algorithm to compute the
 
 \noindent\textbf{Answer:}
 
+The algorithm below takes advantage of the identity:
+\[
+\frac{a + b + c}{n} = \frac{a}{n} + \frac{b}{n} + \frac{c}{n}
+\]
+
+In the function below, I mean \verb|tail(a)| as a function that returns an array \verb|a'| that is all of the elements of \verb|a| from index 1 to the end. For example: \[\verb|tail([1,2,3]) -> [2,3]|.\]
+
+\begin{mdframed}
+\begin{verbatim}
+function running_average(A){
+    // Length of original A used for running average
+    len_A = A.length
+    // Initialize the running average to 0
+    running = 0
+    // Define internal procedure for perfoming the recursion
+    function avg(A, running, len_A){
+        // Base case
+        if A.length == 0 {
+            return running
+        }
+        // Recursive case
+        running = running + A[0]/len_A
+        // Call with tail of A
+        return avg(tail(A), running, len_A)
+    }
+    // Call it
+    return avg(A, running, len_A)    
+}
+\end{verbatim}
+\end{mdframed}
+
 \pagebreak
 \noindent\textbf{Problem 3:}
 
