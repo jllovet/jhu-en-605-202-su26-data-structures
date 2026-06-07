@@ -131,6 +131,24 @@ Write a recursive method to compute \verb|gcd(x,y)|.
 
 \noindent\textbf{Answer:}
 
+The function is very straightforward from this specification:
+
+\begin{mdframed}
+\begin{verbatim}
+function gcd(x, y){
+  if y <= x and x % y == 0 {
+    return y
+  }
+  if x < y {
+    return gcd(y,x)
+  }  
+  else {
+    return gcd(y, x%y)
+  }
+}
+\end{verbatim}
+\end{mdframed}
+
 \pagebreak
 \noindent\textbf{Problem 5:}
 
