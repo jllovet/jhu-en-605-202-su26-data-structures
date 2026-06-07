@@ -21,6 +21,9 @@
 ]{biblatex}
 \addbibresource{references.bib}
 
+\usepackage{minted}
+\usemintedstyle{colorful}
+
 % Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
 
 \begin{document}
@@ -101,6 +104,17 @@ function running_average(A){
 If an array contains \verb|n| elements, what is the maximum number of recursive calls made by the binary search algorithm?
 
 \noindent\textbf{Answer:}
+
+This is discussed in our textbook \cite{zybooks-ds2026} in section 3.6 ``Analyzing the time complexity of recursive algorithms''. What is the reasoning? For an input of size \verb|n|, binary search can be analyzed into two cases, the base case and the recursive case. In the base case, the position is found or is determined to be absent from the array. That requires a single call to the binary search function. In the recursive case, binary search is called on half of the list in the current scope, i.e., $n/{2}^1$, $n/{2}^2$, $n/{2}^3$, and so forth. The number of these recursive calls is dependent on the size of $n$. Since the size of the sublist that is searched is halved each time that the binary search function is called, $\log_{2}n$ calls are required for the recursive case. Therefore, presuming a correct implementation and that the input list is sorted, for a sorted input list of length $n$, there are $\lfloor 1 + \log_{2}n \rfloor$ calls to binary search required in the worst case to find the item or to determine that it is not in the list. When the input list has a size that is not a power of $2$, the $\log_{2}n \not \in \mathbb{Z}$. But the number of steps taken by the algorithm must be some $x \in \mathbb{Z}^+$. In light of this, we round down here to the highest integer less than the actual value of $1 + \log_{2}n$. The script below can be used to compare values of $1 + \log_{2}n$ for various values of $n$ to validate this empirically.
+
+\inputminted[breaklines=true,fontsize=\footnotesize]{python}{m3p3-bs.py}
+
+\pagebreak
+
+A sample of the output from the the script above for $1 \le x \le 10$:
+
+\inputminted[breaklines=true,fontsize=\footnotesize]{json}{experiment-results.json}
+
 
 \pagebreak
 \noindent\textbf{Problem 4:}
