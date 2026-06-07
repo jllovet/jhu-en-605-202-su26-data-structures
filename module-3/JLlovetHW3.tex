@@ -120,11 +120,11 @@ A sample of the output from the the script above for $1 \le x \le 10$:
 \pagebreak
 \noindent\textbf{Problem 4:}
 
-The expression \verb|m \% n| yields the remainder of \verb|m| upon (integer) division by \verb|n|. Define the greatest common divisor (GCD) of two integers \verb|x| and \verb|y| by:
+The expression \verb|m % n| yields the remainder of \verb|m| upon (integer) division by \verb|n|. Define the greatest common divisor (GCD) of two integers \verb|x| and \verb|y| by:
 \begin{itemize}
-  \item \verb|gcd(x, y) = y if (y \le x and x\%y == 0)|
-  \item \verb|gcd(x, y) = gcd(y, x) if (x < y)|
-  \item \verb|gcd(x, y) = gcd(y, x\%y) otherwise|
+  \item $gcd(x, y) = y$ if $(y \le x$ and $x\%y == 0)$
+  \item $gcd(x, y) = gcd(y, x)$ if $(x < y)$
+  \item $gcd(x, y) = gcd(y, x\%y)$ otherwise
 \end{itemize}
 
 Write a recursive method to compute \verb|gcd(x,y)|.
