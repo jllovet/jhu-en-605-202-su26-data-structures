@@ -165,6 +165,24 @@ Write a recursive method to compute \verb|gfib(f0,f1,n)|.
 
 \noindent\textbf{Answer:}
 
+This problem is similarly straightforward from the specification.
+
+\begin{mdframed}
+\begin{verbatim}
+function gfib(f0, f1, n) {
+  if n == 0 {
+    return f0
+  }   
+  if n == 1 {
+    return f1
+  }   
+  if n > 1 {
+    return gfib(f0, f1, n-1) + gfib(f0, f1, n-2)
+  }       
+}
+\end{verbatim}
+\end{mdframed}
+
 \pagebreak
 \noindent\textbf{Problem 6:}
 
