@@ -26,6 +26,7 @@
 *.synctex(busy)
 *.run.xml
 *.bcf
+*_minted
 
 # latexindent backup files
 *.bak*
