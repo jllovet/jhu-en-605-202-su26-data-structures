@@ -226,6 +226,22 @@ int rec(int n) {
 
 \noindent\textbf{Answer:}
 
+The recursive function is called with g(n) each time the function is called after the initial invocation. Presuming that \verb|f(n)| returns \verb|FALSE| so that \verb|rec(g(n))| is called, if \verb|g(n)| returns a value equal to \verb|n| every time, then the function \verb|rec| will continue to recurse forever or until the resources of the machine are exhaused. If however \verb|g(n)| returns a different value than \verb|n|, then the recursion may eventually terminate, depending on whether the value of \verb|g| composed with itself repeatedly approaches a value \verb|x| such that \verb|f(x)| returns \verb|TRUE| or not. This can happen, for example, in ways that we have seen in the other exercises, where there is a recurrence relation in which \verb|g| composed with itself several times causes its argument to decrement towards \verb|1| or \verb|0|. Ultimately, in this general form, the termination of the function overall is dependent on the value of \verb|f(n)|. An iterative scheme that achieves this behavior is a while loop that has \verb|f(n)| as the predicate for the while loop to check, then \verb|g(n)| as a function that may increment or modify the value of \verb|n| that is in scope for \verb|f(n)|. The same characteristics about the possible termination or infinite looping of the outer function hold for the iterative function below as they did for the recursive case in the prompt.
+
+
+\begin{mdframed}
+\begin{verbatim}
+int iterative(int n){
+  while (f(n) == FALSE) {
+    /*actions that don't mutate n*/
+    n = g(n)
+  }
+  return 0
+}
+\end{verbatim}
+\end{mdframed}
+
+
 \pagebreak
 
 \section*{Source Code}
