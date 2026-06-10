@@ -89,7 +89,6 @@ function running_average(A){
         }
         // Recursive case
         running = running + A[0]/len_A
-        // Call with tail of A
         return avg(tail(A), running, len_A)
     }
     // Call it
@@ -97,6 +96,24 @@ function running_average(A){
 }
 \end{verbatim}
 \end{mdframed}
+
+Or, equivalently and more simply:
+
+\begin{mdframed}
+\begin{verbatim}
+function avg(A, running, len_A){
+    if A.length == 0 {
+        return running
+    }
+    // length of original A passed down
+    running = running + A[0]/len_A
+    return avg(tail(A), running, len_A)
+}
+\end{verbatim}
+\end{mdframed}
+
+This can be called as: \verb|avg(A, 0, A.length)|
+
 
 \pagebreak
 \noindent\textbf{Problem 3:}
