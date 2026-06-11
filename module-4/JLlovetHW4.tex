@@ -1,0 +1,93 @@
+\documentclass[10pt,letterpaper,final]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\renewcommand\qedsymbol{$\blacksquare$}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{automata,arrows}
+\usepackage{mdframed}
+\usepackage[
+  backend=biber,
+  style=authoryear,
+  sorting=nyt          % sort by name, year, title
+]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{minted}
+\usemintedstyle{colorful}
+
+% Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
+
+\begin{document}
+
+\fbox{
+  \vbox{
+    \begin{flushleft}
+      Jonathan Llovet \\  % authors' names
+      EN.605.202.81 \\  %class
+      2026-06-16 \\  % date
+      Module 4 - Homework 4 \\ % ID
+    \end{flushleft}
+    \center{\Large{\textbf{Data Structures - Queues and Lists}}}
+    %\end{mdframed}
+  } % end vbox
+} % end fbox
+\vline
+
+Write pseudo-code for problems requiring code. Do not write Java, Python or C++. You are responsible for the appropriate level of detail.  For the questions asking for justification, please provide a detailed mathematically oriented discussion. A proof is not required.
+
+\medskip
+
+\noindent\textbf{Problem 1:}
+
+Develop an ADT specification for a priority queue.  A priority queue is like a FIFO queue except that items are ordered by some priority setting instead of time. In fact, you may think of a FIFO queue as a priority queue in which the time stamp is used to define priority.
+
+\medskip
+\noindent\textbf{Answer:}
+
+\pagebreak
+
+\noindent\textbf{Problem 2:}
+
+Write an algorithm to reverse a singly linked list, so that the last element become the first and so on. Do NOT use Deletion - rearrange the pointers.
+
+\medskip
+\noindent\textbf{Answer:}
+
+\pagebreak
+
+\noindent\textbf{Problem 3:}
+
+What is the average number of nodes accessed in search for a particular element in an unordered list? In an ordered list? In an unordered array? In an ordered array? Note that a list could be implemented as a linked structure or within an array.
+
+\medskip
+\noindent\textbf{Answer:}
+
+\pagebreak
+
+\noindent\textbf{Problem 4:}
+
+Write a routine to interchange the mth and nth elements of a singly-linked list. You may assume that the ranks m and n are passed in as parameters. Allow for all the ways that m and n can occur. You must rearrange the pointers, not simply swap the contents.
+
+\medskip
+\noindent\textbf{Answer:}
+
+\pagebreak
+
+\section*{Source Code}
+The full source code, including LaTeX, tooling, other artifacts, and git history is available on my Github repository for the class here:
+\begin{center}
+  \url{https://github.com/jllovet/jhu-en-605-202-su26-data-structures}
+\end{center}
+
+\printbibliography
+
+\end{document}
