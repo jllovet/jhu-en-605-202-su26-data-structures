@@ -6,8 +6,12 @@
 # Generally used to process command line arguments and 'launch' the program
 from pathlib import Path
 import argparse
+import logging
 
 from lab1 import process_files
+
+logging.basicConfig(filename='lab1.log', level=logging.INFO)
+logging.info("setting up lab1...")
 
 # Argument parser is an amazing tool. It's worth mastering
 arg_parser = argparse.ArgumentParser()
