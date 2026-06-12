@@ -8,6 +8,9 @@ class Stack:
     def is_full(self) -> bool:
         return True
 
+    def peek(self) -> str:
+        return ""
+    
     def pop(self) -> str:
         return ""
 
