@@ -139,7 +139,7 @@ This algorithm takes linear time, reversing the list in a single pass. Previousl
 \noindent\textbf{Answer:}
 
 \begin{mdframed}
-\begin{verbatim}
+  \begin{verbatim}
 function reverse(list: LinkedList) {
     # special cases: empty, single element
     
@@ -195,7 +195,65 @@ Write a routine to interchange the mth and nth elements of a singly-linked list.
 
 \medskip
 \noindent\textbf{Answer:}
+{\small
+  \begin{mdframed}
+    \begin{verbatim}
+function swap(seq: LinkedList, m, n: int) {
+    # degenerate cases
+    if seq.head == null or seq.head.next == null {
+        return
+    }
+    if m > (seq.length - 1) or n > (seq.length - 1) or m == n {
+        return # Error or Exception
+    }
+    # legitimate cases
+    if m > n {
+        a = n
+        b = m
+    }
+    if n > m {
+        a = m
+        b = n
+    }
+    # From here we know that b > a by the above two blocks
+    a_current = seq.head
+    b_current = seq.head
+    a_previous = a_current
+    b_previous = b_current
+    a_pos = 0 # need these to know when to stop iterating
+    b_pos = 0 # need these to know when to stop iterating
+    while (b_previous.next != null) and (b_pos < b) {
+        if a_pos < a { # we know that a_current.next is not null
+            a_previous = a_current
+            a_current = a_current.next
+            a_pos += 1
+        }
+        b_previous = b_current
+        b_current = b_current.next
+        b_pos += 1
+    }
+    # special case where a == 0
+    if a == 0 {
+        tmp = b_current.next
+        b_current.next = a_current.next
+        b_previous.next = a_current
+        a_current.next = tmp
+        # Note: here we are NOT setting a_previous.next
+        # because in this case it is the head of the list
+    }
+    # all other remaining cases
+    if a > 0 {
+        tmp = b_current.next
+        b_current.next = a_current.next
+        b_previous.next = a_current
+        a_previous.next = b_current
+        a_current.next = tmp
+    }
+}
+\end{verbatim}
+  \end{mdframed}
 
+}
 \pagebreak
 
 \section*{Source Code}

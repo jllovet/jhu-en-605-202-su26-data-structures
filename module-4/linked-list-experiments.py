@@ -62,12 +62,64 @@ def reverse(seq: LinkedList):
     return seq # all done!
 
 
+def swap(seq: LinkedList, m, n: int):
+    # degenerate cases
+    if seq.head is None:
+        return
+    if seq.head.next is None:
+        return
+    if m > (seq.length - 1):
+        return # Error or Exception
+    if n > (seq.length - 1):
+        return # Error or Exception
+    # legitimate cases
+    if m == n:
+        return # no operation
+    # use aliases to reduce to a simple case
+    if m > n:
+        a = n
+        b = m
+    elif n > m:
+        a = m
+        b = n
+    # b > a
+    a_current = seq.head
+    b_current = seq.head
+    a_pos = 0
+    b_pos = 0
+    a_previous = a_current
+    b_previous = b_current
+    while (b_previous.next is not None) and (b_pos < b): #type:ignore
+        if a_pos < a: # we know that a_current.next is not None
+            a_previous = a_current
+            a_current = a_current.next #type:ignore
+            a_pos += 1
+        b_previous = b_current
+        b_pos += 1
+        b_current = b_current.next #type:ignore
+    if a == 0:
+        tmp = b_current.next #type:ignore
+        b_current.next = a_current.next #type:ignore
+        b_previous.next = a_current #type:ignore
+        a_current.next = tmp #type:ignore
+    if a > 0:
+        tmp = b_current.next #type:ignore
+        b_current.next = a_current.next #type:ignore
+        b_previous.next = a_current #type:ignore
+        a_previous.next = b_current #type:ignore
+        a_current.next = tmp #type:ignore
+
+
 q = LinkedList()
+q.append(0)
 q.append(1)
 q.append(2)
 q.append(3)
 q.append(4)
 q.append(5)
 q.append(6)
-reverse(q)
+# reverse(q)
+# traverse(q)
+
+swap(q,5,4)
 traverse(q)
