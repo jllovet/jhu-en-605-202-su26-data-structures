@@ -133,8 +133,50 @@ For all the functions below, a required precondition is that \verb|q| exists and
 
 Write an algorithm to reverse a singly linked list, so that the last element become the first and so on. Do NOT use Deletion - rearrange the pointers.
 
+This algorithm takes linear time, reversing the list in a single pass. Previously I attempted to solve this recursively, using the pattern that was demonstrated in \cite{zybooks-ds2026} for traversing a linked list in reverse order through intentional ordering of recursive calls, but actually modifying the list started to become fairly involved with that strategy - not to mention that it used a fairly significant amount of space. So, I opted for this simpler option, where I have a sliding window of attention on the list. After handling a few special cases, there is a sliding window of three nodes at play, and we change the direction of the current node's next pointer to go back to the previous node before we slide the attention frame forward one node. This is performed in a while loop until we reach the boundary case represented by the end of the list, after which we can perform the reassignment of the head of the list to what was previously the tail, and the reversal is complete.
+
 \medskip
 \noindent\textbf{Answer:}
+
+\begin{mdframed}
+\begin{verbatim}
+function reverse(list: LinkedList) {
+    # special cases: empty, single element
+    
+    # empty
+    if list.head == null {
+        return list
+    }
+
+    previous = list.head # initialize
+    
+    # single element (no reversal required)
+    if previous.next == null {
+        return list
+    } 
+    
+    # standard cases from here
+
+    current = previous.next # start incrementing
+    previous.next = null # reverse pointer for head (special case)
+    
+    # body
+    while current.next != null {   
+        next = current.next # store next node
+        current.next = previous # reverse pointer
+        previous = current # increment forward
+        current = next # increment forward
+    }
+
+    # tail
+    list.head = current # set head to last node
+    current.next = previous # reverse pointer
+    
+    # all done!
+    return list
+}
+\end{verbatim}
+\end{mdframed}
 
 \pagebreak
 
