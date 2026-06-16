@@ -94,7 +94,7 @@ All references to \verb|q| in the following will be of type \verb|PriorityQueue|
 
 \noindent\textbf{Operations}
 
-In the table below, \emph{Purity} refers to whether there are side effects to a function, i.e. whether it modifies external state. A verb that is pure is idempotent and does not change external state. It receives a value as an input and usually produces a value as an output. A function that is not pure, in contrast, may produce a side effect, modifying state outside of itself.
+In the table below, \emph{Purity} refers to whether there are side effects to a function, i.e. whether it modifies external state. A verb that is pure is idempotent and does not change external state. It receives a value as an input and usually produces a value as an output. A function that is not pure, in contrast, may produce a side effect, modifying state outside of variables within its own scope. In this ADT specification, I will default to the OOP design strategy, in which the underlying data of the object \verb|q| is modified, rather than returning a new object to avoid modification of the original data, which is preferable in many other contexts.
 
 \medskip
 \begin{center}
