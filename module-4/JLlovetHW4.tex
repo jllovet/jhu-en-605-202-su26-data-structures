@@ -24,6 +24,8 @@
 
 \usepackage{minted}
 \usemintedstyle{colorful}
+\usepackage{tabularx}
+
 
 % Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
 
@@ -54,6 +56,63 @@ Develop an ADT specification for a priority queue.  A priority queue is like a F
 
 \medskip
 \noindent\textbf{Answer:}
+\medskip
+
+\noindent\textbf{Priority Queue ADT}
+
+\medskip
+
+All references to \verb|q| in the following will be of type \verb|PriorityQueue|. That is, in the tables, \verb|q| can be read as the expression \verb|q: PriorityQueue|.
+
+\noindent\textbf{Data}
+
+\noindent\verb|q: PriorityQueue|
+
+\begin{center}
+  \begin{tabularx}{\textwidth}{|l|l|X|}
+    \hline
+    Field  & Type                  & Description                                                                                                                                                                                                   \\ \hline
+    front  & \verb+a: Node | Null+ & Node at the front of the queue, i.e. the node with the highest priority                                                                                                                                       \\ \hline
+    back   & \verb+b: Node | Null+ & Node at the back of the queue, i.e. the node with the lowest priority                                                                                                                                         \\ \hline
+    length & \verb+x: int+         & Number of nodes in the queue. $x \in \mathbb{Z}\ \vert\ 0 \le x \le$ \verb|MAX_INT|, where \verb|MAX_INT| is the largest integer supported by the language or operating system or another external constraint \\ \hline
+  \end{tabularx}
+\end{center}
+
+\noindent\verb|n: Node|
+
+\begin{center}
+  \begin{tabularx}{\textwidth}{|l|l|X|}
+    \hline
+    Field    & Type                   & Description                                                          \\ \hline
+    data     & \verb|t: T|            & The data held by the node, here described as a generic type \verb|T| \\ \hline
+    next     & \verb+m: Node* | Null+ & Pointer to the next node in \verb|q|                                 \\ \hline
+    priority & \verb|p: int|          & Integer value used for determining position of the node in \verb|q|  \\ \hline
+  \end{tabularx}
+\end{center}
+
+\pagebreak
+
+\noindent\textbf{Operations}
+
+In the table below, \emph{Purity} refers to whether there are side effects to a function, i.e. whether it modifies external state. A verb that is pure is idempotent and does not change external state. It receives a value as an input and usually produces a value as an output. A function that is not pure, in contrast, may produce a side effect, modifying state outside of itself.
+
+\medskip
+\begin{center}
+  \begin{tabularx}{\textwidth}{|l|l|X|X|X|X|X|}
+    \hline
+    Operation       & Purity & Input    & Precondition              & Process                                                           & Postcondition & Output  \\ \hline
+    \verb|is_empty| & Pure   & \verb|q| & \verb|q| must be non-null & Check length of \verb|q| and return whether it is currently empty & None          & Boolean \\ \hline
+    \verb|enqueue|  &        & Input    & Precondition              & Process                                                           & Postcondition & Output  \\ \hline
+    \verb|dequeue|  &        & Input    & Precondition              & Process                                                           & Postcondition & Output  \\ \hline
+    \verb|contains| &        & Input    & Precondition              & Process                                                           & Postcondition & Output  \\ \hline
+    \verb|iterate|  &        & Input    & Precondition              & Process                                                           & Postcondition & Output  \\ \hline
+    \verb|remove|   &        & Input    & Precondition              & Process                                                           & Postcondition & Output  \\ \hline
+    \verb|clear|    &        & Input    & Precondition              & Process                                                           & Postcondition & Output  \\ \hline
+    \verb|promote|  &        & Input    & Precondition              & Process                                                           & Postcondition & Output  \\ \hline
+    \verb|demote|   &        & Input    & Precondition              & Process                                                           & Postcondition & Output  \\ \hline
+    \verb|shuffle|  &        & Input    & Precondition              & Process                                                           & Postcondition & Output  \\ \hline
+  \end{tabularx}
+\end{center}
 
 \pagebreak
 
