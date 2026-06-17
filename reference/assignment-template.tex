@@ -1,4 +1,5 @@
-\documentclass[12pt,letterpaper,final]{report}
+\documentclass[10pt,letterpaper,final]{report}
+\usepackage[margin=1in]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -16,15 +17,20 @@
 \usepackage{mdframed}
 \usepackage[
   backend=biber,
-  style=authoryear,
-  sorting=nyt          % sort by name, year, title
+  style=numeric-comp,
+  sorting=none
 ]{biblatex}
 \addbibresource{references.bib}
+
+\usepackage{minted}
+\usemintedstyle{colorful}
+\usepackage{xltabular}
+\usepackage{pdflscape}
 
 % Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
 
 \begin{document}
-
+\begin{center}
 \fbox{
   \vbox{
     \begin{flushleft}
@@ -38,7 +44,7 @@
   } % end vbox
 } % end fbox
 \vline
-
+\end{center}
 
 \noindent\textbf{Problem 1:}  Here is the solution for problem 1.
 
