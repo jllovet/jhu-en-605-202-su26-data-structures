@@ -155,6 +155,14 @@ class TestStack(unittest.TestCase):
         self.assertEqual(stack.peek(), bottom)
         _ = stack.peek()
         self.assertEqual(stack.peek(), bottom)
+    
+    def test_peek_does_not_modify_stack_data(self):
+        stack = s.Stack()  # unbounded
+        stack.push("a")
+        stack.push("b")
+        self.assertEqual(stack.data, ["a", "b"])
+        _ = stack.peek()
+        self.assertEqual(stack.data, ["a", "b"])
 
     def test_peek_before_and_after_stack_modification_returns_different_values(self):
         stack = s.Stack()  # unbounded
