@@ -1,9 +1,10 @@
 class Stack:
     def __init__(self, max_height: int = -1):
-        pass
+        self.max_height = max_height
+        self.data = []
 
     def is_empty(self) -> bool:
-        return True
+        return len(self.data) == 0
 
     def is_full(self) -> bool:
         return False
@@ -15,4 +16,6 @@ class Stack:
         return ""
 
     def push(self, item: str) -> None:
-        pass
+        if self.max_height == 0:
+            return
+        self.data.append(item)
