@@ -9,6 +9,9 @@ class Stack:
 
     def is_full(self) -> bool:
         return self.height == self.max_height
+    
+    def contains(self, item) -> bool:
+        return item in self.data
 
     def peek(self) -> str | None:
         if self.is_empty():

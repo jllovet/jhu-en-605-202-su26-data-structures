@@ -155,7 +155,7 @@ class TestStack(unittest.TestCase):
         self.assertEqual(stack.peek(), bottom)
         _ = stack.peek()
         self.assertEqual(stack.peek(), bottom)
-    
+
     def test_peek_does_not_modify_stack_data(self):
         stack = s.Stack()  # unbounded
         stack.push("a")
@@ -175,6 +175,46 @@ class TestStack(unittest.TestCase):
         peeked_top = stack.peek()
         self.assertEqual(top, peeked_top)
         self.assertNotEqual(peeked_top, peeked_bottom)
+
+    def test_contains_returns_false_if_stack_is_empty(self):
+        stack = s.Stack()  # unbounded
+        self.assertFalse(stack.contains("a"))
+
+    def test_contains_returns_true_if_item_in_stack(self):
+        stack = s.Stack()  # unbounded
+        stack.push("a")
+        self.assertTrue(stack.contains("a"))
+
+    def test_contains_is_idempotent(self):
+        stack = s.Stack()  # unbounded
+        stack.push("a")
+        self.assertTrue(stack.contains("a"))
+        self.assertFalse(stack.contains("b"))
+        self.assertTrue(stack.contains("a"))
+
+    def test_contains_returns_different_values_after_stack_modification(self):
+        stack = s.Stack()  # unbounded
+        stack.push("a")
+        self.assertTrue(stack.contains("a"))
+        self.assertFalse(stack.contains("b"))
+        stack.push("b")
+        self.assertTrue(stack.contains("a"))
+        self.assertTrue(stack.contains("b"))
+
+    def test_contains_does_not_modify_stack_height(self):
+        stack = s.Stack()  # unbounded
+        stack.push("a")
+        self.assertEqual(stack.height, 1)
+        _ = stack.contains("a")
+        self.assertEqual(stack.height, 1)
+
+    def test_contains_does_not_modify_stack_data(self):
+        stack = s.Stack()  # unbounded
+        stack.push("a")
+        stack.push("b")
+        self.assertEqual(stack.data, ["a", "b"])
+        _ = stack.contains(None)
+        self.assertEqual(stack.data, ["a", "b"])
 
 
 if __name__ == "__main__":
