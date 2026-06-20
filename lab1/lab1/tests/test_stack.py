@@ -23,6 +23,12 @@ class TestStack(unittest.TestCase):
         stack = s.Stack() # unbounded
         self.assertTrue(stack.push("a"))
     
+    def test_push_increments_stack_height(self):
+        stack = s.Stack() # unbounded
+        self.assertEqual(stack.height,0)
+        stack.push("a")
+        self.assertEqual(stack.height,1)
+    
     def test_push_returns_false_if_stack_has_0_capacity(self):
         zero_stack = s.Stack(0)
         self.assertFalse(zero_stack.push("a"))
