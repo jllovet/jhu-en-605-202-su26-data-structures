@@ -19,9 +19,9 @@ class TestStack(unittest.TestCase):
         stack.push("a")
         self.assertFalse(stack.is_empty())
 
-    def test_push_returns_true_if_successful(self):
+    def test_push_returns_None_if_successful(self):
         stack = s.Stack() # unbounded
-        self.assertTrue(stack.push("a"))
+        self.assertIsNone(stack.push("a"))
     
     def test_push_increments_stack_height(self):
         stack = s.Stack() # unbounded
@@ -31,7 +31,8 @@ class TestStack(unittest.TestCase):
     
     def test_push_returns_false_if_stack_has_0_capacity(self):
         zero_stack = s.Stack(0)
-        self.assertFalse(zero_stack.push("a"))
+        with self.assertRaises(OverflowError):
+            zero_stack.push("a")
     
     def test_push_returns_false_if_stack_is_full(self):
         bounded_stack = s.Stack(10) # bounded
@@ -39,7 +40,32 @@ class TestStack(unittest.TestCase):
             bounded_stack.push("a")
         self.assertEqual(bounded_stack.height, 10)
         self.assertEqual(bounded_stack.max_height, 10)
-        self.assertFalse(bounded_stack.push("a"))
+        with self.assertRaises(OverflowError):
+            bounded_stack.push("a")
+    
+    def test_push_on_full_stack_raises_overflow_error(self):
+        bounded_stack = s.Stack(2) # bounded
+        bounded_stack.push("a")
+        bounded_stack.push("b")
+        with self.assertRaises(OverflowError):
+            bounded_stack.push("c")
+
+
+    def test_push_on_full_stack_does_not_change_height(self):
+        bounded_stack = s.Stack(2) # bounded
+        bounded_stack.push("a")
+        bounded_stack.push("b")
+        self.assertEqual(bounded_stack.max_height, 2)
+        self.assertEqual(bounded_stack.height, 2)
+        self.assertEqual(bounded_stack.max_height, bounded_stack.height)
+        try:
+            bounded_stack.push("c")
+        except OverflowError:
+            pass    
+        self.assertEqual(bounded_stack.max_height, 2)
+        self.assertEqual(bounded_stack.height, 2)
+        self.assertEqual(bounded_stack.max_height, bounded_stack.height)
+
 
     def test_pop_returns_element_from_top_of_non_empty_stack(self):
         stack = s.Stack()

@@ -19,9 +19,9 @@ class Stack:
         self.height -= 1
         return self.data.pop()
 
-    def push(self, item: str) -> bool:
+    def push(self, item: str) -> None:
         if self.height == self.max_height:
-            return False
+            raise OverflowError("cannot push onto stack because it is full")
         self.data.append(item)
         self.height += 1
-        return True
+        return None
