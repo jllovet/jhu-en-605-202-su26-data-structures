@@ -56,6 +56,12 @@ class TestStack(unittest.TestCase):
         self.assertEqual(stack.height, 1)
         stack.pop()
         self.assertEqual(stack.height, 0)
+    
+    def test_pop_on_empty_does_not_affect_height(self):
+        stack = s.Stack()
+        self.assertEqual(stack.height, 0)
+        stack.pop()
+        self.assertEqual(stack.height, 0)
 
 if __name__ == "__main__":
     unittest.main()
