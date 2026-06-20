@@ -1,5 +1,5 @@
 class Stack:
-    def __init__(self, max_height: int):
+    def __init__(self, max_height: int = -1):
         pass
 
     def is_empty(self) -> bool:
