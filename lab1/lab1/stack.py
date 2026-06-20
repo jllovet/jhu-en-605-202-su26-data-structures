@@ -10,8 +10,11 @@ class Stack:
     def is_full(self) -> bool:
         return self.height == self.max_height
 
-    def peek(self) -> str:
-        return ""
+    def peek(self) -> str | None:
+        if self.is_empty():
+            return None
+        idx = len(self.data) - 1 # end of the array
+        return self.data[idx]
     
     def pop(self) -> str | None:
         if self.data == []:

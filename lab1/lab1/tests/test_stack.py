@@ -19,7 +19,7 @@ class TestStack(unittest.TestCase):
         stack = s.Stack()  # unbounded
         stack.push("a")
         self.assertFalse(stack.is_empty())
-    
+
     def test_stack_height_and_size_of_data_are_in_sync(self):
         stack = s.Stack()  # unbounded
         self.assertEqual(stack.height, 0)
@@ -45,15 +45,15 @@ class TestStack(unittest.TestCase):
     def test_push_returns_None_if_successful(self):
         stack = s.Stack()  # unbounded
         self.assertIsNone(stack.push("a"))
-    
+
     def test_push_raises_type_error_on_non_str(self):
-        stack = s.Stack() # unbounded
+        stack = s.Stack()  # unbounded
         with self.assertRaises(TypeError):
             # Ironically, we have to ignore the type here,
             # because it is still a dynamically typed language.
             # The type signatures in stack.py help detect type errors,
             # but they do not actually prevent them at runtime.
-            stack.push(1) # type: ignore
+            stack.push(1)  # type: ignore
 
     def test_push_increments_stack_height(self):
         stack = s.Stack()  # unbounded
@@ -118,6 +118,55 @@ class TestStack(unittest.TestCase):
         self.assertEqual(stack.height, 0)
         stack.pop()
         self.assertEqual(stack.height, 0)
+
+    def test_peek_returns_a_str_from_non_empty_stack(self):
+        stack = s.Stack()  # unbounded
+        item = "a"
+        stack.push(item)
+        self.assertEqual(stack.peek(), item)
+        self.assertIsInstance(stack.peek(), str)
+
+    def test_peek_returns_none_from_empty_stack(self):
+        stack = s.Stack()  # unbounded
+        self.assertIsNone(stack.peek())
+
+    def test_peek_returns_top_item_from_stack(self):
+        stack = s.Stack()  # unbounded
+        bottom = "a"
+        top = "b"
+        stack.push(bottom)
+        stack.push(top)
+        self.assertEqual(stack.peek(), top)
+
+    def test_peek_does_not_modify_stack_height(self):
+        stack = s.Stack()  # unbounded
+        bottom = "a"
+        top = "b"
+        stack.push(bottom)
+        stack.push(top)
+        self.assertEqual(stack.height, 2)
+        _ = stack.peek()
+        self.assertEqual(stack.height, 2)
+
+    def test_peek_is_idempotent(self):
+        stack = s.Stack()  # unbounded
+        bottom = "a"
+        stack.push(bottom)
+        self.assertEqual(stack.peek(), bottom)
+        _ = stack.peek()
+        self.assertEqual(stack.peek(), bottom)
+
+    def test_peek_before_and_after_stack_modification_returns_different_values(self):
+        stack = s.Stack()  # unbounded
+        bottom = "a"
+        top = "b"
+        stack.push(bottom)
+        peeked_bottom = stack.peek()
+        self.assertEqual(bottom, peeked_bottom)
+        stack.push(top)
+        peeked_top = stack.peek()
+        self.assertEqual(top, peeked_top)
+        self.assertNotEqual(peeked_top, peeked_bottom)
 
 
 if __name__ == "__main__":
