@@ -6,7 +6,7 @@ class Stack:
         return True
 
     def is_full(self) -> bool:
-        return True
+        return False
 
     def peek(self) -> str:
         return ""
