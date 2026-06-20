@@ -18,6 +18,14 @@ class TestStack(unittest.TestCase):
         stack = s.Stack() # unbounded
         stack.push("a")
         self.assertFalse(stack.is_empty())
+    
+    def test_stack_becomes_full_when_max_height_is_reached(self):
+        stack = s.Stack(1) # bounded
+        self.assertFalse(stack.is_full())
+        self.assertTrue(stack.is_empty())
+        stack.push("a")
+        self.assertTrue(stack.is_full())
+        self.assertFalse(stack.is_empty())
 
     def test_push_returns_None_if_successful(self):
         stack = s.Stack() # unbounded

@@ -8,7 +8,7 @@ class Stack:
         return len(self.data) == 0
 
     def is_full(self) -> bool:
-        return False
+        return self.height == self.max_height
 
     def peek(self) -> str:
         return ""
