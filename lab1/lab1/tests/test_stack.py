@@ -38,12 +38,12 @@ class TestStack(unittest.TestCase):
         stack.push("a")
         self.assertEqual(stack.height, 1)
 
-    def test_push_returns_false_if_stack_has_0_capacity(self):
+    def test_push_raises_overflow_error_if_stack_has_0_capacity(self):
         zero_stack = s.Stack(0)
         with self.assertRaises(OverflowError):
             zero_stack.push("a")
 
-    def test_push_returns_false_if_stack_is_full(self):
+    def test_push_raises_overflow_error_if_stack_is_full(self):
         bounded_stack = s.Stack(10)  # bounded
         for i in range(0, 10):
             bounded_stack.push("a")
