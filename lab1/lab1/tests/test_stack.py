@@ -35,6 +35,10 @@ class TestStack(unittest.TestCase):
         self.assertEqual(bounded_stack.max_height, 10)
         self.assertFalse(bounded_stack.push("a"))
 
+    def test_pop_returns_element_from_top_of_non_empty_stack(self):
+        stack = s.Stack()
+        stack.push("a")
+        self.assertEqual(stack.pop(), "a")
 
 
 if __name__ == "__main__":

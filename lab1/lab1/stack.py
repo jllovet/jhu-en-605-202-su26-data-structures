@@ -14,7 +14,7 @@ class Stack:
         return ""
     
     def pop(self) -> str:
-        return ""
+        return self.data.pop()
 
     def push(self, item: str) -> bool:
         if self.height == self.max_height:
