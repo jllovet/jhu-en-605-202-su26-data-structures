@@ -19,6 +19,21 @@ class TestStack(unittest.TestCase):
         self.stack.push("a")
         self.assertFalse(self.stack.is_empty())
 
+    def test_push_returns_true_if_successful(self):
+        self.assertTrue(self.stack.push("a"))
+    
+    def test_push_returns_false_if_stack_has_0_capacity(self):
+        zero_stack = s.Stack(0)
+        self.assertFalse(zero_stack.push("a"))
+    
+    def test_push_returns_false_if_stack_is_full(self):
+        for i in range(0,10):
+            self.bounded_stack.push("a")
+        self.assertEqual(self.bounded_stack.height, 10)
+        self.assertEqual(self.bounded_stack.max_height, 10)
+        self.assertFalse(self.bounded_stack.push("a"))
+
+
 
 if __name__ == "__main__":
     unittest.main()
