@@ -22,6 +22,8 @@ class Stack:
     def push(self, item: str) -> None:
         if self.height == self.max_height:
             raise OverflowError("cannot push onto stack because it is full")
+        if not isinstance(item, str):
+            raise TypeError(f"cannot push onto stack because {item} is not of type str")
         self.data.append(item)
         self.height += 1
         return None
