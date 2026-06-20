@@ -46,6 +46,16 @@ class TestStack(unittest.TestCase):
         stack.push("a")
         self.assertEqual(stack.pop(), "a")
 
+    def test_pop_returns_None_from_top_of_empty_stack(self):
+        stack = s.Stack()
+        self.assertIsNone(stack.pop())
+    
+    def test_pop_decrements_stack_height(self):
+        stack = s.Stack()
+        stack.push("a")
+        self.assertEqual(stack.height, 1)
+        stack.pop()
+        self.assertEqual(stack.height, 0)
 
 if __name__ == "__main__":
     unittest.main()

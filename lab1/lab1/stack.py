@@ -13,7 +13,10 @@ class Stack:
     def peek(self) -> str:
         return ""
     
-    def pop(self) -> str:
+    def pop(self) -> str | None:
+        if self.data == []:
+            return None
+        self.height -= 1
         return self.data.pop()
 
     def push(self, item: str) -> bool:
