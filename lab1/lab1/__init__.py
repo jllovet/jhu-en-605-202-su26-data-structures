@@ -8,3 +8,4 @@
 # process_files function. Note: other scripts and functions are still
 # accessible
 from lab1.lab1 import process_files
+from lab1.stack import Stack
