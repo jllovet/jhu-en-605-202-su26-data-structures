@@ -19,6 +19,20 @@ class TestStack(unittest.TestCase):
         stack = s.Stack()  # unbounded
         stack.push("a")
         self.assertFalse(stack.is_empty())
+    
+    def test_stack_height_and_size_of_data_are_in_sync(self):
+        stack = s.Stack()  # unbounded
+        self.assertEqual(stack.height, 0)
+        self.assertEqual(len(stack.data), 0)
+        self.assertEqual(stack.height, len(stack.data))
+        stack.push("a")
+        self.assertEqual(stack.height, 1)
+        self.assertEqual(len(stack.data), 1)
+        self.assertEqual(stack.height, len(stack.data))
+        stack.pop()
+        self.assertEqual(stack.height, 0)
+        self.assertEqual(len(stack.data), 0)
+        self.assertEqual(stack.height, len(stack.data))
 
     def test_stack_becomes_full_when_max_height_is_reached(self):
         stack = s.Stack(1)  # bounded
