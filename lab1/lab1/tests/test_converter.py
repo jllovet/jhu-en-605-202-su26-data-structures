@@ -13,21 +13,18 @@ class TestPre2Post(unittest.TestCase):
     def test_converter_pre2post_is_identity_for_single_element_prefix_expressions(self):
         prefix_expression = "A"
         postfix_expression = converter.pre2post(prefix_expression)
-        print(postfix_expression)
         self.assertTrue(postfix.is_valid(postfix_expression))
         self.assertEqual("A", postfix_expression)
         
     def test_converter_pre2post_is_identity_for_empty_prefix_expressions(self):
         prefix_expression = ""
         postfix_expression = converter.pre2post(prefix_expression)
-        print(postfix_expression)
         self.assertTrue(postfix.is_valid(postfix_expression))
         self.assertEqual("", postfix_expression)
 
     def test_converter_pre2post_returns_valid_postfix_expression(self):
         prefix_expression = "+AB"
         postfix_expression = converter.pre2post(prefix_expression)
-        print(postfix_expression)
         self.assertTrue(postfix.is_valid(postfix_expression))
         self.assertEqual("AB+", postfix_expression)
 
