@@ -1,6 +1,7 @@
 from sys import stderr
 from typing import TextIO
 import logging
+import lab1.pre2post as pre2post
 
 logging.basicConfig(filename='lab1.log', level=logging.INFO)
 
@@ -14,5 +15,6 @@ def process_files(input_file: TextIO, output_file: TextIO) -> None:
     :param input_file: An opened text file set to read mode
     :param output_file: An opened text file set to write mode
     """
+    pre2post.convert()
     logging.info("called process_files")
     print("test")
