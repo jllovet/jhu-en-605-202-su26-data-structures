@@ -6,7 +6,7 @@ import lab1.parse.parser as parser
 
 def pre2post(expression: str) -> str:
     if not prefix.is_valid(expression):
-        raise ValueError(f"{expression} is not a valid prefix expression")
+        raise ValueError(f"'{expression}' is not a valid prefix expression")
     stack = Stack()
     parentheses_stack = Stack()
     parsed_expression = parser.parse(expression=expression)
@@ -26,9 +26,7 @@ def pre2post(expression: str) -> str:
         if s == "+" or s == "-" or s == "/" or s == "*" or s == "$":
             a = stack.pop()
             b = stack.pop()
-            postfix_expression_components.append(a)
-            postfix_expression_components.append(b)
-            postfix_expression_components.append(s)
+            stack.push(f"{a}{b}{s}")
         elif isinstance(s, str):
             stack.push(s)
     while not stack.is_empty():
