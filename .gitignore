@@ -124,3 +124,6 @@ id_rsa*
 *.swp
 *.swo
 *~
+
+# Output files from labs
+lab*/**/output.txt
