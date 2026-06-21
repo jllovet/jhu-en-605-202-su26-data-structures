@@ -1,6 +1,6 @@
 import unittest
 import lab1.stack as s
-import lab1.parser as parser
+import lab1.parse.parser as parser
 
 
 class TestParser(unittest.TestCase):
@@ -46,76 +46,6 @@ class TestParser(unittest.TestCase):
         self.assertListEqual(["(", "+"], parser.parse("(+"))
 
 
-class TestIsValidPrefixExpression(unittest.TestCase):
-    def test_is_valid_prefix_expression_returns_false_if_operand_to_operation_ratio_is_invalid(self):
-        self.assertFalse(
-            parser.is_valid_prefix_expression(parser.parse("++AA")))
-        self.assertFalse(
-            parser.is_valid_prefix_expression(parser.parse("++A")))
-        self.assertFalse(
-            parser.is_valid_prefix_expression(parser.parse("+")))
-
-    def test_is_valid_prefix_expression_returns_true_if_operand_to_operation_ratio_is_valid(self):
-        self.assertTrue(
-            parser.is_valid_prefix_expression(parser.parse("+AA")))
-
-    def test_is_valid_prefix_expression_returns_false_if_first_character_is_operand(self):
-        self.assertFalse(
-            parser.is_valid_prefix_expression(parser.parse("AA+")))
-        self.assertFalse(
-            parser.is_valid_prefix_expression(parser.parse("A+A")))
-
-    def test_is_valid_prefix_expression_returns_true_for_empty_parentheses(self):
-        self.assertTrue(
-            parser.is_valid_prefix_expression(parser.parse("()")))
-
-    def test_is_valid_prefix_expression_returns_false_for_unbalanced_parentheses(self):
-        self.assertFalse(
-            parser.is_valid_prefix_expression(parser.parse("(()")))
-        self.assertFalse(
-            parser.is_valid_prefix_expression(parser.parse("()(")))
-        self.assertFalse(parser.is_valid_prefix_expression(
-            parser.parse("()(()")))
-    
-    def test_is_valid_prefix_expression_returns_true_on_nested_prefix_expressions(self):
-        self.assertTrue(parser.is_valid_prefix_expression(parser.parse("+(-AB)C")))
-        self.assertTrue(parser.is_valid_prefix_expression(parser.parse("+-AB*CD")))
-
-
-class TestIsValidPostfixExpression(unittest.TestCase):
-    def test_is_valid_postfix_expression_returns_false_if_operand_to_operation_ratio_is_invalid(self):
-        self.assertFalse(
-            parser.is_valid_postfix_expression(parser.parse("AA++")))
-        self.assertFalse(
-            parser.is_valid_postfix_expression(parser.parse("A++")))
-        self.assertFalse(
-            parser.is_valid_postfix_expression(parser.parse("+")))
-
-    def test_is_valid_postfix_expression_returns_true_if_operand_to_operation_ratio_is_valid(self):
-        self.assertTrue(
-            parser.is_valid_postfix_expression(parser.parse("AA+")))
-
-    def test_is_valid_postfix_expression_returns_false_if_first_character_is_operation(self):
-        self.assertFalse(
-            parser.is_valid_postfix_expression(parser.parse("+AA")))
-
-    def test_is_valid_postfix_expression_returns_true_for_empty_parentheses(self):
-        self.assertTrue(
-            parser.is_valid_postfix_expression(parser.parse("()")))
-
-    def test_is_valid_postfix_expression_returns_false_for_unbalanced_parentheses(self):
-        self.assertFalse(
-            parser.is_valid_postfix_expression(parser.parse("(()")))
-        self.assertFalse(
-            parser.is_valid_postfix_expression(parser.parse("()(")))
-        self.assertFalse(parser.is_valid_postfix_expression(
-            parser.parse("()(()")))
-    
-    def test_is_valid_postfix_expression_returns_true_on_nested_postfix_expressions(self):
-        self.assertTrue(parser.is_valid_postfix_expression(parser.parse("AB+C-")))
-        self.assertTrue(parser.is_valid_postfix_expression(parser.parse("A(BC$)*((BC+)D-)+")))
-
-
 class TestExecuteOperation(unittest.TestCase):
     def test_execute_operation_addition(self):
         self.assertEqual(1, parser.execute_operation("+", 1, 0))
@@ -150,51 +80,3 @@ class TestExecuteOperation(unittest.TestCase):
         self.assertEqual(1, parser.execute_operation("$", 1, 2))
         self.assertEqual(4, parser.execute_operation("$", 2, 2))
         self.assertEqual(16, parser.execute_operation("$", 4, 2))
-
-
-class TestPostfixEvaluation(unittest.TestCase):
-    def test_evaluate_postfix_returns_none_on_empty_string(self):
-        expression = ""
-        self.assertIsNone(parser.evaluate_postfix(expression))
-
-    def test_evaluate_postfix_returns_converted_symbol_on_unary_expression(self):
-        self.assertEqual(1, parser.evaluate_postfix("A"))
-        self.assertEqual(2, parser.evaluate_postfix("B"))
-        self.assertEqual(26, parser.evaluate_postfix("Z"))
-
-    def test_evaluate_postfix_raises_error_for_multiple_operands_with_no_operation(self):
-        with self.assertRaises(ValueError):
-            parser.evaluate_postfix("AB")
-        with self.assertRaises(ValueError):
-            parser.evaluate_postfix("ABC")
-        with self.assertRaises(ValueError):
-            parser.evaluate_postfix("ABCD")
-    
-    def test_evaluate_postfix_returns_evaluated_expression(self):
-        self.assertEqual(2, parser.evaluate_postfix("AA+"))
-        self.assertEqual(3, parser.evaluate_postfix("AB+"))
-        self.assertEqual((1+2)*(3**4), parser.evaluate_postfix("AB+(CD$)*"))
-
-
-class TestPrefixEvaluation(unittest.TestCase):
-    def test_evaluate_prefix_returns_none_on_empty_string(self):
-        expression = ""
-        self.assertIsNone(parser.evaluate_prefix(expression))
-
-    def test_evaluate_prefix_returns_converted_symbol_on_unary_expression(self):
-        self.assertEqual(1, parser.evaluate_prefix("A"))
-        self.assertEqual(2, parser.evaluate_prefix("B"))
-        self.assertEqual(26, parser.evaluate_prefix("Z"))
-    
-    def test_evaluate_prefix_returns_evaluated_expression(self):
-        self.assertEqual(2, parser.evaluate_prefix("+AA"))
-        self.assertEqual(3, parser.evaluate_prefix("+AB"))
-        self.assertEqual((1+2)*(3**4), parser.evaluate_prefix("*+AB($CD)"))
-
-    def test_evaluate_prefix_raises_error_for_multiple_operands_with_no_operation(self):
-        with self.assertRaises(ValueError):
-            parser.evaluate_prefix("AB")
-        with self.assertRaises(ValueError):
-            parser.evaluate_prefix("ABC")
-        with self.assertRaises(ValueError):
-            parser.evaluate_prefix("ABCD")

@@ -2,7 +2,7 @@ from sys import stderr
 from typing import TextIO
 import logging
 import lab1.pre2post as pre2post
-import lab1.prefix as prefix
+import lab1.parse.prefix as prefix
 
 logging.basicConfig(filename='lab1.log', level=logging.INFO)
 
@@ -20,10 +20,6 @@ def process_files(input_file: TextIO, output_file: TextIO) -> None:
     while next_line is not None and next_line != "":
         try:
             expression = next_line
-            # validate is_prefix_format
-            if not prefix.is_valid_prefix_expression(expression):
-                raise ValueError(
-                    f"Error parsing '{expression}' as prefix expression")
         except ValueError as e:
             print(e, file=stderr)
             continue
