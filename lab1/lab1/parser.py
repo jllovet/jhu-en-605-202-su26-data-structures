@@ -19,6 +19,7 @@ def is_valid_prefix_expression(parsed_expression: list) -> bool:
         return True
     return False
 
+
 def is_valid_postfix_expression(parsed_expression: list) -> bool:
     if len(parsed_expression) == 1 and isinstance(parsed_expression[0], int):
         return True
@@ -35,10 +36,11 @@ def evaluate_postfix(expression: str) -> int | None:
     # while input, read expression from left
     # if operand push onto stack
     # if operation
-        # pop A
-        # pop B
-        # perform operation // B op A
-        # push result
+    #    pop A
+    #    pop B
+    #    perform operation // B op A
+    #    push result
+
 
 def evaluate_prefix(expression: str) -> int | None:
     parsed_expression = parse(expression=expression)
@@ -50,8 +52,7 @@ def evaluate_prefix(expression: str) -> int | None:
     # while input, read expression from right
     # if operand push onto stack
     # if operation
-        # pop A
-        # pop B
-        # perform operation // A op B
-        # push result
-
+    #    pop A
+    #    pop B
+    #    perform operation // A op B
+    #    push result

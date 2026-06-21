@@ -50,28 +50,27 @@ class TestPostfixEvaluation(unittest.TestCase):
     def test_evaluate_postfix_returns_none_on_empty_string(self):
         expression = ""
         self.assertIsNone(parser.evaluate_postfix(expression))
-    
+
     def test_evaluate_postfix_returns_converted_symbol_on_unary_expression(self):
         self.assertEqual(1, parser.evaluate_postfix("A"))
         self.assertEqual(2, parser.evaluate_postfix("B"))
         self.assertEqual(26, parser.evaluate_postfix("Z"))
-    
+
     def test_evaluate_postfix_raises_error_for_multiple_operands_with_no_operation(self):
         with self.assertRaises(ValueError):
             parser.evaluate_postfix("AB")
-        
 
 
 class TestPrefixEvaluation(unittest.TestCase):
     def test_evaluate_prefix_returns_none_on_empty_string(self):
         expression = ""
         self.assertIsNone(parser.evaluate_prefix(expression))
-    
+
     def test_evaluate_prefix_returns_converted_symbol_on_unary_expression(self):
         self.assertEqual(1, parser.evaluate_prefix("A"))
         self.assertEqual(2, parser.evaluate_prefix("B"))
         self.assertEqual(26, parser.evaluate_prefix("Z"))
-    
+
     def test_evaluate_prefix_raises_error_for_multiple_operands_with_no_operation(self):
         with self.assertRaises(ValueError):
             parser.evaluate_prefix("AB")
