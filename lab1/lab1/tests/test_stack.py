@@ -46,19 +46,23 @@ class TestStack(unittest.TestCase):
         stack = s.Stack()  # unbounded
         self.assertIsNone(stack.push("a"))
 
-    def test_push_raises_type_error_on_non_str(self):
+    def test_push_raises_type_error_when_not_str_or_int(self):
         stack = s.Stack()  # unbounded
         with self.assertRaises(TypeError):
             # Ironically, we have to ignore the type here,
             # because it is still a dynamically typed language.
             # The type signatures in stack.py help detect type errors,
             # but they do not actually prevent them at runtime.
-            stack.push(1)  # type: ignore
+            stack.push([])  # type: ignore
 
     def test_push_increments_stack_height(self):
         stack = s.Stack()  # unbounded
         self.assertEqual(stack.height, 0)
         stack.push("a")
+        self.assertEqual(stack.height, 1)
+        stack = s.Stack()  # unbounded
+        self.assertEqual(stack.height, 0)
+        stack.push(1)
         self.assertEqual(stack.height, 1)
 
     def test_push_raises_overflow_error_if_stack_has_0_capacity(self):

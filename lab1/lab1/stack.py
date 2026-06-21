@@ -13,23 +13,23 @@ class Stack:
     def contains(self, item) -> bool:
         return item in self.data
 
-    def peek(self) -> str | None:
+    def peek(self) -> str | int | None:
         if self.is_empty():
             return None
         idx = len(self.data) - 1 # end of the array
         return self.data[idx]
     
-    def pop(self) -> str | None:
+    def pop(self) -> str | int | None:
         if self.data == []:
             return None
         self.height -= 1
         return self.data.pop()
 
-    def push(self, item: str) -> None:
+    def push(self, item: str | int) -> None:
         if self.height == self.max_height:
             raise OverflowError("cannot push onto stack because it is full")
-        if not isinstance(item, str):
-            raise TypeError(f"cannot push onto stack because {item} is not of type str")
+        if not isinstance(item, str | int):
+            raise TypeError(f"cannot push onto stack because {item} is not of type str or int")
         self.data.append(item)
         self.height += 1
         return None
