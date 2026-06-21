@@ -2,7 +2,7 @@ from lab1.stack import Stack
 import lab1.parse.parser as parser
 
 
-def is_valid(parsed_expression: list) -> bool:
+def is_valid(expression: str) -> bool:
     # while input, read expression from left
     # if operand push onto stack
     # if operation
@@ -10,6 +10,10 @@ def is_valid(parsed_expression: list) -> bool:
     #    pop B
     #    perform operation // B op A
     #    push result
+    try:
+        parsed_expression = parser.parse(expression=expression, translate_symbols=True)
+    except ValueError:
+        return False
     if len(parsed_expression) == 1:
         return isinstance(parsed_expression[0], int)
     num_operations = 0
@@ -55,11 +59,11 @@ def evaluate(expression: str) -> int | None:
     #    pop B
     #    perform operation // B op A
     #    push result
+    if not is_valid(expression):
+        raise ValueError(f"{expression} is not a valid postfix expression")
     parsed_expression = parser.parse(expression=expression, translate_symbols=True)
     if parsed_expression == []:
         return None
-    if not is_valid(parsed_expression):
-        raise ValueError(f"{expression} is not a valid postfix expression")
     stack = Stack()
     for index in range(0, len(parsed_expression)):  # iterate from left
         s = parsed_expression[index]

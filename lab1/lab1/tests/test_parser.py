@@ -25,7 +25,6 @@ class TestParser(unittest.TestCase):
     def test_parser_does_convert_symbols_if_flag_is_set(self):
         self.assertListEqual([1], parser.parse("A", translate_symbols=True))
    
-
     def test_other_symbols_returned_without_modification(self):
         self.assertEqual("", parser.lookup_symbol(""))
         self.assertEqual("+", parser.lookup_symbol("+"))
@@ -52,6 +51,10 @@ class TestParser(unittest.TestCase):
         self.assertListEqual(["(", "/", "$"], parser.parse("(/$"))
         self.assertListEqual(["+"], parser.parse("+"))
         self.assertListEqual(["(", "+"], parser.parse("(+"))
+
+    def test_literal_integers_are_rejected(self):
+        with self.assertRaises(ValueError):
+            parser.parse("+A  A ")
 
 
 class TestExecuteOperation(unittest.TestCase):

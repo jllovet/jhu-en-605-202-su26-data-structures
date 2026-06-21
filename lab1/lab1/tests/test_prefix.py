@@ -8,37 +8,45 @@ import lab1.parse.parser as parser
 class TestIsValidPrefixExpression(unittest.TestCase):
     def test_is_valid_prefix_expression_returns_false_if_operand_to_operation_ratio_is_invalid(self):
         self.assertFalse(
-            prefix.is_valid(parser.parse("++AA")))
+            prefix.is_valid("++AA"))
         self.assertFalse(
-            prefix.is_valid(parser.parse("++A")))
+            prefix.is_valid("++A"))
         self.assertFalse(
-            prefix.is_valid(parser.parse("+")))
+            prefix.is_valid("+"))
+    
+    def test_is_valid_prefix_expression_returns_false_if_expression_contains_whitespace(self):
+        self.assertFalse(
+            prefix.is_valid("+AA "))
+        self.assertFalse(
+            prefix.is_valid("+A A"))
+        self.assertFalse(
+            prefix.is_valid("+A  A "))
 
     def test_is_valid_prefix_expression_returns_true_if_operand_to_operation_ratio_is_valid(self):
         self.assertTrue(
-            prefix.is_valid(parser.parse("+AA", translate_symbols=True)))
+            prefix.is_valid("+AA"))
 
     def test_is_valid_prefix_expression_returns_false_if_first_character_is_operand(self):
         self.assertFalse(
-            prefix.is_valid(parser.parse("AA+")))
+            prefix.is_valid("AA+"))
         self.assertFalse(
-            prefix.is_valid(parser.parse("A+A")))
+            prefix.is_valid("A+A"))
 
     def test_is_valid_prefix_expression_returns_true_for_empty_parentheses(self):
         self.assertTrue(
-            prefix.is_valid(parser.parse("()")))
+            prefix.is_valid("()"))
 
     def test_is_valid_prefix_expression_returns_false_for_unbalanced_parentheses(self):
         self.assertFalse(
-            prefix.is_valid(parser.parse("(()")))
+            prefix.is_valid("(()"))
         self.assertFalse(
-            prefix.is_valid(parser.parse("()(")))
+            prefix.is_valid("()("))
         self.assertFalse(prefix.is_valid(
-            parser.parse("()(()")))
+            "()(()"))
     
     def test_is_valid_prefix_expression_returns_true_on_nested_prefix_expressions(self):
-        self.assertTrue(prefix.is_valid(parser.parse("+(-AB)C", translate_symbols=True)))
-        self.assertTrue(prefix.is_valid(parser.parse("+-AB*CD", translate_symbols=True)))
+        self.assertTrue(prefix.is_valid("+(-AB)C"))
+        self.assertTrue(prefix.is_valid("+-AB*CD"))
 
 
 class TestPrefixEvaluation(unittest.TestCase):

@@ -2,7 +2,7 @@ from lab1.stack import Stack
 import lab1.parse.parser as parser
 
 
-def is_valid(parsed_expression: list) -> bool:
+def is_valid(expression: str) -> bool:
     # while input, read expression from right
     # if operand push onto stack
     # if operation
@@ -10,6 +10,10 @@ def is_valid(parsed_expression: list) -> bool:
     #    pop B
     #    perform operation // A op B
     #    push result
+    try:
+        parsed_expression = parser.parse(expression=expression, translate_symbols=True)
+    except ValueError:
+        return False
     if len(parsed_expression) == 1:
         return isinstance(parsed_expression[0], int)
     elif len(parsed_expression) > 1:
@@ -19,9 +23,12 @@ def is_valid(parsed_expression: list) -> bool:
     num_operands = 0
     stack = Stack()
     parentheses_stack = Stack()
+
     for i in range(0, len(parsed_expression)):  # iterate from right
         index = len(parsed_expression) - (i + 1)
         s = parsed_expression[index]
+        if s == " " or s == "\t" or s == "\n" or s == "\v" or s == "\f":
+            return False
         if s == ")":
             parentheses_stack.push(s)
         if s == "(":
@@ -59,11 +66,11 @@ def evaluate(expression: str) -> int | None:
     #    pop B
     #    perform operation // A op B
     #    push result
+    if not is_valid(expression):
+        raise ValueError(f"{expression} is not a valid prefix expression")
     parsed_expression = parser.parse(expression=expression, translate_symbols=True)
     if parsed_expression == []:
         return None
-    if not is_valid(parsed_expression):
-        raise ValueError(f"{expression} is not a valid prefix expression")
     stack = Stack()
     for i in range(0, len(parsed_expression)):  # iterate from right
         index = len(parsed_expression) - (i + 1)

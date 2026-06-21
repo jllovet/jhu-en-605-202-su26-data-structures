@@ -14,21 +14,21 @@ class TestPre2Post(unittest.TestCase):
         prefix_expression = "A"
         postfix_expression = converter.pre2post(prefix_expression)
         print(postfix_expression)
-        self.assertTrue(postfix.is_valid(parser.parse(postfix_expression, translate_symbols=True)))
+        self.assertTrue(postfix.is_valid(postfix_expression))
         self.assertEqual("A", postfix_expression)
         
     def test_converter_pre2post_is_identity_for_empty_prefix_expressions(self):
         prefix_expression = ""
         postfix_expression = converter.pre2post(prefix_expression)
         print(postfix_expression)
-        self.assertTrue(postfix.is_valid(parser.parse(postfix_expression)))
+        self.assertTrue(postfix.is_valid(postfix_expression))
         self.assertEqual("", postfix_expression)
 
     def test_converter_pre2post_returns_valid_postfix_expression(self):
         prefix_expression = "+AB"
         postfix_expression = converter.pre2post(prefix_expression)
         print(postfix_expression)
-        self.assertTrue(postfix.is_valid(parser.parse(postfix_expression, translate_symbols=True)))
+        self.assertTrue(postfix.is_valid(postfix_expression))
         self.assertEqual("AB+", postfix_expression)
 
     def test_converter_pre2post_returns_equivalent_expression(self):
@@ -39,3 +39,36 @@ class TestPre2Post(unittest.TestCase):
             postfix.evaluate(postfix_expression)
         )
 
+    def test_converter_pre2post_is_correct_for_complex_expressions(self):
+        prefix_expression = "-+ABC"
+        self.assertTrue(prefix.is_valid(prefix_expression))
+        
+        prefix_expression = "-A+BC"
+        self.assertTrue(prefix.is_valid(prefix_expression))
+        
+        prefix_expression = "$+-ABC+D-EF"
+        self.assertTrue(prefix.is_valid(prefix_expression))
+        
+        prefix_expression = "-*A$B+C-DE*EF"
+        self.assertTrue(prefix.is_valid(prefix_expression))
+        
+        prefix_expression = "**A+BC+C-BA"
+        self.assertTrue(prefix.is_valid(prefix_expression))
+        
+        prefix_expression = "/A+BC +C*BA  "
+        self.assertFalse(prefix.is_valid(prefix_expression))
+        
+        prefix_expression = "*-*-ABC+BA  "
+        self.assertFalse(prefix.is_valid(prefix_expression))
+        
+        prefix_expression = "/+/A-BC-BA  "
+        self.assertFalse(prefix.is_valid(prefix_expression))
+        
+        prefix_expression = "*$A+BC+C-BA "
+        self.assertFalse(prefix.is_valid(prefix_expression))
+        
+        prefix_expression = "//A+B0-C+BA"
+        self.assertFalse(prefix.is_valid(prefix_expression))
+        
+        prefix_expression = "*$A^BC+C-BA"
+        self.assertFalse(prefix.is_valid(prefix_expression))
