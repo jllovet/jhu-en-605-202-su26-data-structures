@@ -1,7 +1,7 @@
 from sys import stderr
 from typing import TextIO
 import logging
-import lab1.pre2post as pre2post
+import lab1.converter.converter as converter
 import lab1.parse.prefix as prefix
 
 logging.basicConfig(filename='lab1.log', level=logging.INFO)
@@ -26,6 +26,6 @@ def process_files(input_file: TextIO, output_file: TextIO) -> None:
         finally:
             next_line = input_file.readline()
 
-        postfix = pre2post.convert(expression)
+        postfix = converter.pre2post(expression)
         output_file.write(postfix)
         output_file.write("\n")
