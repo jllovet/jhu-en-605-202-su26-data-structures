@@ -7,7 +7,25 @@ import lab1.parse.prefix as prefix
 logging.basicConfig(filename='lab1.log', level=logging.INFO)
 
 
-def print_errors(errors):
+def print_errors(errors: list[str]) -> None:
+    """Prints error information to stderr
+    
+    Error information includes preamble with usage information
+    and each of the error messages provided in arg 'errors'.
+
+    Args:
+        errors: list[str] where each element contains details
+        of the error that occurred, e.g. file, line number, message
+
+    Returns:
+        None
+    
+    Side Effects:
+        Prints to stderr
+    
+    Idempotent:
+        True
+    """
     error_preamble = [
         f"""WARNING: {len(errors)} errors found during conversion
 WARNING: Invalid expressions not written to output file\n
@@ -29,14 +47,28 @@ Example valid expressions:
 
 
 def process_files(input_file: TextIO, output_file: TextIO) -> None:
-    """
+    """Reads -> converts -> writes prefix expressions
+    
     Reads prefix expressions from an input file, converts them into
     postfix expressions directly, and writes them to an output file.
-    Prints usage info and error info to stderr if there are errors.
-    :param input_file: An opened text file set to read mode
-    :param output_file: An opened text file set to write mode
+
+    Args:
+        input_file: TextIO is an opened text file set to read mode, and it
+        contains prefix expressions to convert
+        output_file: TextIO is an opened text file set to write mode, and it
+        is the file the postfix expressions are written to
+
+    Returns:
+        None
+    
+    Side Effects:
+        Reads from input_file
+        Writes to output_file
+        Prints errors to stderr
+    
+    Idempotent:
+        True
     """
-    logging.info("called process_files")
     lines = input_file.read().splitlines()
     errors = []
     for line_number, line in enumerate(lines):
