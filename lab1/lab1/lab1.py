@@ -9,7 +9,7 @@ logging.basicConfig(filename='lab1.log', level=logging.INFO)
 
 def print_errors(errors: list[str]) -> None:
     """Prints error information to stderr
-    
+
     Error information includes preamble with usage information
     and each of the error messages provided in arg 'errors'.
 
@@ -19,10 +19,10 @@ def print_errors(errors: list[str]) -> None:
 
     Returns:
         None
-    
+
     Side Effects:
         Prints to stderr
-    
+
     Idempotent:
         True
     """
@@ -48,7 +48,7 @@ Example valid expressions:
 
 def process_files(input_file: TextIO, output_file: TextIO) -> None:
     """Reads -> converts -> writes prefix expressions
-    
+
     Reads prefix expressions from an input file, converts them into
     postfix expressions directly, and writes them to an output file.
 
@@ -60,12 +60,12 @@ def process_files(input_file: TextIO, output_file: TextIO) -> None:
 
     Returns:
         None
-    
+
     Side Effects:
         Reads from input_file
         Writes to output_file
         Prints errors to stderr
-    
+
     Idempotent:
         True
     """
