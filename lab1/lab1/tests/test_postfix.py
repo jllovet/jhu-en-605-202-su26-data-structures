@@ -15,27 +15,27 @@ class TestIsValidPostfixExpression(unittest.TestCase):
 
     def test_is_valid_postfix_expression_returns_true_if_operand_to_operation_ratio_is_valid(self):
         self.assertTrue(
-            postfix.is_valid(parser.parse("AA+")))
+            postfix.is_valid(parser.parse("AA+", translate_symbols=True)))
 
     def test_is_valid_postfix_expression_returns_false_if_first_character_is_operation(self):
         self.assertFalse(
-            postfix.is_valid(parser.parse("+AA")))
+            postfix.is_valid(parser.parse("+AA", translate_symbols=True)))
 
     def test_is_valid_postfix_expression_returns_true_for_empty_parentheses(self):
         self.assertTrue(
-            postfix.is_valid(parser.parse("()")))
+            postfix.is_valid(parser.parse("()", translate_symbols=True)))
 
     def test_is_valid_postfix_expression_returns_false_for_unbalanced_parentheses(self):
         self.assertFalse(
-            postfix.is_valid(parser.parse("(()")))
+            postfix.is_valid(parser.parse("(()", translate_symbols=True)))
         self.assertFalse(
-            postfix.is_valid(parser.parse("()(")))
+            postfix.is_valid(parser.parse("()(", translate_symbols=True)))
         self.assertFalse(postfix.is_valid(
-            parser.parse("()(()")))
+            parser.parse("()(()", translate_symbols=True)))
     
     def test_is_valid_postfix_expression_returns_true_on_nested_postfix_expressions(self):
-        self.assertTrue(postfix.is_valid(parser.parse("AB+C-")))
-        self.assertTrue(postfix.is_valid(parser.parse("A(BC$)*((BC+)D-)+")))
+        self.assertTrue(postfix.is_valid(parser.parse("AB+C-", translate_symbols=True)))
+        self.assertTrue(postfix.is_valid(parser.parse("A(BC$)*((BC+)D-)+", translate_symbols=True)))
 
 
 class TestPostfixEvaluation(unittest.TestCase):

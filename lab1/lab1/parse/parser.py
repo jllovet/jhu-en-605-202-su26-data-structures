@@ -10,10 +10,13 @@ def lookup_symbol(symbol: str) -> int | str:
         return symbol
 
 
-def parse(expression) -> list:
+def parse(expression, translate_symbols: bool = False) -> list:
     parsed_symbols = []
     for s in expression:
-        parsed_symbols.append(lookup_symbol(s))
+        if translate_symbols:
+            parsed_symbols.append(lookup_symbol(s))
+        if not translate_symbols:
+            parsed_symbols.append(s)
     return parsed_symbols
 
 

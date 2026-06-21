@@ -2,8 +2,7 @@ import unittest
 import lab1.stack as s
 import lab1.parse.parser as parser
 
-
-class TestParser(unittest.TestCase):
+class TestSymbolLookup(unittest.TestCase):
     def test_capital_ascii_letters_return_number_in_valid_range(self):
         self.assertLessEqual(1, parser.lookup_symbol("A"))  # type: ignore
         self.assertGreaterEqual(
@@ -16,7 +15,16 @@ class TestParser(unittest.TestCase):
             26, parser.lookup_symbol("Y"))  # type: ignore
         self.assertLessEqual(1, parser.lookup_symbol("Z"))  # type: ignore
         self.assertGreaterEqual(
-            26, parser.lookup_symbol("Z"))  # type: ignore
+            26, parser.lookup_symbol("Z"))  # type: ignore 
+
+class TestParser(unittest.TestCase):
+    def test_parser_does_not_convert_symbols_by_default(self):
+        self.assertListEqual(["A"], parser.parse("A"))
+        self.assertListEqual(["A"], parser.parse("A", translate_symbols=False))
+
+    def test_parser_does_convert_symbols_if_flag_is_set(self):
+        self.assertListEqual([1], parser.parse("A", translate_symbols=True))
+   
 
     def test_other_symbols_returned_without_modification(self):
         self.assertEqual("", parser.lookup_symbol(""))
@@ -32,11 +40,11 @@ class TestParser(unittest.TestCase):
         self.assertListEqual([], parser.parse(""))
 
     def test_parse_on_expression_with_operand_converts_them_to_singleton_list_of_ints(self):
-        self.assertListEqual([1], parser.parse("A"))
-        self.assertListEqual([26], parser.parse("Z"))
+        self.assertListEqual([1], parser.parse("A", translate_symbols=True))
+        self.assertListEqual([26], parser.parse("Z", translate_symbols=True))
 
     def test_parse_on_expression_with_operands_converts_elements_to_ints(self):
-        self.assertListEqual([1, 2, 3], parser.parse("ABC"))
+        self.assertListEqual([1, 2, 3], parser.parse("ABC", translate_symbols=True))
 
     def test_parse_on_expression_with_operations_passes_transparently_to_list(self):
         self.assertListEqual(["(", ")"], parser.parse("()"))

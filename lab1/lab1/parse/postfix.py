@@ -55,7 +55,7 @@ def evaluate(expression: str) -> int | None:
     #    pop B
     #    perform operation // B op A
     #    push result
-    parsed_expression = parser.parse(expression=expression)
+    parsed_expression = parser.parse(expression=expression, translate_symbols=True)
     if parsed_expression == []:
         return None
     if not is_valid(parsed_expression):

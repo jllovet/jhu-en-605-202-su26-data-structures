@@ -16,7 +16,7 @@ class TestIsValidPrefixExpression(unittest.TestCase):
 
     def test_is_valid_prefix_expression_returns_true_if_operand_to_operation_ratio_is_valid(self):
         self.assertTrue(
-            prefix.is_valid(parser.parse("+AA")))
+            prefix.is_valid(parser.parse("+AA", translate_symbols=True)))
 
     def test_is_valid_prefix_expression_returns_false_if_first_character_is_operand(self):
         self.assertFalse(
@@ -37,8 +37,8 @@ class TestIsValidPrefixExpression(unittest.TestCase):
             parser.parse("()(()")))
     
     def test_is_valid_prefix_expression_returns_true_on_nested_prefix_expressions(self):
-        self.assertTrue(prefix.is_valid(parser.parse("+(-AB)C")))
-        self.assertTrue(prefix.is_valid(parser.parse("+-AB*CD")))
+        self.assertTrue(prefix.is_valid(parser.parse("+(-AB)C", translate_symbols=True)))
+        self.assertTrue(prefix.is_valid(parser.parse("+-AB*CD", translate_symbols=True)))
 
 
 class TestPrefixEvaluation(unittest.TestCase):
