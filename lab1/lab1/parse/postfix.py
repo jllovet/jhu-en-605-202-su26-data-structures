@@ -22,6 +22,8 @@ def is_valid(expression: str) -> bool:
     parentheses_stack = Stack()
     for index in range(0, len(parsed_expression)):  # iterate from left
         s = parsed_expression[index]
+        if s == " " or s == "\t" or s == "\n" or s == "\v" or s == "\f":
+            return False
         if s == "(":
             parentheses_stack.push(s)
         if s == ")":

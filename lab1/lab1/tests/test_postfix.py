@@ -12,6 +12,14 @@ class TestIsValidPostfixExpression(unittest.TestCase):
             postfix.is_valid("A++"))
         self.assertFalse(
             postfix.is_valid("+"))
+    
+    def test_is_valid_postfix_expression_returns_false_if_expression_contains_whitespace(self):
+        self.assertFalse(
+            postfix.is_valid("+AA "))
+        self.assertFalse(
+            postfix.is_valid("+A A"))
+        self.assertFalse(
+            postfix.is_valid("+A  A "))
 
     def test_is_valid_postfix_expression_returns_true_if_operand_to_operation_ratio_is_valid(self):
         self.assertTrue(
