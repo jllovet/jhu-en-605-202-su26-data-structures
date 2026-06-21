@@ -14,6 +14,9 @@ A$B
 +A(+BC)
 -+ABC
 -A+BC
+miscellaneous
++La-sc*ia$te
+$+
 $+-ABC+D-EF
 -*A$B+C-DE*EF
 **A+BC+C-BA
