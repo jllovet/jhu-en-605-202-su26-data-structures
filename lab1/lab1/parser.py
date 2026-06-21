@@ -128,12 +128,6 @@ def is_valid_postfix_expression(parsed_expression: list) -> bool:
 
 
 def evaluate_postfix(expression: str) -> int | None:
-    parsed_expression = parse(expression=expression)
-    if parsed_expression == []:
-        return None
-    if not is_valid_prefix_expression(parsed_expression):
-        raise ValueError(f"{expression} is not a valid prefix expression")
-    return parsed_expression[0]
     # while input, read expression from left
     # if operand push onto stack
     # if operation
@@ -141,15 +135,29 @@ def evaluate_postfix(expression: str) -> int | None:
     #    pop B
     #    perform operation // B op A
     #    push result
-
-
-def evaluate_prefix(expression: str) -> int | None:
     parsed_expression = parse(expression=expression)
     if parsed_expression == []:
         return None
     if not is_valid_postfix_expression(parsed_expression):
         raise ValueError(f"{expression} is not a valid postfix expression")
-    return parsed_expression[0]
+    stack = Stack()
+    for index in range(0, len(parsed_expression)):  # iterate from left
+        s = parsed_expression[index]
+        if isinstance(s, int):
+            stack.push(s)
+        if s == "+" or s == "-" or s == "/" or s == "*" or s == "$":
+            b = stack.pop()
+            a = stack.pop()
+            if not isinstance(a, int) or not isinstance(b, int):
+                return False
+            res = execute_operation(s, a, b)  # type: ignore
+            stack.push(res)
+    if isinstance(stack.peek(), int):
+        return stack.pop() # type: ignore
+    else:
+        raise ValueError(f"Could not evaluate {expression}")
+
+def evaluate_prefix(expression: str) -> int | None:
     # while input, read expression from right
     # if operand push onto stack
     # if operation
@@ -157,3 +165,25 @@ def evaluate_prefix(expression: str) -> int | None:
     #    pop B
     #    perform operation // A op B
     #    push result
+    parsed_expression = parse(expression=expression)
+    if parsed_expression == []:
+        return None
+    if not is_valid_prefix_expression(parsed_expression):
+        raise ValueError(f"{expression} is not a valid prefix expression")
+    stack = Stack()
+    for i in range(0, len(parsed_expression)):  # iterate from right
+        index = len(parsed_expression) - (i + 1)
+        s = parsed_expression[index]
+        if isinstance(s, int):
+            stack.push(s)
+        if s == "+" or s == "-" or s == "/" or s == "*" or s == "$":
+            a = stack.pop()
+            b = stack.pop()
+            if not isinstance(a, int) or not isinstance(b, int):
+                return False
+            res = execute_operation(s, a, b)  # type: ignore
+            stack.push(res)
+    if isinstance(stack.peek(), int):
+        return stack.pop() # type: ignore
+    else:
+        raise ValueError(f"Could not evaluate {expression}")

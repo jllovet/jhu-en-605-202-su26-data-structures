@@ -169,6 +169,11 @@ class TestPostfixEvaluation(unittest.TestCase):
             parser.evaluate_postfix("ABC")
         with self.assertRaises(ValueError):
             parser.evaluate_postfix("ABCD")
+    
+    def test_evaluate_postfix_returns_evaluated_expression(self):
+        self.assertEqual(2, parser.evaluate_postfix("AA+"))
+        self.assertEqual(3, parser.evaluate_postfix("AB+"))
+        self.assertEqual((1+2)*(3**4), parser.evaluate_postfix("AB+(CD$)*"))
 
 
 class TestPrefixEvaluation(unittest.TestCase):
@@ -180,6 +185,11 @@ class TestPrefixEvaluation(unittest.TestCase):
         self.assertEqual(1, parser.evaluate_prefix("A"))
         self.assertEqual(2, parser.evaluate_prefix("B"))
         self.assertEqual(26, parser.evaluate_prefix("Z"))
+    
+    def test_evaluate_prefix_returns_evaluated_expression(self):
+        self.assertEqual(2, parser.evaluate_prefix("+AA"))
+        self.assertEqual(3, parser.evaluate_prefix("+AB"))
+        self.assertEqual((1+2)*(3**4), parser.evaluate_prefix("*+AB($CD)"))
 
     def test_evaluate_prefix_raises_error_for_multiple_operands_with_no_operation(self):
         with self.assertRaises(ValueError):
