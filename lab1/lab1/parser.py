@@ -49,14 +49,15 @@ def is_valid_prefix_expression(parsed_expression: list) -> bool:
     num_operations = 0
     num_operands = 0
     stack = Stack()
+    parentheses_stack = Stack()
     for i in range(0, len(parsed_expression)):  # iterate from right
         index = len(parsed_expression) - (i + 1)
         s = parsed_expression[index]
         if s == ")":
-            stack.push(s)
+            parentheses_stack.push(s)
         if s == "(":
-            if stack.peek() == ")":
-                _ = stack.pop()
+            if parentheses_stack.peek() == ")":
+                _ = parentheses_stack.pop()
             else:
                 return False  # unbalanced
         if isinstance(s, int):
@@ -72,7 +73,7 @@ def is_valid_prefix_expression(parsed_expression: list) -> bool:
             num_operations += 1
     if stack.height == 1 and isinstance(stack.peek(), int):
         return True
-    if not stack.is_empty():
+    if not parentheses_stack.is_empty():
         return False
     if stack.is_empty() and num_operations == 0 and num_operands <= 1:
         return True
@@ -94,13 +95,14 @@ def is_valid_postfix_expression(parsed_expression: list) -> bool:
     num_operations = 0
     num_operands = 0
     stack = Stack()
+    parentheses_stack = Stack()
     for index in range(0, len(parsed_expression)):  # iterate from left
         s = parsed_expression[index]
         if s == "(":
-            stack.push(s)
+            parentheses_stack.push(s)
         if s == ")":
-            if stack.peek() == "(":
-                _ = stack.pop()
+            if parentheses_stack.peek() == "(":
+                _ = parentheses_stack.pop()
             else:
                 return False  # unbalanced
         if isinstance(s, int):
@@ -116,7 +118,7 @@ def is_valid_postfix_expression(parsed_expression: list) -> bool:
             num_operations += 1
     if stack.height == 1 and isinstance(stack.peek(), int):
         return True
-    if not stack.is_empty():
+    if not parentheses_stack.is_empty():
         return False
     if stack.is_empty() and num_operations == 0 and num_operands <= 1:
         return True

@@ -76,6 +76,10 @@ class TestIsValidPrefixExpression(unittest.TestCase):
             parser.is_valid_prefix_expression(parser.parse("()(")))
         self.assertFalse(parser.is_valid_prefix_expression(
             parser.parse("()(()")))
+    
+    def test_is_valid_prefix_expression_returns_true_on_nested_prefix_expressions(self):
+        self.assertTrue(parser.is_valid_prefix_expression(parser.parse("+(-AB)C")))
+        self.assertTrue(parser.is_valid_prefix_expression(parser.parse("+-AB*CD")))
 
 
 class TestIsValidPostfixExpression(unittest.TestCase):
@@ -106,6 +110,10 @@ class TestIsValidPostfixExpression(unittest.TestCase):
             parser.is_valid_postfix_expression(parser.parse("()(")))
         self.assertFalse(parser.is_valid_postfix_expression(
             parser.parse("()(()")))
+    
+    def test_is_valid_postfix_expression_returns_true_on_nested_postfix_expressions(self):
+        self.assertTrue(parser.is_valid_postfix_expression(parser.parse("AB+C-")))
+        self.assertTrue(parser.is_valid_postfix_expression(parser.parse("A(BC$)*((BC+)D-)+")))
 
 
 class TestExecuteOperation(unittest.TestCase):
