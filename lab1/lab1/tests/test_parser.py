@@ -59,6 +59,10 @@ class TestPostfixEvaluation(unittest.TestCase):
     def test_evaluate_postfix_raises_error_for_multiple_operands_with_no_operation(self):
         with self.assertRaises(ValueError):
             parser.evaluate_postfix("AB")
+        with self.assertRaises(ValueError):
+            parser.evaluate_postfix("ABC")
+        with self.assertRaises(ValueError):
+            parser.evaluate_postfix("ABCD")
 
 
 class TestPrefixEvaluation(unittest.TestCase):
@@ -74,3 +78,7 @@ class TestPrefixEvaluation(unittest.TestCase):
     def test_evaluate_prefix_raises_error_for_multiple_operands_with_no_operation(self):
         with self.assertRaises(ValueError):
             parser.evaluate_prefix("AB")
+        with self.assertRaises(ValueError):
+            parser.evaluate_prefix("ABC")
+        with self.assertRaises(ValueError):
+            parser.evaluate_prefix("ABCD")
