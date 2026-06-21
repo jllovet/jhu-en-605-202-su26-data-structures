@@ -2,7 +2,7 @@ from sys import stderr
 from typing import TextIO
 import logging
 import lab1.pre2post as pre2post
-import lab1.lab1.prefix as prefix
+import lab1.prefix as prefix
 
 logging.basicConfig(filename='lab1.log', level=logging.INFO)
 
