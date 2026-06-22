@@ -5,13 +5,46 @@ from lab1.stack.stack import Stack
 
 
 def eval(expression: str, expression_type: Literal["prefix", "postfix"]) -> int | None:
-    # while input, read expression from right for prefix, from left for postfix
-    # if operand push onto stack
-    # if operation
-    #    pop A
-    #    pop B
-    #    perform operation // A op B for prefix, B op A for postfix
-    #    push result
+    """Evaluates the expression according to the algorithm appropriate for its type
+
+    Performs smybolic replacement of the symbols provided in the expression and
+    then evaluates the mathematical expression, returning the result as an int if
+    a result is calculated or returning None if the expression is empty. This function
+    is available as a way to determine that two expressions pre and post conversion
+    return the same values. If a postfix expression is equivalent to a prefix
+    expression, then eval should return the same value on each of them.
+
+    The algorithm for evaluation is as follows (adapted from course slides):
+
+    while input, read symbol from expression from right for prefix, from left for postfix
+        if symbol is operand push symbol onto stack
+        if symbol is operation
+           A <- pop from stack
+           B <- pop from stack
+           result <- perform operation A op B for prefix, B op A for postfix
+           push result onto stack
+
+    Args:
+        expression: str where expression is a sequence of operations and operands
+        listed in prefix or postfix order, such as +AB or AB+ to represent the
+        infix expression A+B
+        expression_type: one of the two strings 'prefix' or 'postfix', controlling
+        the algorithms for validating and evaluating the expressions
+
+    Returns:
+        An int containing the result of the evaluation or None if the expression
+        is empty
+    
+    Raises:
+        ValueError: if the expression is not a valid prefix or postfix expression
+        ValueError: if the evaluation does not produce an integer
+    
+    Side Effects:
+        Raises ValueError in cases described above
+    
+    Idempotent:
+        True
+    """
     if expression_type == "prefix":
         iterate_from_left = False
     if expression_type == "postfix":
