@@ -4,6 +4,28 @@ import lab1.parse.validate as validate
 
 
 def pre2post(expression: str) -> str:
+    """Converts a prefix expression to a postfix expression
+
+    Performs a validation that the provided expression is in a valid prefix form.
+    If it is not, then a ValueError is raised. Otherwise, it converts the
+    prefix expression to an equivalent postfix expression.
+
+    Args:
+        expression: str where expression is a sequence of operations and operands
+        listed in prefix order, such as +AB to represent the infix expression A+B
+
+    Returns:
+        A str containing the postfix expression equivalent to the expression provided
+    
+    Raises:
+        ValueError: if the expression is not a valid prefix expression
+
+    Side Effects:
+        Raises ValueError if the expression provided was not valid
+    
+    Idempotent:
+        True
+    """
     if not validate.is_valid_expression(expression=expression, expression_type="prefix"):
         raise ValueError(f"'{expression}' is not a valid prefix expression")
     # Passing here -> parentheses are balanced
