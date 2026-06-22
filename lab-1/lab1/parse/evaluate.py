@@ -34,14 +34,14 @@ def eval(expression: str, expression_type: Literal["prefix", "postfix"]) -> int 
     Returns:
         An int containing the result of the evaluation or None if the expression
         is empty
-    
+
     Raises:
         ValueError: if the expression is not a valid prefix or postfix expression
         ValueError: if the evaluation does not produce an integer
-    
+
     Side Effects:
         Raises ValueError in cases described above
-    
+
     Idempotent:
         True
     """
