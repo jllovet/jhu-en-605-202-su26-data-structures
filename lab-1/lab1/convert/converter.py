@@ -17,17 +17,17 @@ def pre2post(expression: str) -> str:
         return expression
     for i in range(0, len(parsed_expression)):  # iterate from right
         index = len(parsed_expression) - (i + 1)
-        s = parsed_expression[index]
-        if validate.is_parentheses(s):
+        symbol = parsed_expression[index]
+        if validate.is_parentheses(symbol):
             continue
-        if validate.is_operation(str(s)):
+        if validate.is_operation(str(symbol)):
             a = stack.pop()
             b = stack.pop()
-            stack.push(f"{a}{b}{s}")
-        elif isinstance(s, str):
-            stack.push(s)
+            stack.push(f"{a}{b}{symbol}")
+        elif isinstance(symbol, str):
+            stack.push(symbol)
     while not stack.is_empty():
-        s = stack.pop()
-        postfix_expression_components.append(s)
+        symbol = stack.pop()
+        postfix_expression_components.append(symbol)
     postfix_expression = "".join(postfix_expression_components)
     return postfix_expression
