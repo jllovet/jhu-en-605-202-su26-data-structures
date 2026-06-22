@@ -13,16 +13,16 @@ def lookup_symbol(symbol: str) -> int | str:
 
     Returns:
         An int A -> 1, B -> 2, ... Z -> 26 or the original str symbol
-    
+
     Raises:
         ValueError: None
 
     Side Effects:
         None
-    
+
     Idempotent:
         True
-"""
+    """
     if not symbol:
         return ""
     if ord(symbol) >= 65 and ord(symbol) <= 90:  # operands A - Z
