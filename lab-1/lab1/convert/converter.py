@@ -1,11 +1,10 @@
 from lab1.stack.stack import Stack
-import lab1.parse.prefix as prefix
 import lab1.parse.parser as parser
 import lab1.parse.validate as validate
 
 
 def pre2post(expression: str) -> str:
-    if not prefix.is_valid(expression):
+    if not validate.is_valid_expression(expression=expression, expression_type="prefix"):
         raise ValueError(f"'{expression}' is not a valid prefix expression")
     # Passing here -> parentheses are balanced
     # We actually don't need to handle them at all for this conversion,
