@@ -31,7 +31,35 @@ def lookup_symbol(symbol: str) -> int | str:
         return symbol
 
 
-def parse(expression, translate_symbols: bool = False) -> list:
+def parse(expression: str, translate_symbols: bool = False) -> list:
+    """Converts an expression into a list of symbols, with optional replacement
+
+    Returns a list representing the original expression broken into individual
+    symbols. If translate_symbols is True, then the symbols for operands are
+    replaced with their equivalent int values. If translate_symbols is False,
+    then the symbols for operands are not replaced. Raises a ValueError if the
+    expression contains illegal characters.
+
+    Examples:
+    parse("+AB", True)  -> ["1","2","+"]
+    parse("+AB", False) -> ["A","B","+"]
+
+    Args:
+        expression: str where expression is a sequence of operations and operands
+
+    Returns:
+        list of the symbols in the expression, with operands translated to ints
+        depending on the value of translate_symbols
+
+    Raises:
+        ValueError: if the expression contains illegal characters
+
+    Side Effects:
+        Raises ValueError as described above
+
+    Idempotent:
+        True
+    """
     parsed_symbols = []
     for symbol in expression:
         if not validate.is_allowed(symbol):
