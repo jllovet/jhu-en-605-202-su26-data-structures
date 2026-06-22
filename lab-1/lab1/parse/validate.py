@@ -31,6 +31,14 @@ def is_whitespace(symbol: str) -> bool:
             return True
     return False
 
+
+def is_parentheses(symbol: str) -> bool:
+    if symbol == "(" or symbol == ")":
+        return True
+    else:
+        return False
+
+
 def is_allowed(symbol: str) -> bool:
     if not isinstance(symbol, str):
         return False
