@@ -57,6 +57,9 @@ def process_files(input_file: TextIO, output_file: TextIO) -> None:
     Returns:
         None
 
+    Raises:
+        None
+        
     Side Effects:
         Reads from input_file
         Writes to output_file
