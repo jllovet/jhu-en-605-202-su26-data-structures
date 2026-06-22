@@ -68,3 +68,10 @@ class TestSymbolClassifiers(unittest.TestCase):
         self.assertFalse(validate.is_allowed("<"))
         self.assertFalse(validate.is_allowed(1)) # type: ignore
         
+class TestIsValidExpression(unittest.TestCase):
+    def is_valid_expression(self):
+        self.assertTrue(validate.is_valid_expression("+AB", "prefix"))
+        self.assertFalse(validate.is_valid_expression("+AB", "postfix"))
+        self.assertTrue(validate.is_valid_expression("AB+", "postfix"))
+        self.assertFalse(validate.is_valid_expression("AB+", "prefix"))
+
