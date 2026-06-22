@@ -32,7 +32,7 @@ Example valid expressions:
 \t(base case):\t'A'\t-> '{converter.pre2post('A')}'
 \t(single op):\t'+AB'\t-> '{converter.pre2post('+AB')}'
 \t(more ops):\t'-+ABC'\t-> '{converter.pre2post('-+ABC')}'""",
-        f"-"*80,
+        "-"*80,
         "ERRORS:"
     ]
     for msg in error_preamble:
