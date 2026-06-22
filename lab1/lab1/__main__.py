@@ -8,7 +8,7 @@ from pathlib import Path
 import argparse
 import logging
 
-from lab1 import process_files
+from lab1.lab1 import process_files
 
 logging.basicConfig(filename='lab1.log', level=logging.INFO)
 logging.info("setting up lab1...")

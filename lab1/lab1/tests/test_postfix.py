@@ -1,7 +1,5 @@
 import unittest
-import lab1.stack as s
 import lab1.parse.postfix as postfix
-import lab1.parse.parser as parser
 
 
 class TestIsValidPostfixExpression(unittest.TestCase):
@@ -12,7 +10,7 @@ class TestIsValidPostfixExpression(unittest.TestCase):
             postfix.is_valid("A++"))
         self.assertFalse(
             postfix.is_valid("+"))
-    
+
     def test_is_valid_postfix_expression_returns_false_if_expression_contains_whitespace(self):
         self.assertFalse(
             postfix.is_valid("+AA "))
@@ -40,7 +38,7 @@ class TestIsValidPostfixExpression(unittest.TestCase):
             postfix.is_valid("()("))
         self.assertFalse(postfix.is_valid(
             "()(()"))
-    
+
     def test_is_valid_postfix_expression_returns_true_on_nested_postfix_expressions(self):
         self.assertTrue(postfix.is_valid("AB+C-"))
         self.assertTrue(postfix.is_valid("A(BC$)*((BC+)D-)+"))
@@ -63,9 +61,8 @@ class TestPostfixEvaluation(unittest.TestCase):
             postfix.evaluate("ABC")
         with self.assertRaises(ValueError):
             postfix.evaluate("ABCD")
-    
+
     def test_evaluate_postfix_returns_evaluated_expression(self):
         self.assertEqual(2, postfix.evaluate("AA+"))
         self.assertEqual(3, postfix.evaluate("AB+"))
         self.assertEqual((1+2)*(3**4), postfix.evaluate("AB+(CD$)*"))
-

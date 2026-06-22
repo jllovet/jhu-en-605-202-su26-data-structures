@@ -1,8 +1,5 @@
 import unittest
-import lab1.stack as s
 import lab1.parse.prefix as prefix
-import lab1.parse.parser as parser
-
 
 
 class TestIsValidPrefixExpression(unittest.TestCase):
@@ -13,7 +10,7 @@ class TestIsValidPrefixExpression(unittest.TestCase):
             prefix.is_valid("++A"))
         self.assertFalse(
             prefix.is_valid("+"))
-    
+
     def test_is_valid_prefix_expression_returns_false_if_expression_contains_whitespace(self):
         self.assertFalse(
             prefix.is_valid("+AA "))
@@ -43,7 +40,7 @@ class TestIsValidPrefixExpression(unittest.TestCase):
             prefix.is_valid("()("))
         self.assertFalse(prefix.is_valid(
             "()(()"))
-    
+
     def test_is_valid_prefix_expression_returns_true_on_nested_prefix_expressions(self):
         self.assertTrue(prefix.is_valid("+(-AB)C"))
         self.assertTrue(prefix.is_valid("+-AB*CD"))
@@ -58,7 +55,7 @@ class TestPrefixEvaluation(unittest.TestCase):
         self.assertEqual(1, prefix.evaluate("A"))
         self.assertEqual(2, prefix.evaluate("B"))
         self.assertEqual(26, prefix.evaluate("Z"))
-    
+
     def test_evaluate_prefix_returns_evaluated_expression(self):
         self.assertEqual(2, prefix.evaluate("+AA"))
         self.assertEqual(3, prefix.evaluate("+AB"))

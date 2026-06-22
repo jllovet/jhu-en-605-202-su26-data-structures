@@ -1,4 +1,4 @@
-from lab1.stack import Stack
+from lab1.stack.stack import Stack
 import lab1.parse.parser as parser
 
 

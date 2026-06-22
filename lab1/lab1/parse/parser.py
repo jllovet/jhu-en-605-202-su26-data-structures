@@ -1,6 +1,3 @@
-from lab1.stack import Stack
-
-
 def lookup_symbol(symbol: str) -> int | str:
     if not symbol:
         return ""
@@ -14,8 +11,8 @@ def parse(expression, translate_symbols: bool = False) -> list:
     parsed_symbols = []
     for s in expression:
         if not isinstance(s, str) \
-            or (ord(s) < 65 or ord(s) > 90) \
-            and s not in ["+", "-", "*", "/", "$", "(", ")"]:
+                or (ord(s) < 65 or ord(s) > 90) \
+                and s not in ["+", "-", "*", "/", "$", "(", ")"]:
             raise ValueError(
                 f"Could not parse {expression} because it contains illegal character: '{s}'")
         if translate_symbols:

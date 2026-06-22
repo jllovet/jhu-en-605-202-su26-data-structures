@@ -1,5 +1,4 @@
-from lab1.stack import Stack
-import lab1.parse.postfix as postfix
+from lab1.stack.stack import Stack
 import lab1.parse.prefix as prefix
 import lab1.parse.parser as parser
 
