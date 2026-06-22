@@ -1,3 +1,5 @@
+import lab1.parse.validate as validate
+
 def lookup_symbol(symbol: str) -> int | str:
     if not symbol:
         return ""
@@ -9,16 +11,14 @@ def lookup_symbol(symbol: str) -> int | str:
 
 def parse(expression, translate_symbols: bool = False) -> list:
     parsed_symbols = []
-    for s in expression:
-        if not isinstance(s, str) \
-                or (ord(s) < 65 or ord(s) > 90) \
-                and s not in ["+", "-", "*", "/", "$", "(", ")"]:
+    for symbol in expression:
+        if not validate.is_allowed(symbol):
             raise ValueError(
-                f"Could not parse {expression} because it contains illegal character: '{s}'")
+                f"Could not parse {expression} because it contains illegal character: '{symbol}'")
         if translate_symbols:
-            parsed_symbols.append(lookup_symbol(s))
+            parsed_symbols.append(lookup_symbol(symbol))
         if not translate_symbols:
-            parsed_symbols.append(s)
+            parsed_symbols.append(symbol)
     return parsed_symbols
 
 

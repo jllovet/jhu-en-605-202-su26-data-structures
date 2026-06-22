@@ -1,5 +1,6 @@
 from lab1.stack.stack import Stack
 import lab1.parse.parser as parser
+import lab1.parse.validate as validate
 
 
 def is_valid(expression: str) -> bool:
@@ -22,7 +23,7 @@ def is_valid(expression: str) -> bool:
     parentheses_stack = Stack()
     for index in range(0, len(parsed_expression)):  # iterate from left
         s = parsed_expression[index]
-        if s == " " or s == "\t" or s == "\n" or s == "\v" or s == "\f":
+        if validate.is_whitespace(s):
             return False
         if s == "(":
             parentheses_stack.push(s)
@@ -34,7 +35,7 @@ def is_valid(expression: str) -> bool:
         if isinstance(s, int):
             num_operands += 1
             stack.push(s)
-        if s == "+" or s == "-" or s == "/" or s == "*" or s == "$":
+        if validate.is_operation(str(s)):
             a = stack.pop()
             b = stack.pop()
             if not isinstance(a, int) or not isinstance(b, int):
@@ -71,7 +72,7 @@ def evaluate(expression: str) -> int | None:
         s = parsed_expression[index]
         if isinstance(s, int):
             stack.push(s)
-        if s == "+" or s == "-" or s == "/" or s == "*" or s == "$":
+        if validate.is_operation(str(s)):
             b = stack.pop()
             a = stack.pop()
             if not isinstance(a, int) or not isinstance(b, int):
