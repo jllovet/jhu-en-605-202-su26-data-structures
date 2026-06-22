@@ -16,6 +16,9 @@ def print_errors(errors: list[str]) -> None:
     Returns:
         None
 
+    Raises:
+        None
+
     Side Effects:
         Prints to stderr
 
@@ -59,7 +62,7 @@ def process_files(input_file: TextIO, output_file: TextIO) -> None:
 
     Raises:
         None
-        
+
     Side Effects:
         Reads from input_file
         Writes to output_file
