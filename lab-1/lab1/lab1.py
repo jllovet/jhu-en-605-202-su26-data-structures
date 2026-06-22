@@ -1,9 +1,6 @@
 from sys import stderr
 from typing import TextIO
-import logging
 import lab1.convert.converter as converter
-
-logging.basicConfig(filename='lab1.log', level=logging.INFO)
 
 
 def print_errors(errors: list[str]) -> None:
