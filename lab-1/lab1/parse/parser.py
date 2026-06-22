@@ -2,6 +2,27 @@ import lab1.parse.validate as validate
 
 
 def lookup_symbol(symbol: str) -> int | str:
+    """Converts operands from expression into ints and returns operators unchanged
+
+    Converts operand values for uppercase ascii characters into a corresponding
+    int value, with A -> 1, B -> 2, ... Z -> 26. Other characters, representing
+    operations and parentheses, are not modified and are returned as str values.
+
+    Args:
+        symbol: str where symbol is one of the characters from an expression
+
+    Returns:
+        An int A -> 1, B -> 2, ... Z -> 26 or the original str symbol
+    
+    Raises:
+        ValueError: None
+
+    Side Effects:
+        None
+    
+    Idempotent:
+        True
+"""
     if not symbol:
         return ""
     if ord(symbol) >= 65 and ord(symbol) <= 90:  # operands A - Z
