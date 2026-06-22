@@ -26,7 +26,7 @@ def evaluate(expression: str) -> int | None:
         s = parsed_expression[index]
         if isinstance(s, int):
             stack.push(s)
-        if validate.is_operation(str(s)):
+        if validate.is_operator(str(s)):
             a = stack.pop()
             b = stack.pop()
             if not isinstance(a, int) or not isinstance(b, int):

@@ -20,7 +20,7 @@ def pre2post(expression: str) -> str:
         symbol = parsed_expression[index]
         if validate.is_parentheses(symbol):
             continue
-        if validate.is_operation(str(symbol)):
+        if validate.is_operator(str(symbol)):
             a = stack.pop()
             b = stack.pop()
             stack.push(f"{a}{b}{symbol}")
