@@ -1,5 +1,6 @@
 import lab1.parse.validate as validate
 
+
 def lookup_symbol(symbol: str) -> int | str:
     if not symbol:
         return ""
