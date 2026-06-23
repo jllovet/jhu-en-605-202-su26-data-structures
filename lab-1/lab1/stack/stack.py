@@ -68,6 +68,23 @@ class Stack:
         return self.height == self.max_height
     
     def contains(self, item) -> bool:
+        """Returns a bool indicating whether the item provided is in the stack
+
+        Args:
+            item: of any type
+
+        Returns:
+            Bool indicating whether the item provided is in the stack
+        
+        Raises:
+            None
+
+        Side Effects:
+            None
+        
+        Idempotent:
+            True
+        """
         return item in self.data
 
     def peek(self) -> str | int | None:
