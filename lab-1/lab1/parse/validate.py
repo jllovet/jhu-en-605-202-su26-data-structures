@@ -172,6 +172,25 @@ def is_start_of_expression_an_operand(parsed_expression: list) -> bool:
 
 
 def is_operator(symbol: str) -> bool:
+    """Returns a boolean indicating whether the symbol is an operator
+
+    Returns true if the symbol is in one of the operators: +, -, *, /, $
+
+    Args:
+        symbol: str a parsed list representation of an expression
+
+    Returns:
+        A bool indicating whether the symbol is an operator
+    
+    Raises:
+        None
+
+    Side Effects:
+        None
+    
+    Idempotent:
+        True
+    """
     if not isinstance(symbol, str):
         return False
     match symbol:
