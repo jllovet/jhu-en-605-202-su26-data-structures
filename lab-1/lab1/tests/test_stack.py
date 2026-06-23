@@ -48,7 +48,7 @@ class TestStack(unittest.TestCase):
 
     def test_push_raises_type_error_when_not_str_or_int(self):
         stack = s.Stack()  # unbounded
-        with self.assertRaises(TypeError):
+        with self.assertRaises(ValueError):
             # Ironically, we have to ignore the type here,
             # because it is still a dynamically typed language.
             # The type signatures in stack.py help detect type errors,

@@ -146,10 +146,35 @@ class Stack:
         return self.data.pop()
 
     def push(self, item: str | int) -> None:
+        """Adds item to the top of the stack if the stack is not full
+
+        Push adds item to the top of the stack and increments the height of
+        the stack, if the stack is not full. If the stack is full, then
+        push will raise an OverFlowError. If item is not of type str or int,
+        then push will raise a ValueError.
+
+        Args:
+            None
+
+        Returns:
+            str | int | None according to what was at the top of the stack
+        
+        Raises:
+            OverflowError if the stack is already full
+            ValueError if item is not of type str or int
+
+        Side Effects:
+            Adds an element to the top of the stack if it is not full
+            Increments the height of the stack if it is not full
+            Raises errors as described above
+        
+        Idempotent:
+            False
+        """
         if self.height == self.max_height:
             raise OverflowError("cannot push onto stack because it is full")
         if not isinstance(item, str | int):
-            raise TypeError(f"cannot push onto stack because {item} is not of type str or int")
+            raise ValueError(f"cannot push onto stack because {item} is not of type str or int")
         self.data.append(item)
         self.height += 1
         return None
