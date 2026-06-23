@@ -88,13 +88,15 @@ The program should satisfy the following:
 
 \begin{enumerate}
   \item Transform a prefix (Polish) expression to an equivalent postfix (Reverse Polish) expression
+  \item Use an iterative (as opposed to a recursive) implementation of the algorithm for doing so
   \item Handle expressions with single-letter operands and the operations \verb|+, -, *, /, $|
   \item Be callable from the command line as a Python module
   \item Read an input file specified at the command line
   \item Output results to an output file specified at the command line
   \item Output errors related to invalid input to the user
+  \item Report issues in a helpful way to the user
+  \item Have reasonable error handling
   \item Produce no other side effects
-  \item Have reasonable error checking and report issues in a helpful way to the user
 \end{enumerate}
 
 \section{Strategy}\label{sec:strategy}
