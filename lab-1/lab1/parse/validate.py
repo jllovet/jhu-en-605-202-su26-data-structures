@@ -1,5 +1,6 @@
 from typing import Literal
 import lab1.parse.parser as parser
+import lab1.parse.evaluate as evaluate
 from lab1.stack.stack import Stack
 
 
@@ -83,9 +84,9 @@ def is_valid_expression(expression: str, expression_type: Literal["prefix", "pos
             if not isinstance(a, int) or not isinstance(b, int):
                 return False
             if expression_type == "prefix":  # A op B
-                res = parser.execute_operation(symbol, a, b)  # type: ignore
+                res = evaluate.execute_operation(symbol, a, b)  # type: ignore
             if expression_type == "postfix":  # B op A
-                res = parser.execute_operation(symbol, b, a)  # type: ignore
+                res = evaluate.execute_operation(symbol, b, a)  # type: ignore
             stack.push(res)
             num_operators += 1
     # final result calculated

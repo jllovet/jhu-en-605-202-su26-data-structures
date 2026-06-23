@@ -1,5 +1,6 @@
 import unittest
 import lab1.parse.parser as parser
+import lab1.parse.evaluate as evaluate 
 
 
 class TestSymbolLookup(unittest.TestCase):
@@ -61,35 +62,35 @@ class TestParser(unittest.TestCase):
 
 class TestExecuteOperation(unittest.TestCase):
     def test_execute_operation_addition(self):
-        self.assertEqual(1, parser.execute_operation("+", 1, 0))
-        self.assertEqual(1, parser.execute_operation("+", 0, 1))
-        self.assertEqual(2, parser.execute_operation("+", 1, 1))
-        self.assertEqual(27, parser.execute_operation("+", 26, 1))
+        self.assertEqual(1, evaluate.execute_operation("+", 1, 0))
+        self.assertEqual(1, evaluate.execute_operation("+", 0, 1))
+        self.assertEqual(2, evaluate.execute_operation("+", 1, 1))
+        self.assertEqual(27, evaluate.execute_operation("+", 26, 1))
 
     def test_execute_operation_subtraction(self):
-        self.assertEqual(1, parser.execute_operation("-", 1, 0))
-        self.assertEqual(0, parser.execute_operation("-", 0, 0))
-        self.assertEqual(-1, parser.execute_operation("-", 0, 1))
+        self.assertEqual(1, evaluate.execute_operation("-", 1, 0))
+        self.assertEqual(0, evaluate.execute_operation("-", 0, 0))
+        self.assertEqual(-1, evaluate.execute_operation("-", 0, 1))
 
     def test_execute_operation_multiplication(self):
-        self.assertEqual(0, parser.execute_operation("*", 1, 0))
-        self.assertEqual(2, parser.execute_operation("*", 1, 2))
-        self.assertEqual(52, parser.execute_operation("*", 26, 2))
+        self.assertEqual(0, evaluate.execute_operation("*", 1, 0))
+        self.assertEqual(2, evaluate.execute_operation("*", 1, 2))
+        self.assertEqual(52, evaluate.execute_operation("*", 26, 2))
 
     def test_execute_operation_integer_division(self):
-        self.assertEqual(1, parser.execute_operation("/", 1, 1))
-        self.assertEqual(-1, parser.execute_operation("/", 1, -1))
-        self.assertEqual(1, parser.execute_operation("/", 2, 2))
-        self.assertEqual(4, parser.execute_operation("/", 9, 2))
+        self.assertEqual(1, evaluate.execute_operation("/", 1, 1))
+        self.assertEqual(-1, evaluate.execute_operation("/", 1, -1))
+        self.assertEqual(1, evaluate.execute_operation("/", 2, 2))
+        self.assertEqual(4, evaluate.execute_operation("/", 9, 2))
         with self.assertRaises(ZeroDivisionError):
-            parser.execute_operation("/", 1, 0)
+            evaluate.execute_operation("/", 1, 0)
 
     def test_execute_operation_exponentiation(self):
-        self.assertEqual(1, parser.execute_operation("$", 0, 0))
-        self.assertEqual(0, parser.execute_operation("$", 0, 1))
-        self.assertEqual(0, parser.execute_operation("$", 0, 2))
-        self.assertEqual(1, parser.execute_operation("$", 1, 0))
-        self.assertEqual(1, parser.execute_operation("$", 2, 0))
-        self.assertEqual(1, parser.execute_operation("$", 1, 2))
-        self.assertEqual(4, parser.execute_operation("$", 2, 2))
-        self.assertEqual(16, parser.execute_operation("$", 4, 2))
+        self.assertEqual(1, evaluate.execute_operation("$", 0, 0))
+        self.assertEqual(0, evaluate.execute_operation("$", 0, 1))
+        self.assertEqual(0, evaluate.execute_operation("$", 0, 2))
+        self.assertEqual(1, evaluate.execute_operation("$", 1, 0))
+        self.assertEqual(1, evaluate.execute_operation("$", 2, 0))
+        self.assertEqual(1, evaluate.execute_operation("$", 1, 2))
+        self.assertEqual(4, evaluate.execute_operation("$", 2, 2))
+        self.assertEqual(16, evaluate.execute_operation("$", 4, 2))
