@@ -10,17 +10,22 @@ import argparse
 
 from lab1.lab1 import process_files
 
-arg_parser = argparse.ArgumentParser()
-arg_parser.add_argument("in_file", type=str, help="Input File Pathname")
-arg_parser.add_argument("out_file", type=str, help="Output File Pathname")
-args = arg_parser.parse_args()
+try:
+    arg_parser = argparse.ArgumentParser(exit_on_error=False)
+    arg_parser.description = f"Convert prefix -> postfix expressions from in_file and write them to out_file"
+    arg_parser.add_argument("in_file", type=str, help="Input File Pathname")
+    arg_parser.add_argument("out_file", type=str, help="Output File Pathname")
+    args = arg_parser.parse_args()
 
-in_path = Path(args.in_file)
-out_path = Path(args.out_file)
+    in_path = Path(args.in_file)
+    out_path = Path(args.out_file)
 
-# Here's the real entrypoint into the whole program. Reads the input file,
-# performs the conversions, and then writes errors to stderr and the
-# successful results to the output file. The input and output files are
-# read from the command line input above.
-with in_path.open('r') as input_file, out_path.open('w') as output_file:
-    process_files(input_file, output_file)
+    # Here's the real entrypoint into the whole program. Reads the input file,
+    # performs the conversions, and then writes errors to stderr and the
+    # successful results to the output file. The input and output files are
+    # read from the command line input above.
+    with in_path.open('r') as input_file, out_path.open('w') as output_file:
+        process_files(input_file, output_file)
+
+except:
+    arg_parser.print_help()
