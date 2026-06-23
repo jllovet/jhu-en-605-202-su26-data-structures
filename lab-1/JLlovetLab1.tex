@@ -31,7 +31,7 @@
 \usepackage{changepage}
 
 \NewDocumentCommand{\sourcefile}{m v}{
-  \subsection{\texttt{#2}}
+  \subsection{\texttt{#2}}\label{sec:#2}
   \inputminted[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{6pt}{7pt}\selectfont}]{#1}{#2}
 }
 
@@ -79,19 +79,25 @@ In processing the input, you should expect to read line by line and within a lin
 
 \pagebreak
 
-\section{Analysis}
+\section{The Problem to Solve}
 
 This lab illustrates the use of stacks in the conversion of prefix expressions to postfix expressions. The prefix expressions will be read in from a file and then output to a file, both of which are provided at the command line. Errors will be printed to stderr for review. The lab is meant to be run as a module. See \texttt{README.md} for running instructions.
-We want to convert expressions in this form: \texttt{+AB} to this form \texttt{AB+}. Both of these are equivalent to the probably more familiar infix notation for the same expression \texttt{A+B}. Put another way, we want to convert from Polish notation to Reverse Polish notation. \parencite{EnWikipediaorgReversePolishNotation}
+We want to convert expressions in this form: \texttt{+AB} to this form \texttt{AB+}. Both of these are equivalent to the probably more familiar infix notation for the same expression \texttt{A+B}. Put another way, we want to convert from Polish notation to Reverse Polish notation \parencite{EnWikipediaorgReversePolishNotation}.
 
-TODO: Add discussion of recursive algorithm.
-TODO: Add discussion of stack and ADTs.
-TODO: Add discussion of algorithmic complexity
-TODO: Add discussion of design choices
+The program should satisfy the following:
 
-\cite{Kozen2011CornellLectureAmortizedAnalysis}
+\begin{enumerate}
+  \item Transform a prefix (Polish) expression to an equivalent postfix (Reverse Polish) expression
+  \item Handle expressions with single-letter operands and the operations \verb|+, -, *, /, $|
+  \item Be callable from the command line as a Python module
+  \item Read an input file specified at the command line
+  \item Output results to an output file specified at the command line
+  \item Output errors related to invalid input to the user
+  \item Produce no other side effects
+  \item Have reasonable error checking and report issues in a helpful way to the user
+\end{enumerate}
 
-\section{Strategy}
+\section{Strategy}\label{sec:strategy}
 
 TODO: Talk about pipeline, concerns about equivalence, in a subsequent version I should write a reverse converter or just refactor the existing one to handle both directions, since that would sufficient for isomorphism
 
@@ -129,6 +135,23 @@ lab1
 
 5 directories, 19 files
 \end{verbatim}
+
+\section{Design Decisions}
+
+TODO: Add discussion of recursive algorithm.
+TODO: Add discussion of stack and ADTs.
+TODO: Add discussion of algorithmic complexity
+TODO: Add discussion of design choices
+
+In this lab, I am using a Python list as the underlying structure for the data contained in the stack. Why? There are two main reasons: more straightforward implementation and better use of hardware resources.
+
+Python lists are dynamic arrays of pointers to data objects \cite{PythonDocumentationDesignAndHistory}. The actual data items are stored separately, but indexing a list \texttt{a[i]} can be performed in $O(1)$, rather than needing to iterate through all the elements like in a linked list. These characteristics gave me some benefits for implementation. For example, because the array contains pointers, rather than the objects themselves, I was able to write my \texttt{Stack} class (see \autoref{sec:lab1/stack/stack.py}) to accept either data of type \texttt{str} or \texttt{int}, which meant that my functions for evaluating expressions (see \autoref{sec:strategy}) more straightforward to implement because they could just use the same stack used elsewhere.
+
+Python's use of dynamic arrays instead of linked lists comes with another benefit, namely that the underlying layout of the pointers in memory is contiguous. The contiguity of the data makes it more likely that the data can be stored together in cache. Based on the locality principle used by many systems when retrieving information from resources like main memory or disc, if the data is contiguous in memory, then it is more likely that when a particular item is fetched from memory so too will the other items that are going to be needed in the near future. See Chapter 6 of \textcite{null2023essentials}, where there is a discussion of locality in memory management.
+
+\textcite{Kozen2011CornellLectureAmortizedAnalysis}
+\textcite{Tarjan1985AmortizedComputationalComplexity}
+\textcite{EnWikipediaorgAmortizedAnalysis}
 
 \section{Algorithms}
 
