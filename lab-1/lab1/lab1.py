@@ -8,6 +8,8 @@ def process_files(input_file: TextIO, output_file: TextIO) -> None:
 
     Reads prefix expressions from an input file, converts them into
     postfix expressions directly, and writes them to an output file.
+    This is the logical entrypoint to the program when called as a module,
+    where __main__ will call it with files passed from the command line.
 
     Args:
         input_file: TextIO is an opened text file set to read mode, and it
