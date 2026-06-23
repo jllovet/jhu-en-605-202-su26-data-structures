@@ -127,7 +127,11 @@ TODO: Add discussion of stack algorithms from class slides and their generic for
 
 \section{Testing}
 
-I used test-driven development with unit tests written in \texttt{unittest} to help with the development of my code and to ensure that I did not break portions of the codebase as I built new features, performed refactors, and did other chores. My test writing strategy is drawn from sources like \cite{JamesLearnGoWithTests}, where I learned to write tests to specify an API contract for a package, set of functions, or entire program before implementing the features themselves. As I added features to this lab, I wrote the tests first, mocking out the functions that I would call, and then I implemented the features. There are a few small functions that I extracted later on that are not covered by the tests. So, there is not 100\% coverage for the codebase. However, the core features and workflows were already under test when those functions were written. In a further development of this lab in an industry context, I would add tests to explicitly articulate the precise specifications of the functions' expected behavior and increase the coverage of the codebase overall. As a methodological note, when developing the tests the steps I took were:
+I used test-driven development with unit tests written in \texttt{unittest} to help with the development of my code and to ensure that I did not break portions of the codebase as I built new features, performed refactors, and did other chores. My test writing strategy is drawn from sources like \citetitle{JamesLearnGoWithTests}, where I learned to write tests to specify an API contract for a package, set of functions, or entire program before implementing the features themselves. As I added features to this lab, I wrote the tests first, mocking out the functions that I would call, and then I implemented the features. Before and after each code change, I ran the full test suite, so that I could immediately detect and address any changes to the code that resulted in changes in behavior of the program that either satisfied or broke the constraints of the specification encoded in the tests. There are a few small functions that I extracted later on in the lab that are not as comprehensively covered by the tests. Consequently, there is not 100\% coverage for the codebase. I don't think this is necessarily needed. Rather, the goal that I aimed for was external contract coverage and guarantees across the packages and for the program as a whole, leaving details of the implementation of those specifications out of test. This is analogous to the behavior seen in writing tests for languages like Java and Go, which have conventions about private vs public methods or unexported vs exported functions, respectively.
+
+In light of these decisions about testing and the boundaries that I set for what I would require of myself when writing those tests, I was judicious about where I added tests for small functions that aided in the implementation but weren't part of the external contract. when I was refactoring the codebase later in its development, the core features and workflows of each package were already under test and passing. Hence, when I abstracted or parameterized various portions of the functionality and behavior of the packages, I could check the tests to ensure that the specified behavior of the whole was preserved, even as implementation details changed. This proved quite useful several times, since I performed multiple significant reorganizations as the codebase grew over the course of the implementation. Between the findings of the Python type checker and those of the tests, I was able to make changes confidently, knowing that the program was in a working state at each commit.
+
+In a further development of this lab or in an industry context, I would add tests to explicitly articulate the precise specifications of the functions' expected behavior and increase the coverage of the codebase overall. As a methodological note, when developing the tests the steps I took were:
 
 \begin{enumerate}
   \item Write a test that reflects an atomic aspect of the expected behavior.
@@ -136,9 +140,23 @@ I used test-driven development with unit tests written in \texttt{unittest} to h
   \item Iterate with new tests.
 \end{enumerate}
 
-I referenced several resources to get back up to speed with testing in python using \texttt{unittest}. \parencite{PythonDocumentationUnittestUnit, CodewithJosh2024HowToTest, CoreySchafer2017PythonTutorial, ArjanCodes2025HowToWriteGreatUnitTestsInPython}
-I checked multiple resources for information about error handling \parencite{PythonDocumentationErrorsAndExceptions}, \texttt{match} syntax \parencite{PythonEnhancementProposalsPEP0636}, and typing \parencite{PythonDocumentationTypingLiterals}. In addition to these, I referenced the Google Python Style Guide \parencite{GooglePythonStyleGuide} for conventions about docstring formatting.
+To run the tests, I used the built-in \texttt{unittest} module's \texttt{discover} command. As I proceeded, I ran tests by calling the following from \texttt{jhu-en-605-202-su26-data-structures/test-1}: \texttt{python -m unittest discover -s lab1/tests}. This printed test results like the following:
 
+{\small
+\begin{verbatim}
+  python -m unittest discover -s lab1/tests
+  .............................................................................
+  ----------------------------------------------------------------------
+  Ran 77 tests in 0.003s
+  
+  OK
+\end{verbatim}
+}
+
+I referenced several documentation and tutorial resources to get back up to speed with testing in Python using \texttt{unittest}, such as \textcite{PythonDocumentationUnittestUnit}, \textcite{CodewithJosh2024HowToTest}, \textcite{CoreySchafer2017PythonTutorial}, and \textcite{ArjanCodes2025HowToWriteGreatUnitTestsInPython}.
+
+
+\pagebreak
 \section{Demo}
 
 For the following, I assume that I start in the root of the Github repository. From some appropriate location on your filesystem, clone the repository and move into the root of the repo.
