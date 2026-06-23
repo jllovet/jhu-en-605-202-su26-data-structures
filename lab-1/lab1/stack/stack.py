@@ -45,6 +45,26 @@ class Stack:
         return len(self.data) == 0
 
     def is_full(self) -> bool:
+        """Returns a bool indicating whether the stack is at its max capacity
+
+        If the stack is full, then an attempt to push an element onto it will
+        result in an error.
+
+        Args:
+            None
+
+        Returns:
+            Bool indicating whether the stack's height is equal to its max_height
+        
+        Raises:
+            None
+
+        Side Effects:
+            None
+        
+        Idempotent:
+            True
+        """
         return self.height == self.max_height
     
     def contains(self, item) -> bool:
