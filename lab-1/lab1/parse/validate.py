@@ -208,6 +208,25 @@ def is_operator(symbol: str) -> bool:
 
 
 def is_whitespace(symbol: str) -> bool:
+    """Returns a boolean indicating whether the symbol is whitespace
+
+    Returns true if the symbol is any of " ", "\t", "\n", "\v", "\f"
+
+    Args:
+        symbol: str a single character from an expression
+
+    Returns:
+        A bool indicating whether the symbol is whitespace
+    
+    Raises:
+        None
+
+    Side Effects:
+        None
+    
+    Idempotent:
+        True
+    """
     if not isinstance(symbol, str):
         return False
     match symbol:
