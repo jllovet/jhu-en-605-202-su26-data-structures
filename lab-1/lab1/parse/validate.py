@@ -315,6 +315,27 @@ def is_operator_or_bracket(symbol: str) -> bool:
 
 
 def is_allowed(symbol: str) -> bool:
+    """Returns a boolean indicating whether the symbol is allowed
+
+    Returns true if the symbol is an operator or parenthesis or any
+    of A,B,C...,X,Y,Z
+
+    Args:
+        symbol: str a single character from an expression
+
+    Returns:
+        A bool indicating whether the symbol is operator or parenthesis
+        or any of A,B,C...,X,Y,Z
+    
+    Raises:
+        None
+
+    Side Effects:
+        None
+    
+    Idempotent:
+        True
+    """
     if not isinstance(symbol, str):
         return False
     if is_operator_or_bracket(symbol) or is_capital_ascii_letter(symbol):
