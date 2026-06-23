@@ -139,7 +139,28 @@ def is_singleton_operand(parsed_expression: list) -> bool:
 
 
 def is_start_of_expression_an_operand(parsed_expression: list) -> bool:
-    # TODO: Raise ValueError if not list
+    """Returns a boolean indicating whether the expression starts with operand
+
+    Returns true if the parsed expression list begins with an operand. This is
+    used in determining validity for expressions.
+
+    Args:
+        parsed_expression: a parsed list representation of an expression
+
+    Returns:
+        A bool indicating whether the expression begins with an operand
+    
+    Raises:
+        ValueError: if the expression cannot be parsed
+
+    Side Effects:
+        Raises ValueError as described above
+    
+    Idempotent:
+        True
+    """
+    if not isinstance(parsed_expression, list):
+        raise ValueError(f"Could not read parsed expression. Expected list, but got {type(parsed_expression)}")
     if not parsed_expression:
         return False
     symbol = parsed_expression[0]
