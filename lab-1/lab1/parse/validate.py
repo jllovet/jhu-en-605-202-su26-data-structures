@@ -290,6 +290,25 @@ def is_capital_ascii_letter(symbol: str) -> bool:
 
 
 def is_operator_or_bracket(symbol: str) -> bool:
+    """Returns a boolean indicating whether the symbol is an operator or parenthesis
+
+    Returns true if the symbol is any of +, -, *, /, $, (, )
+
+    Args:
+        symbol: str a single character from an expression
+
+    Returns:
+        A bool indicating whether the symbol is any of +, -, *, /, $, (, )
+    
+    Raises:
+        None
+
+    Side Effects:
+        None
+    
+    Idempotent:
+        True
+    """
     if not isinstance(symbol, str):
         return False
     return (symbol in ["+", "-", "*", "/", "$", "(", ")"])
