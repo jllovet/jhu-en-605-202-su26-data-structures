@@ -4,6 +4,31 @@ from lab1.stack.stack import Stack
 
 
 def is_valid_expression(expression: str, expression_type: Literal["prefix", "postfix"]) -> bool:
+    """Returns a boolean indicating whether a provided expression is valid
+
+    Performs a validation that the provided expression is in a valid prefix or postfix
+    form, according to the value of expression_type. Returns true if valid, false if not.
+
+    Args:
+        expression: str where expression is a sequence of operations and operands
+        listed in prefix or postfix order, such as +AB or AB+ to represent the
+        infix expression A+B
+        
+        expression_type: one of the two strings 'prefix' or 'postfix', controlling
+        the algorithms for validating and evaluating the expressions
+
+    Returns:
+        A bool indicating whether the expression is valid in the form specified
+    
+    Raises:
+        ValueError: if the expression cannot be parsed
+
+    Side Effects:
+        Raises ValueError as described above
+    
+    Idempotent:
+        True
+    """
     try:
         parsed_expression = parser.parse(expression=expression,
                                          translate_symbols=True)
