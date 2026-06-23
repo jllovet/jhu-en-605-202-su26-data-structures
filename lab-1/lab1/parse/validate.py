@@ -110,7 +110,7 @@ def is_singleton_operand(parsed_expression: list) -> bool:
     which should be interpreted as a valid prefix or postfix expression
 
     Args:
-        parsed_expression: a parsed list representation of an expression
+        parsed_expression: list representation of an expression
 
     Returns:
         A bool indicating whether the expression is a single operand
@@ -145,7 +145,7 @@ def is_start_of_expression_an_operand(parsed_expression: list) -> bool:
     used in determining validity for expressions.
 
     Args:
-        parsed_expression: a parsed list representation of an expression
+        parsed_expression: list representation of an expression
 
     Returns:
         A bool indicating whether the expression begins with an operand
