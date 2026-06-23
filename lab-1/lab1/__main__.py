@@ -1,3 +1,5 @@
+# Adapted from example lab
+
 # This file is the entry point into this program when the module is executed
 # as a standalone program. IE 'python -m lab1'. This file is NOT run during
 # imports. This whole file is basically the java equivalent of:
