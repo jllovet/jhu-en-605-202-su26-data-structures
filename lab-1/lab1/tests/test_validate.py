@@ -12,11 +12,11 @@ class TestSymbolClassifiers(unittest.TestCase):
         self.assertFalse(validate.is_whitespace(1)) # type: ignore
     
     def test_is_parentheses(self):
-        self.assertTrue(validate.is_parentheses("("))
-        self.assertTrue(validate.is_parentheses(")"))
-        self.assertFalse(validate.is_parentheses("A"))
-        self.assertFalse(validate.is_parentheses("+"))
-        self.assertFalse(validate.is_parentheses(1)) # type: ignore
+        self.assertTrue(validate.is_parenthesis("("))
+        self.assertTrue(validate.is_parenthesis(")"))
+        self.assertFalse(validate.is_parenthesis("A"))
+        self.assertFalse(validate.is_parenthesis("+"))
+        self.assertFalse(validate.is_parenthesis(1)) # type: ignore
 
     def test_is_operation(self):
         self.assertTrue(validate.is_operator("+"))

@@ -243,11 +243,25 @@ def is_whitespace(symbol: str) -> bool:
     return False
 
 
-def is_parentheses(symbol: str) -> bool:
-    if symbol == "(" or symbol == ")":
-        return True
-    else:
-        return False
+def is_parenthesis(symbol: str) -> bool:
+    """Returns a boolean indicating whether the symbol is "(" or ")"
+
+    Args:
+        symbol: str a single character from an expression
+
+    Returns:
+        A bool indicating whether the symbol is a parenthesis
+    
+    Raises:
+        None
+
+    Side Effects:
+        None
+    
+    Idempotent:
+        True
+    """
+    return symbol == "(" or symbol == ")"
 
 
 def is_capital_ascii_letter(symbol: str) -> bool:

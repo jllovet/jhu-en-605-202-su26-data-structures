@@ -39,7 +39,7 @@ def pre2post(expression: str) -> str:
     for i in range(0, len(parsed_expression)):  # iterate from right
         index = len(parsed_expression) - (i + 1)
         symbol = parsed_expression[index]
-        if validate.is_parentheses(symbol):
+        if validate.is_parenthesis(symbol):
             continue
         if validate.is_operator(str(symbol)):
             a = stack.pop()
