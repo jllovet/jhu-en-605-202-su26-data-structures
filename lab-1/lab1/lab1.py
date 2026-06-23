@@ -3,48 +3,6 @@ from typing import TextIO
 import lab1.convert.converter as converter
 
 
-def print_errors(errors: list[str]) -> None:
-    """Prints error information to stderr
-
-    Error information includes preamble with usage information
-    and each of the error messages provided in arg 'errors'.
-
-    Args:
-        errors: list[str] where each element contains details
-        of the error that occurred, e.g. file, line number, message
-
-    Returns:
-        None
-
-    Raises:
-        None
-
-    Side Effects:
-        Prints to stderr
-
-    Idempotent:
-        True
-    """
-    error_preamble = [
-        f"""WARNING: {len(errors)} errors found during conversion
-WARNING: Invalid expressions not written to output file\n
-Check expressions to ensure the are well formed and only use allowed symbols.\n
-Note: whitespace is not allowed. Expressions with whitespace will be rejected.\n
-Allowed symbols: ABCDEFGHIJKLMNOPQRSTUVWXYZ+-*/$()\n
-Example valid expressions:
-\t(base case):\t'A'\t-> '{converter.pre2post('A')}'
-\t(single op):\t'+AB'\t-> '{converter.pre2post('+AB')}'
-\t(more ops):\t'-+ABC'\t-> '{converter.pre2post('-+ABC')}'""",
-        "-"*80,
-        "ERRORS:"
-    ]
-    for msg in error_preamble:
-        print(msg, file=stderr)
-
-    for error in errors:
-        print(error, file=stderr)
-
-
 def process_files(input_file: TextIO, output_file: TextIO) -> None:
     """Reads -> converts -> writes prefix expressions
 
@@ -85,3 +43,45 @@ def process_files(input_file: TextIO, output_file: TextIO) -> None:
             output_file.write("\n")
     if errors:
         print_errors(errors)
+
+
+def print_errors(errors: list[str]) -> None:
+    """Prints error information to stderr
+
+    Error information includes preamble with usage information
+    and each of the error messages provided in arg 'errors'.
+
+    Args:
+        errors: list[str] where each element contains details
+        of the error that occurred, e.g. file, line number, message
+
+    Returns:
+        None
+
+    Raises:
+        None
+
+    Side Effects:
+        Prints to stderr
+
+    Idempotent:
+        True
+    """
+    error_preamble = [
+        f"""WARNING: {len(errors)} errors found during conversion
+WARNING: Invalid expressions not written to output file\n
+Check expressions to ensure the are well formed and only use allowed symbols.\n
+Note: whitespace is not allowed. Expressions with whitespace will be rejected.\n
+Allowed symbols: ABCDEFGHIJKLMNOPQRSTUVWXYZ+-*/$()\n
+Example valid expressions:
+\t(base case):\t'A'\t-> '{converter.pre2post('A')}'
+\t(single op):\t'+AB'\t-> '{converter.pre2post('+AB')}'
+\t(more ops):\t'-+ABC'\t-> '{converter.pre2post('-+ABC')}'""",
+        "-"*80,
+        "ERRORS:"
+    ]
+    for msg in error_preamble:
+        print(msg, file=stderr)
+
+    for error in errors:
+        print(error, file=stderr)
