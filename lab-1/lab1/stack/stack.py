@@ -132,6 +132,7 @@ class Stack:
 
         Side Effects:
             Removes top element from the stack
+            Decrements the height of the stack
         
         Idempotent:
             False
