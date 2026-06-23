@@ -119,20 +119,23 @@ class Stack:
 
         Used when processing elements from the stack. It will return the
         top element of the stack and will remove it to be processed, in
-        contrast to the peek method.
+        contrast to the peek method. Pop will decrement the height of the
+        stack if there were any items in it. If the stack is empty, there
+        will be no effect.
 
         Args:
             None
 
         Returns:
-            str | int | None according to what was at the top of the stack
+            str | int according to what was at the top of the stack, or
+            None if the stack was empty
         
         Raises:
             None
 
         Side Effects:
-            Removes top element from the stack
-            Decrements the height of the stack
+            Removes top element from the stack if the stack was not empty
+            Decrements the height of the stack if the stack was not empty
         
         Idempotent:
             False
