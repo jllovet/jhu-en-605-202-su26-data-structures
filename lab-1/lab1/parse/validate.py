@@ -177,7 +177,7 @@ def is_operator(symbol: str) -> bool:
     Returns true if the symbol is in one of the operators: +, -, *, /, $
 
     Args:
-        symbol: str a parsed list representation of an expression
+        symbol: str a single character from an expression
 
     Returns:
         A bool indicating whether the symbol is an operator
