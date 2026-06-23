@@ -104,7 +104,28 @@ def is_valid_expression(expression: str, expression_type: Literal["prefix", "pos
 
 
 def is_singleton_operand(parsed_expression: list) -> bool:
-    # TODO: Raise ValueError if not list
+    """Returns a boolean indicating whether the expression is a single operand
+
+    Returns true if the parsed expression is an int or single capital ascii letter,
+    which should be interpreted as a valid prefix or postfix expression
+
+    Args:
+        parsed_expression: a parsed list representation of an expression
+
+    Returns:
+        A bool indicating whether the expression is a single operand
+    
+    Raises:
+        ValueError: if the expression cannot be parsed
+
+    Side Effects:
+        Raises ValueError as described above
+    
+    Idempotent:
+        True
+    """
+    if not isinstance(parsed_expression, list):
+        raise ValueError(f"Could not read parsed expression. Expected list, but got {type(parsed_expression)}")
     if not parsed_expression:
         return False
     if len(parsed_expression) == 1:
