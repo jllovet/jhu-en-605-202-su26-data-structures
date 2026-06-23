@@ -68,4 +68,5 @@ class TestPostfixEvaluation(unittest.TestCase):
     def test_evaluate_postfix_returns_evaluated_expression(self):
         self.assertEqual(2, eval("AA+", expression_type="postfix"))
         self.assertEqual(3, eval("AB+", expression_type="postfix"))
-        self.assertEqual((1+2)*(3**4), eval("AB+(CD$)*", expression_type="postfix"))
+        self.assertEqual((1+2)*(3**4), eval("AB+(CD$)*",
+                         expression_type="postfix"))

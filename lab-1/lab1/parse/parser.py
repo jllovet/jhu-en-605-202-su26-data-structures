@@ -81,7 +81,7 @@ def execute_operation(op: str, a: int, b: int) -> int:
     from the specification of the lab, viz. +, -, *, /, $. This is provided
     to support the evaluation of the expressions as a validation step.
     Raises a ValueError if the operation op provided is not recognized.
-    
+
     A few notes:
     / represents integer division, not floating point division.
     $ represents exponentiation

@@ -1,6 +1,7 @@
 import unittest
 import lab1.parse.validate as validate
 
+
 class TestSymbolClassifiers(unittest.TestCase):
     def test_is_whitespace(self):
         self.assertTrue(validate.is_whitespace(" "))
@@ -9,14 +10,14 @@ class TestSymbolClassifiers(unittest.TestCase):
         self.assertTrue(validate.is_whitespace("\v"))
         self.assertTrue(validate.is_whitespace("\f"))
         self.assertFalse(validate.is_whitespace("A"))
-        self.assertFalse(validate.is_whitespace(1)) # type: ignore
-    
+        self.assertFalse(validate.is_whitespace(1))  # type: ignore
+
     def test_is_parentheses(self):
         self.assertTrue(validate.is_parenthesis("("))
         self.assertTrue(validate.is_parenthesis(")"))
         self.assertFalse(validate.is_parenthesis("A"))
         self.assertFalse(validate.is_parenthesis("+"))
-        self.assertFalse(validate.is_parenthesis(1)) # type: ignore
+        self.assertFalse(validate.is_parenthesis(1))  # type: ignore
 
     def test_is_operation(self):
         self.assertTrue(validate.is_operator("+"))
@@ -25,8 +26,8 @@ class TestSymbolClassifiers(unittest.TestCase):
         self.assertTrue(validate.is_operator("*"))
         self.assertTrue(validate.is_operator("$"))
         self.assertFalse(validate.is_operator("A"))
-        self.assertFalse(validate.is_operator(1)) # type: ignore
-    
+        self.assertFalse(validate.is_operator(1))  # type: ignore
+
     def test_is_allowed(self):
         self.assertTrue(validate.is_allowed("A"))
         self.assertTrue(validate.is_allowed("B"))
@@ -62,12 +63,13 @@ class TestSymbolClassifiers(unittest.TestCase):
         self.assertTrue(validate.is_allowed("$"))
         self.assertTrue(validate.is_allowed("("))
         self.assertTrue(validate.is_allowed(")"))
-        
+
         self.assertFalse(validate.is_allowed("!"))
         self.assertFalse(validate.is_allowed("a"))
         self.assertFalse(validate.is_allowed("<"))
-        self.assertFalse(validate.is_allowed(1)) # type: ignore
-        
+        self.assertFalse(validate.is_allowed(1))  # type: ignore
+
+
 class TestIsValidExpression(unittest.TestCase):
     def is_valid_expression(self):
         self.assertTrue(validate.is_valid_expression("+AB", "prefix"))
@@ -75,14 +77,16 @@ class TestIsValidExpression(unittest.TestCase):
         self.assertTrue(validate.is_valid_expression("AB+", "postfix"))
         self.assertFalse(validate.is_valid_expression("AB+", "prefix"))
 
+
 class TestExpressionInvariants(unittest.TestCase):
     def test_is_singleton_operand(self):
         self.assertTrue(validate.is_singleton_operand(["A"]))
         self.assertTrue(validate.is_singleton_operand([1]))
         self.assertFalse(validate.is_singleton_operand([]))
-        self.assertFalse(validate.is_singleton_operand(["A","A"]))
-        self.assertFalse(validate.is_singleton_operand(["+","A","B"]))
+        self.assertFalse(validate.is_singleton_operand(["A", "A"]))
+        self.assertFalse(validate.is_singleton_operand(["+", "A", "B"]))
         self.assertFalse(validate.is_singleton_operand(["+"]))
-    
+
     def test_is_start_of_nontrivial_prefix_expression_an_operand(self):
-        self.assertTrue(validate.is_start_of_expression_an_operand(["A","+","A","A"]))
+        self.assertTrue(
+            validate.is_start_of_expression_an_operand(["A", "+", "A", "A"]))

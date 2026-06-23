@@ -1,6 +1,7 @@
 import unittest
 import lab1.parse.parser as parser
 
+
 class TestSymbolLookup(unittest.TestCase):
     def test_capital_ascii_letters_return_number_in_valid_range(self):
         self.assertLessEqual(1, parser.lookup_symbol("A"))  # type: ignore

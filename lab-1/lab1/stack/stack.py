@@ -1,5 +1,6 @@
 class Stack:
     """Implementation of the ADT Stack, using arrays for the underlying data"""
+
     def __init__(self, max_height: int = -1):
         """Initializes an empty stack with optional maximum height specified
 
@@ -10,13 +11,13 @@ class Stack:
 
         Returns:
             Stack initialized with empty data and maximum height set to max_height
-        
+
         Raises:
             None
 
         Side Effects:
             None
-        
+
         Idempotent:
             True
         """
@@ -32,13 +33,13 @@ class Stack:
 
         Returns:
             Bool indicating whether the stack has no elements
-        
+
         Raises:
             None
 
         Side Effects:
             None
-        
+
         Idempotent:
             True
         """
@@ -55,18 +56,18 @@ class Stack:
 
         Returns:
             Bool indicating whether the stack's height is equal to its max_height
-        
+
         Raises:
             None
 
         Side Effects:
             None
-        
+
         Idempotent:
             True
         """
         return self.height == self.max_height
-    
+
     def contains(self, item) -> bool:
         """Returns a bool indicating whether the item provided is in the stack
 
@@ -75,13 +76,13 @@ class Stack:
 
         Returns:
             Bool indicating whether the item provided is in the stack
-        
+
         Raises:
             None
 
         Side Effects:
             None
-        
+
         Idempotent:
             True
         """
@@ -99,21 +100,21 @@ class Stack:
 
         Returns:
             str | int | None according to what was at the top of the stack
-        
+
         Raises:
             None
 
         Side Effects:
             None
-        
+
         Idempotent:
             True
         """
         if self.is_empty():
             return None
-        idx = len(self.data) - 1 # end of the array
+        idx = len(self.data) - 1  # end of the array
         return self.data[idx]
-    
+
     def pop(self) -> str | int | None:
         """Removes the top value from the stack and returns it
 
@@ -129,14 +130,14 @@ class Stack:
         Returns:
             str | int according to what was at the top of the stack, or
             None if the stack was empty
-        
+
         Raises:
             None
 
         Side Effects:
             Removes top element from the stack if the stack was not empty
             Decrements the height of the stack if the stack was not empty
-        
+
         Idempotent:
             False
         """
@@ -158,7 +159,7 @@ class Stack:
 
         Returns:
             str | int | None according to what was at the top of the stack
-        
+
         Raises:
             OverflowError if the stack is already full
             ValueError if item is not of type str or int
@@ -167,14 +168,15 @@ class Stack:
             Adds an element to the top of the stack if it is not full
             Increments the height of the stack if it is not full
             Raises errors as described above
-        
+
         Idempotent:
             False
         """
         if self.height == self.max_height:
             raise OverflowError("cannot push onto stack because it is full")
         if not isinstance(item, str | int):
-            raise ValueError(f"cannot push onto stack because {item} is not of type str or int")
+            raise ValueError(
+                f"cannot push onto stack because {item} is not of type str or int")
         self.data.append(item)
         self.height += 1
         return None

@@ -13,19 +13,19 @@ def is_valid_expression(expression: str, expression_type: Literal["prefix", "pos
         expression: str where expression is a sequence of operations and operands
         listed in prefix or postfix order, such as +AB or AB+ to represent the
         infix expression A+B
-        
+
         expression_type: one of the two strings 'prefix' or 'postfix', controlling
         the algorithms for validating and evaluating the expressions
 
     Returns:
         A bool indicating whether the expression is valid in the form specified
-    
+
     Raises:
         ValueError: if the expression cannot be parsed
 
     Side Effects:
         Raises ValueError as described above
-    
+
     Idempotent:
         True
     """
@@ -114,18 +114,19 @@ def is_singleton_operand(parsed_expression: list) -> bool:
 
     Returns:
         A bool indicating whether the expression is a single operand
-    
+
     Raises:
         ValueError: if the expression cannot be parsed
 
     Side Effects:
         Raises ValueError as described above
-    
+
     Idempotent:
         True
     """
     if not isinstance(parsed_expression, list):
-        raise ValueError(f"Could not read parsed expression. Expected list, but got {type(parsed_expression)}")
+        raise ValueError(
+            f"Could not read parsed expression. Expected list, but got {type(parsed_expression)}")
     if not parsed_expression:
         return False
     if len(parsed_expression) == 1:
@@ -149,18 +150,19 @@ def is_start_of_expression_an_operand(parsed_expression: list) -> bool:
 
     Returns:
         A bool indicating whether the expression begins with an operand
-    
+
     Raises:
         ValueError: if the expression cannot be parsed
 
     Side Effects:
         Raises ValueError as described above
-    
+
     Idempotent:
         True
     """
     if not isinstance(parsed_expression, list):
-        raise ValueError(f"Could not read parsed expression. Expected list, but got {type(parsed_expression)}")
+        raise ValueError(
+            f"Could not read parsed expression. Expected list, but got {type(parsed_expression)}")
     if not parsed_expression:
         return False
     symbol = parsed_expression[0]
@@ -181,13 +183,13 @@ def is_operator(symbol: str) -> bool:
 
     Returns:
         A bool indicating whether the symbol is an operator
-    
+
     Raises:
         None
 
     Side Effects:
         None
-    
+
     Idempotent:
         True
     """
@@ -217,13 +219,13 @@ def is_whitespace(symbol: str) -> bool:
 
     Returns:
         A bool indicating whether the symbol is whitespace
-    
+
     Raises:
         None
 
     Side Effects:
         None
-    
+
     Idempotent:
         True
     """
@@ -251,13 +253,13 @@ def is_parenthesis(symbol: str) -> bool:
 
     Returns:
         A bool indicating whether the symbol is a parenthesis
-    
+
     Raises:
         None
 
     Side Effects:
         None
-    
+
     Idempotent:
         True
     """
@@ -274,13 +276,13 @@ def is_capital_ascii_letter(symbol: str) -> bool:
 
     Returns:
         A bool indicating whether the symbol is any of A,B,C...,X,Y,Z
-    
+
     Raises:
         None
 
     Side Effects:
         None
-    
+
     Idempotent:
         True
     """
@@ -299,13 +301,13 @@ def is_operator_or_bracket(symbol: str) -> bool:
 
     Returns:
         A bool indicating whether the symbol is any of +, -, *, /, $, (, )
-    
+
     Raises:
         None
 
     Side Effects:
         None
-    
+
     Idempotent:
         True
     """
@@ -326,13 +328,13 @@ def is_allowed(symbol: str) -> bool:
     Returns:
         A bool indicating whether the symbol is operator or parenthesis
         or any of A,B,C...,X,Y,Z
-    
+
     Raises:
         None
 
     Side Effects:
         None
-    
+
     Idempotent:
         True
     """
