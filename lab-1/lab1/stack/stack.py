@@ -88,6 +88,27 @@ class Stack:
         return item in self.data
 
     def peek(self) -> str | int | None:
+        """Returns the value at the top of the stack without removing it
+
+        Used to check what the value is at the top of the stack, often while
+        performing a validation or check, without removing the item to be
+        processed, in contrast to the pop method.
+
+        Args:
+            None
+
+        Returns:
+            str | int | None according to what was at the top of the stack
+        
+        Raises:
+            None
+
+        Side Effects:
+            None
+        
+        Idempotent:
+            True
+        """
         if self.is_empty():
             return None
         idx = len(self.data) - 1 # end of the array
