@@ -120,6 +120,92 @@ I checked multiple resources for information about error handling \parencite{Pyt
 
 \section{Demo}
 
+For the following, I assume that I start in the root of the Github repository. From some appropriate location on your filesystem, clone the repository and move into the root of the repo.
+{\small
+\begin{verbatim}
+  git clone https://github.com/jllovet/jhu-en-605-202-su26-data-structures.git
+  cd jhu-en-605-202-su26-data-structures
+\end{verbatim}
+}
+
+\noindent From there, move into the folder for this lab.
+
+{\small
+\begin{verbatim}
+  cd lab-1
+\end{verbatim}
+}
+
+\noindent From here, the python module can be run as follows.
+
+{\small
+\begin{verbatim}
+  python -m lab1 resources/input/in.txt resources/output/output.txt
+\end{verbatim}
+}
+
+\noindent The input and resulting output are shown below:
+
+\begin{center}
+\begin{minipage}[t]{0.46\textwidth}
+  \centering
+  \textbf{\texttt{resources/input/in.txt}}\\
+  \inputminted[frame=single,fontsize=\footnotesize]{text}{resources/input/in.txt}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.46\textwidth}
+  \centering
+  \textbf{\texttt{resources/output/output.txt}}\\
+  \inputminted[frame=single,fontsize=\footnotesize]{text}{resources/output/output.txt}
+\end{minipage}
+\end{center}
+
+\noindent When the program is executed, the error message on the following page will be written to \texttt{stderr}:
+
+\pagebreak
+
+{\small
+\begin{center}
+\begin{verbatim}
+WARNING: 19 errors found during conversion
+WARNING: Invalid expressions not written to output file
+
+Check expressions to ensure the are well formed and only use allowed symbols.
+
+Note: whitespace is not allowed. Expressions with whitespace will be rejected.
+
+Allowed symbols: ABCDEFGHIJKLMNOPQRSTUVWXYZ+-*/$()
+
+Example valid expressions:
+	(base case):	'A'	-> 'A'
+	(single op):	'+AB'	-> 'AB+'
+	(more ops):	'-+ABC'	-> 'AB+C-'
+--------------------------------------------------------------------------------
+ERRORS:
+resources/input/in.txt - line 2: 'AB' is not a valid prefix expression
+resources/input/in.txt - line 3: 'AB+' is not a valid prefix expression
+resources/input/in.txt - line 6: '++AB' is not a valid prefix expression
+resources/input/in.txt - line 7: '+++' is not a valid prefix expression
+resources/input/in.txt - line 8: 'A+B' is not a valid prefix expression
+resources/input/in.txt - line 9: 'A-B' is not a valid prefix expression
+resources/input/in.txt - line 10: 'A=B' is not a valid prefix expression
+resources/input/in.txt - line 11: 'A#B' is not a valid prefix expression
+resources/input/in.txt - line 12: 'A@B' is not a valid prefix expression
+resources/input/in.txt - line 13: 'A$B' is not a valid prefix expression
+resources/input/in.txt - line 17: 'miscellaneous' is not a valid prefix expression
+resources/input/in.txt - line 18: '+La-sc*ia$te' is not a valid prefix expression
+resources/input/in.txt - line 19: '$+' is not a valid prefix expression
+resources/input/in.txt - line 23: '/A+BC +C*BA  ' is not a valid prefix expression
+resources/input/in.txt - line 24: '*-*-ABC+BA  ' is not a valid prefix expression
+resources/input/in.txt - line 25: '/+/A-BC-BA  ' is not a valid prefix expression
+resources/input/in.txt - line 26: '*$A+BC+C-BA ' is not a valid prefix expression
+resources/input/in.txt - line 27: '//A+B0-C+BA' is not a valid prefix expression
+resources/input/in.txt - line 28: '*$A^BC+C-BA' is not a valid prefix expression
+\end{verbatim}
+\end{center}
+}
+
+\pagebreak
+
 \section{Source}
 
 
