@@ -161,7 +161,7 @@ Python's use of dynamic arrays instead of linked lists comes with another benefi
 
 TODO: Add discussion of stack algorithms from class slides and their generic forms
 
-\section{Testing}
+\section{Testing}\label{sec:testing}
 
 I used test-driven development with unit tests written in \texttt{unittest} to help with the development of my code and to ensure that I did not break portions of the codebase as I built new features, performed refactors, and did other chores. My test writing strategy is drawn from sources like \citetitle{JamesLearnGoWithTests}, where I learned to write tests to specify an API contract for a package, set of functions, or entire program before implementing the features themselves. As I added features to this lab, I wrote the tests first, mocking out the functions that I would call, and then I implemented the features. Before and after each code change, I ran the full test suite, so that I could immediately detect and address any changes to the code that resulted in changes in behavior of the program that either satisfied or broke the constraints of the specification encoded in the tests. There are a few small functions that I extracted later on in the lab that are not as comprehensively covered by the tests. Consequently, there is not 100\% coverage for the codebase. I don't think this is necessarily needed. Rather, the goal that I aimed for was external contract coverage and guarantees across the packages and for the program as a whole, leaving details of the implementation of those specifications out of test. This is analogous to the behavior seen in writing tests for languages like Java and Go, which have conventions about private vs public methods or unexported vs exported functions, respectively.
 
@@ -193,7 +193,7 @@ I referenced several documentation and tutorial resources to get back up to spee
 
 
 \pagebreak
-\section{Demo}
+\section{Demo}\label{sec:demo}
 
 For the following, I assume that I start in the root of the Github repository. From some appropriate location on your filesystem, clone the repository and move into the root of the repo.
 {\small
