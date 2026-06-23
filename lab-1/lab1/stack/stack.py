@@ -25,6 +25,23 @@ class Stack:
         self.height = len(self.data)
 
     def is_empty(self) -> bool:
+        """Returns a bool indicating whether the stack has no elements
+
+        Args:
+            None
+
+        Returns:
+            Bool indicating whether the stack has no elements
+        
+        Raises:
+            None
+
+        Side Effects:
+            None
+        
+        Idempotent:
+            True
+        """
         return len(self.data) == 0
 
     def is_full(self) -> bool:
