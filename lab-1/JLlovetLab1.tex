@@ -73,12 +73,43 @@ In processing the input, you should expect to read line by line and within a lin
 
 \section{Analysis}
 
+This lab illustrates the use of stacks in the conversion of prefix expressions to postfix expressions. The prefix expressions will be read in from a file and then output to a file, both of which are provided at the command line. Errors will be printed to stderr for review. The lab is meant to be run as a module. See \texttt{README.md} for running instructions.
+We want to convert expressions in this form: \texttt{+AB} to this form \texttt{AB+}. Both of these are equivalent to the probably more familiar infix notation for the same expression \texttt{A+B}. Put another way, we want to convert from Polish notation to Reverse Polish notation. \parencite{EnWikipediaorgReversePolishNotation}
 
-\parencite{EnWikipediaorgReversePolishNotation}
+
 
 \section{Strategy}
 
 \section{Structure}
+
+\begin{verbatim}
+lab1
+|-- __init__.py            | Python-required for module
+|-- __main__.py            | Main entrypoint
+|-- convert                | Package that handles actual pre->post conversion
+|   |-- __init__.py        | Python-required for package
+|   `-- converter.py       | The pre->post conversion pipeline
+|-- lab1.py                | IO entrypoint for processing files and printing errors
+|-- launch.json            | Configuration for IDE
+|-- parse                  | Package to handle parsing expressions
+|   |-- __init__.py        | Python-required for package
+|   |-- evaluate.py        | Evaluates expressions to help with validity checks
+|   |-- parser.py          | Parsing for expressions, symbol lookup, and 
+|   `-- validate.py        | Validation functions that check expressions, symbols
+|-- stack                  | Package for an array-based stack
+|   |-- __init__.py        | Python-required for package
+|   `-- stack.py           | Implementation of an array-based stack (uses Python list)
+`-- tests                  | "Testing, 1, 2"
+    |-- __init__.py        | Python-required for package
+    |-- test_converter.py  | Tests for the convert package
+    |-- test_parser.py     | Tests for the parse package
+    |-- test_postfix.py    | Tests for postfix operations
+    |-- test_prefix.py     | Tests for prefix operations
+    |-- test_stack.py      | Tests for the stack package
+    `-- test_validate.py   | Tests for the validate package
+
+5 directories, 19 files
+\end{verbatim}
 
 \section{Algorithms}
 
