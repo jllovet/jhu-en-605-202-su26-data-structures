@@ -115,6 +115,27 @@ class Stack:
         return self.data[idx]
     
     def pop(self) -> str | int | None:
+        """Removes the top value from the stack and returns it
+
+        Used when processing elements from the stack. It will return the
+        top element of the stack and will remove it to be processed, in
+        contrast to the peek method.
+
+        Args:
+            None
+
+        Returns:
+            str | int | None according to what was at the top of the stack
+        
+        Raises:
+            None
+
+        Side Effects:
+            Removes top element from the stack
+        
+        Idempotent:
+            False
+        """
         if self.data == []:
             return None
         self.height -= 1
