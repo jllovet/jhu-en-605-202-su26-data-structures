@@ -173,8 +173,6 @@ lab1
 
 TODO: Add discussion of recursive algorithm.
 TODO: Add discussion of stack and ADTs.
-TODO: Add discussion of algorithmic complexity
-TODO: Add discussion of design choices
 
 In this lab, I am using a Python list as the underlying structure for the data contained in the stack. Why? There are two main reasons: more straightforward implementation and better use of hardware resources.
 
@@ -199,6 +197,43 @@ The performance of the stack's operations in my implementation are as follows:
 \end{center}
 
 Note on \texttt{push}: Because the Python list that contains the data is implemented as a dynamic array, when its capacity is filled, this will result in a resizing operation that takes $O(n)$ time. However, when looking at the average performance of \texttt{push}, the additional cost of the resizing operations reduces to a constant cost on average. This is because the frequency with which the resizing operations must be performed decreases exponentially as the size of the underlying array grows, under the assumption that the size of the array is doubled each time it is resized. See \textcite{EnWikipediaorgAmortizedAnalysis}, which will point to \textcite{Kozen2011CornellLectureAmortizedAnalysis}, which is itself a clarifying reformulation of \textcite{Tarjan1985AmortizedComputationalComplexity} for more details.
+
+
+The following is the implementation of \texttt{converter.pre2post}, with the docstring and other long comments stripped out to save space. The full version is in \autoref{sec:lab1/convert/converter.py}. I have added notations for each step to indicate the time complexity required for the operation.
+
+
+\begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{7pt}{8pt}\selectfont}]{python}
+def pre2post(expression: str) -> str:
+    if not validate.is_valid_expression(expression=expression, expression_type="prefix"): # O(n)
+        raise ValueError(f"'{expression}' is not a valid prefix expression")              # O(1)
+    stack = Stack()                                                                       # O(1)
+    parsed_expression = parser.parse(expression=expression)                               # O(n)
+    postfix_expression_components = []                                                    # O(1)
+    if parsed_expression == [] or len(parsed_expression) == 1:                            # O(1)
+        return expression                                                                 # O(1)
+    for i in range(0, len(parsed_expression)):  # iterate from right                      # O(n)
+        index = len(parsed_expression) - (i + 1)                                          # O(1)
+        symbol = parsed_expression[index]                                                 # O(1)
+        if validate.is_parenthesis(symbol):                                               # O(1)
+            continue                                                                      # O(1)
+        if validate.is_operator(str(symbol)):                                             # O(1)
+            a = stack.pop()                                                               # O(1)
+            b = stack.pop()                                                               # O(1)
+            stack.push(f"{a}{b}{symbol}")                                                 # O(1)
+        elif isinstance(symbol, str):                                                     # O(1)
+            stack.push(symbol)                                                            # O(1)
+    while not stack.is_empty():                                                           # O(1)
+        symbol = stack.pop()                                                              # O(n) or amortized O(1)
+        postfix_expression_components.append(symbol)                                      # O(n) or amortized O(1) (this list <= n)
+    postfix_expression = "".join(postfix_expression_components)                           # O(n)
+    return postfix_expression                                                             # O(1)
+\end{minted}
+
+The core of the preceding analysis applies similarly to the function \texttt{validate.is_valid_expression} (in \autoref{sec:lab1/parse/validate.py}) and to \texttt{parser.parse} (in \autoref{sec:lab1/parse/parser.py}).
+
+From this, we can conclude that for each of the steps in the conversion pipeline, there are at most $kn$ steps, where $k \in \mathbb{Z^+}$ and $n$ is the length of the original expression. The time complexity's being an integer multiple of the size of the input implies that the worst case complexity is $O(n)$ for the program.
+
+
 \section{Algorithms}
 
 TODO: Add discussion of stack algorithms from class slides and their generic forms
