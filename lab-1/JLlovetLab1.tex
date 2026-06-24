@@ -199,7 +199,7 @@ Note on \texttt{push}: Because the Python list that contains the data is impleme
 The following is the implementation of \texttt{converter.pre2post}, with the docstring and other long comments stripped out to save space. The full version is in \autoref{sec:lab1/convert/converter.py}. I have added notations for each step to indicate the time complexity required for the operation.
 
 
-\begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{7pt}{8pt}\selectfont}]{python}
+\begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{python}
 def pre2post(expression: str) -> str:
     if not validate.is_valid_expression(expression=expression, expression_type="prefix"): # O(n)
         raise ValueError(f"'{expression}' is not a valid prefix expression")              # O(1)
@@ -221,7 +221,7 @@ def pre2post(expression: str) -> str:
             stack.push(symbol)                                                            # O(1)
     while not stack.is_empty():                                                           # O(1)
         symbol = stack.pop()                                                              # O(n) or amortized O(1)
-        postfix_expression_components.append(symbol)                                      # O(n) or amortized O(1) (this list <= n)
+        postfix_expression_components.append(symbol)                                      # O(n) or amortized O(1)
     postfix_expression = "".join(postfix_expression_components)                           # O(n)
     return postfix_expression                                                             # O(1)
 \end{minted}
