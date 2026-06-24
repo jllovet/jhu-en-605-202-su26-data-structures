@@ -128,13 +128,16 @@ The IO flow above calls into the conversion flow, which is sketched below.
 
 The validation flow is the next layer down. It is sketched below. Details about conditions that are checked can be seen in \autoref{sec:lab1/parse/validate.py}.
 
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.9\linewidth]{lab1-strategy-validation.pdf}
-  \caption{Validation flow}\label{fig:strategy-validation}
-\end{figure}
-
 The evaluation flow is similar to the validation flow, and in fact \texttt{evaluate.eval} calls \texttt{validate.is_valid_expression}. In the current form of the codebase, \texttt{evaluate.eval} is used as a helper function in tests. Because it is ancillary, I will refer the reader to \autoref{sec:lab1/parse/evaluate.py} for more details.
+
+\begin{landscape}
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\linewidth]{lab1-strategy-validation.pdf}
+    \caption{Validation flow}\label{fig:strategy-validation}
+  \end{figure}
+\end{landscape}
+
 
 \clearpage\pagebreak
 
