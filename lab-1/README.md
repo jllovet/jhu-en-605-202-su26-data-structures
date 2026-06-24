@@ -2,7 +2,7 @@
 
 ## Prompt - Use of Stacks - Converting Prefix to Postfix Expressions
 
-This lab illustrates the use of stacks in the conversion of prefix expressions to postfix expressions. The prefix expressions will be read in from a file and then output to a file, both of which are provided at the command line. Errors will be printed to stderr for review. The lab is meant to be run as a module. See [Running Lab 1](#running-lab-1) below.
+This lab illustrates the use of stacks in the conversion of prefix expressions to postfix expressions. The prefix expressions will be read in from a file and then output to a file, both of which are provided at the command line. Errors will be printed to stderr for review. The lab is meant to be run as a module. See [Running Lab 1](#running-lab-1) below. The lab was written using the IDE VSCode. See [github.com/jllovet/jhu-en-605-202-su26-data-structures](https://github.com/jllovet/jhu-en-605-202-su26-data-structures) for additional setup details if required.
 
 What is the lab doing again? We want to convert expressions in this form: `+AB` to this form `AB+`. Both of these are equivalent to the probably more familiar infix notation for the same expression `A+B`. We want to convert from Polish notation to Reverse Polish notation.
 
@@ -55,8 +55,10 @@ AB+
 Running the program will produce the following output in `resources/output/output.txt`:
 
 ```txt
-A
-AA+
+A -> A
+resources/input/in.txt - line 2: 'AB' is not a valid prefix expression
+resources/input/in.txt - line 3: 'AB+' is not a valid prefix expression
++AA -> AA+
 ```
 
 And it will also print the following error:
