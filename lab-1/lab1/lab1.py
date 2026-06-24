@@ -40,8 +40,10 @@ def process_files(input_file: TextIO, output_file: TextIO) -> None:
             except ValueError as e:
                 errors.append(
                     f"{input_file.name} - line {line_number + 1}: {e}")
+                output_file.write(f"{input_file.name} - line {line_number + 1}: {e}")
+                output_file.write("\n")
                 continue
-            output_file.write(postfix)
+            output_file.write(f"{line} -> {postfix}")
             output_file.write("\n")
     if errors:
         print_errors(errors)
