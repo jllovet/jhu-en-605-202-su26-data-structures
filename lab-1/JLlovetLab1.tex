@@ -171,9 +171,6 @@ lab1
 
 \section{Design Decisions}
 
-TODO: Add discussion of recursive algorithm.
-TODO: Add discussion of stack and ADTs.
-
 In this lab, I am using a Python list as the underlying structure for the data contained in the stack. Why? There are two main reasons: more straightforward implementation and better use of hardware resources.
 
 Python lists are dynamic arrays of pointers to data objects \cite{PythonDocumentationDesignAndHistory}. The actual data items are stored separately, but indexing a list \texttt{a[i]} can be performed in $O(1)$, rather than needing to iterate through all the elements like in a linked list. These characteristics gave me some benefits for implementation. For example, because the array contains pointers, rather than the objects themselves, I was able to write my \texttt{Stack} class (see \autoref{sec:lab1/stack/stack.py}) to accept either data of type \texttt{str} or \texttt{int}, which meant that my functions for evaluating expressions (see \autoref{sec:strategy}) more straightforward to implement because they could just use the same stack used elsewhere.
@@ -185,7 +182,7 @@ The performance of the stack's operations in my implementation are as follows:
 \begin{center}
   \begin{tabularx}{\textwidth}{|l|l|X|}
     \hline
-    Function                             & Worst Case                 & Description                                                                                               \\ \hline
+    Function                                      & Worst Case                 & Description                                                                                               \\ \hline
     \texttt{__init__(self, max_height: int = -1)} & $O(1)$                     & Only has to initialize an instance of Stack. Time complexity has no dependence on n or max_height.        \\ \hline
     \texttt{is_empty(self) -> bool}               & $O(1)$                     & Only has to read an attribute from the instance of Stack. Time complexity has no dependence on height.    \\ \hline
     \texttt{is_full(self) -> bool}                & $O(1)$                     & Only has to read an attribute from the instance of Stack. Time complexity has no dependence on height.    \\ \hline
@@ -234,9 +231,29 @@ The core of the preceding analysis applies similarly to the function \texttt{val
 From this, we can conclude that for each of the steps in the conversion pipeline, there are at most $kn$ steps, where $k \in \mathbb{Z^+}$ and $n$ is the length of the original expression. The time complexity's being an integer multiple of the size of the input implies that the worst case complexity is $O(n)$ for the program.
 
 
-\section{Algorithms}
+\section{Algorithms and ADTs}
 
-TODO: Add discussion of stack algorithms from class slides and their generic forms
+For this lab, a stack is a reasonable ADT to use because of the structure of the problem itself. Prefix and postfix notation for mathematical expressions themselves are designed around stacks. As you read a symbol in either format, the determination of how to handle it is unambiguous because of the stack semantics inherent in the notation. This is in notable contrast to infix notation, with which there is ambiguity about evaluation order that must be disambiguated using parentheses.
+
+Because the problem of parsing these expressions lends itself inherently a stack, it lends itself also naturally to a recursive implementation. A recursive implementation implicitly uses the stacks, and when evaluated, it will take advantage of the stack provided by the operating system to execute. The problem also semantically suggests a recursive definition, because it can be expressed using a context free grammar.
+
+\begin{align*}
+   & R \to XAA \mid RR                                                                 \\
+   & X \to \texttt{+} \mid \texttt{-} \mid \texttt{*} \mid \texttt{/} \mid \texttt{\$} \\
+   & A \to R\ | \texttt{Int}
+\end{align*}
+
+This reads that a variable $R$ can be replaced either by $XAB$ or a sequence of two variables $RR$. $X$ can be replaced by one of the terminal operators, and $A$ can be replaced either by another variable R or an integer. With this pattern, we can produce any prefix operation. The grammar for a postfix expression is the following:
+
+\begin{align*}
+   & R \to AAX \mid RR                                                                 \\
+   & X \to \texttt{+} \mid \texttt{-} \mid \texttt{*} \mid \texttt{/} \mid \texttt{\$} \\
+   & A \to R\ | \texttt{Int}
+\end{align*}
+
+Why does it matter that this can be expressed as a context free grammar (CFG)? Every CFG is computationally equivalent to a pushdown automaton (PDA) \cite{sipser2013}, which is a model of computation that only has states and a single stack that it can push and pop from. Context free grammars make clear that there is a recursive definition for any of the languages (i.e. computational problems) that they model. A recursive definition of the conversion problem would be more straightforward to implement and to reason about, because we would not have to manage the stack manipulation ourselves. This does not necessarily make the recursive definition of the problem better, since for a given language and for a given problem, a naive recursive solution to a problem may not make effective use of space, as we have seen in the case of calculating Fibonacci numbers recursively. However, the benefits of declarative, high-level functional programming are significant. Recursive functions lend themselves to such contexts, and given that there are compiler optimizations, intelligent memoization, and tail recursion available for us to use, I would recommend the use of a recursive solution to this and similar problems where possible. The manual state management of the stack is similar to memory management in system-level languages. There is usually a reasonable abstraction provided by an implemntation that handles the low-level details correctly, and using that abstraction is likely to reduce the likelihood of bugs and cognitive effort's being spent on implementation details when it could be spent modeling the domain appropriately. We don't need to reinvent sequence iteration every time we want to handle all the elements in a list. Instead, we could just use map and a function.
+
+\pagebreak
 
 \section{Testing}\label{sec:testing}
 
