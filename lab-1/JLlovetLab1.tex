@@ -41,19 +41,19 @@
 
 \begin{document}
 \begin{center}
-\fbox{
-  \vbox{
-    \begin{flushleft}
-      Jonathan Llovet \\  % authors' names
-      EN.605.202.81 \\  %class
-      2026-06-23 \\  % date
-      Lab 1 \\ % ID
-    \end{flushleft}
-    \center{\Large{\textbf{Use of Stacks - Converting Prefix to Postfix Expressions}}}
-    %\end{mdframed}
-  } % end vbox
-} % end fbox
-\vline
+  \fbox{
+    \vbox{
+      \begin{flushleft}
+        Jonathan Llovet \\  % authors' names
+        EN.605.202.81 \\  %class
+        2026-06-23 \\  % date
+        Lab 1 \\ % ID
+      \end{flushleft}
+      \center{\Large{\textbf{Use of Stacks - Converting Prefix to Postfix Expressions}}}
+      %\end{mdframed}
+    } % end vbox
+  } % end fbox
+  \vline
 \end{center}
 
 \noindent\textbf{Prompt:}
@@ -113,25 +113,25 @@ The mathematical case above notwithstanding, the evaluation step in the validati
 
 From here, I will describe the core flow of the program. First, the IO portion from the command line and the main portion that drives the program.
 \begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.9\linewidth]{lab1-strategy-io.pdf}
-    \caption{Core IO flow}\label{fig:strategy-io}
+  \centering
+  \includegraphics[width=0.9\linewidth]{lab1-strategy-io.pdf}
+  \caption{Core IO flow}\label{fig:strategy-io}
 \end{figure}
 
 The IO flow above calls into the conversion flow, which is sketched below.
 
 \begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.9\linewidth]{lab1-strategy-conversion.pdf}
-    \caption{Conversion flow}\label{fig:strategy-conversion}
+  \centering
+  \includegraphics[width=0.9\linewidth]{lab1-strategy-conversion.pdf}
+  \caption{Conversion flow}\label{fig:strategy-conversion}
 \end{figure}
 
 The validation flow is the next layer down. It is sketched below. Details about conditions that are checked can be seen in \autoref{sec:lab1/parse/validate.py}.
 
 \begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.9\linewidth]{lab1-strategy-validation.pdf}
-    \caption{Validation flow}\label{fig:strategy-validation}
+  \centering
+  \includegraphics[width=0.9\linewidth]{lab1-strategy-validation.pdf}
+  \caption{Validation flow}\label{fig:strategy-validation}
 \end{figure}
 
 The evaluation flow is similar to the validation flow, and in fact \texttt{evaluate.eval} calls \texttt{validate.is_valid_expression}. In the current form of the codebase, \texttt{evaluate.eval} is used as a helper function in tests. Because it is ancillary, I will refer the reader to \autoref{sec:lab1/parse/evaluate.py} for more details.
@@ -208,7 +208,7 @@ In a further development of this lab or in an industry context, I would add test
 To run the tests, I used the built-in \texttt{unittest} module's \texttt{discover} command. As I proceeded, I ran tests by calling the following from \texttt{jhu-en-605-202-su26-data-structures/test-1}: \texttt{python -m unittest discover -s lab1/tests}. This printed test results like the following:
 
 {\small
-\begin{verbatim}
+  \begin{verbatim}
   python -m unittest discover -s lab1/tests
   .............................................................................
   ----------------------------------------------------------------------
@@ -225,33 +225,33 @@ I referenced several documentation and tutorial resources to get back up to spee
 \section{Demo}\label{sec:demo}
 
 For the following, I assume that I start in the root of the Github repository. From some appropriate location on your filesystem, clone the repository and move into the root of the repo.
-{\small
-\begin{verbatim}
+  {\small
+    \begin{verbatim}
   git clone https://github.com/jllovet/jhu-en-605-202-su26-data-structures.git
   cd jhu-en-605-202-su26-data-structures
 \end{verbatim}
-}
+  }
 
 \noindent From there, move into the folder for this lab.
 
-{\small
-\begin{verbatim}
+  {\small
+    \begin{verbatim}
   cd lab-1
 \end{verbatim}
-}
+  }
 
 \noindent From here, the python module can be run as follows.
 
-{\small
-\begin{verbatim}
+  {\small
+    \begin{verbatim}
   python -m lab1 resources/input/in.txt resources/output/output.txt
 \end{verbatim}
-}
+  }
 
 \noindent If the program is run with the incorrect number of arguments, then an error message similar to the one shown below will be printed to the user.
 
-{\small
-\begin{verbatim}
+  {\small
+    \begin{verbatim}
   python -m lab1
   usage: python3.14 -m lab1 [-h] in_file out_file
 
@@ -264,21 +264,21 @@ For the following, I assume that I start in the root of the Github repository. F
   options:
     -h, --help  show this help message and exit
 \end{verbatim}
-}
+  }
 
 \noindent The input and resulting output of an example successful run are shown below:
 
 \begin{center}
-\begin{minipage}[t]{0.46\textwidth}
-  \centering
-  \textbf{\texttt{resources/input/in.txt}}\\
-  \inputminted[frame=single,fontsize=\footnotesize]{text}{resources/input/in.txt}
-\end{minipage}\hfill
-\begin{minipage}[t]{0.46\textwidth}
-  \centering
-  \textbf{\texttt{resources/output/output.txt}}\\
-  \inputminted[frame=single,fontsize=\footnotesize]{text}{resources/output/output.txt}
-\end{minipage}
+  \begin{minipage}[t]{0.46\textwidth}
+    \centering
+    \textbf{\texttt{resources/input/in.txt}}\\
+    \inputminted[frame=single,fontsize=\footnotesize]{text}{resources/input/in.txt}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.46\textwidth}
+    \centering
+    \textbf{\texttt{resources/output/output.txt}}\\
+    \inputminted[frame=single,fontsize=\footnotesize]{text}{resources/output/output.txt}
+  \end{minipage}
 \end{center}
 
 \noindent When the program is executed, the error message on the following page will be written to \texttt{stderr}:
@@ -286,8 +286,8 @@ For the following, I assume that I start in the root of the Github repository. F
 \pagebreak
 
 {\small
-\begin{center}
-\begin{verbatim}
+  \begin{center}
+    \begin{verbatim}
 WARNING: 19 errors found during conversion
 WARNING: Invalid expressions not written to output file
 
@@ -323,7 +323,7 @@ resources/input/in.txt - line 26: '*$A+BC+C-BA ' is not a valid prefix expressio
 resources/input/in.txt - line 27: '//A+B0-C+BA' is not a valid prefix expression
 resources/input/in.txt - line 28: '*$A^BC+C-BA' is not a valid prefix expression
 \end{verbatim}
-\end{center}
+  \end{center}
 }
 
 \pagebreak
@@ -342,30 +342,30 @@ The pages below present the source code for each of the files presented under \a
 
 
 \begin{landscape}
-\setlength{\columnsep}{3em}
-\begin{adjustwidth}{3em}{0pt}
-\begin{multicols}{2}
-\sourcefile{python}{lab1/__init__.py}
-\sourcefile{python}{lab1/__main__.py}
-\sourcefile{python}{lab1/convert/__init__.py}
-\sourcefile{python}{lab1/convert/converter.py}
-\sourcefile{python}{lab1/lab1.py}
-\sourcefile{json}{lab1/launch.json}
-\sourcefile{python}{lab1/parse/__init__.py}
-\sourcefile{python}{lab1/parse/evaluate.py}
-\sourcefile{python}{lab1/parse/parser.py}
-\sourcefile{python}{lab1/parse/validate.py}
-\sourcefile{python}{lab1/stack/__init__.py}
-\sourcefile{python}{lab1/stack/stack.py}
-\sourcefile{python}{lab1/tests/__init__.py}
-\sourcefile{python}{lab1/tests/test_converter.py}
-\sourcefile{python}{lab1/tests/test_parser.py}
-\sourcefile{python}{lab1/tests/test_postfix.py}
-\sourcefile{python}{lab1/tests/test_prefix.py}
-\sourcefile{python}{lab1/tests/test_stack.py}
-\sourcefile{python}{lab1/tests/test_validate.py}
-\end{multicols}
-\end{adjustwidth}
+  \setlength{\columnsep}{3em}
+  \begin{adjustwidth}{3em}{0pt}
+    \begin{multicols}{2}
+      \sourcefile{python}{lab1/__init__.py}
+      \sourcefile{python}{lab1/__main__.py}
+      \sourcefile{python}{lab1/convert/__init__.py}
+      \sourcefile{python}{lab1/convert/converter.py}
+      \sourcefile{python}{lab1/lab1.py}
+      \sourcefile{json}{lab1/launch.json}
+      \sourcefile{python}{lab1/parse/__init__.py}
+      \sourcefile{python}{lab1/parse/evaluate.py}
+      \sourcefile{python}{lab1/parse/parser.py}
+      \sourcefile{python}{lab1/parse/validate.py}
+      \sourcefile{python}{lab1/stack/__init__.py}
+      \sourcefile{python}{lab1/stack/stack.py}
+      \sourcefile{python}{lab1/tests/__init__.py}
+      \sourcefile{python}{lab1/tests/test_converter.py}
+      \sourcefile{python}{lab1/tests/test_parser.py}
+      \sourcefile{python}{lab1/tests/test_postfix.py}
+      \sourcefile{python}{lab1/tests/test_prefix.py}
+      \sourcefile{python}{lab1/tests/test_stack.py}
+      \sourcefile{python}{lab1/tests/test_validate.py}
+    \end{multicols}
+  \end{adjustwidth}
 \end{landscape}
 
 \pagebreak
