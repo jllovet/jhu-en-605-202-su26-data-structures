@@ -111,8 +111,13 @@ Let the set of prefix expressions be represented by $A$, and let the set of post
 
 The mathematical case above notwithstanding, the evaluation step in the validation done before actual conversion provides a strong heuristic. Admittedly, this is a simple problem, and it was only after some thought after having written the lab while thinking about \textcite{Cheng2022JoyOfAbstraction} that I realized the issues in my reasoning. While the mathematically provably correct solution is better, a heuristic driven approach is often a good place to start, and in this case it brought me rather far. For some more inherently difficult problems, a heuristic-based solution may be the best one available, either because of the computational complexity inherent in the problem (e.g. if the problem is in $NP$) or because of the bounds on the mathematical tools available to use.
 
+From here, I will describe the core flow of the program. First, the IO portion from the command line and the main portion that drives the program.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\linewidth]{lab1-strategy-io.pdf}
+    \caption{Core IO flow}\label{fig:strategy-io}
+\end{figure}
 
-TODO: Make diagram of the core flow of the program
 
 \pagebreak
 
