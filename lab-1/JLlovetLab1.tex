@@ -182,10 +182,23 @@ Python lists are dynamic arrays of pointers to data objects \cite{PythonDocument
 
 Python's use of dynamic arrays instead of linked lists comes with another benefit, namely that the underlying layout of the pointers in memory is contiguous. The contiguity of the data makes it more likely that the data can be stored together in cache. Based on the locality principle used by many systems when retrieving information from resources like main memory or disc, if the data is contiguous in memory, then it is more likely that when a particular item is fetched from memory so too will the other items that are going to be needed in the near future. See Chapter 6 of \textcite{null2023essentials}, where there is a discussion of locality in memory management.
 
-\textcite{Kozen2011CornellLectureAmortizedAnalysis}
-\textcite{Tarjan1985AmortizedComputationalComplexity}
-\textcite{EnWikipediaorgAmortizedAnalysis}
+The performance of the stack's operations in my implementation are as follows:
 
+\begin{center}
+  \begin{tabularx}{\textwidth}{|l|l|X|}
+    \hline
+    Function                             & Worst Case                 & Description                                                                                               \\ \hline
+    \texttt{__init__(self, max_height: int = -1)} & $O(1)$                     & Only has to initialize an instance of Stack. Time complexity has no dependence on n or max_height.        \\ \hline
+    \texttt{is_empty(self) -> bool}               & $O(1)$                     & Only has to read an attribute from the instance of Stack. Time complexity has no dependence on height.    \\ \hline
+    \texttt{is_full(self) -> bool}                & $O(1)$                     & Only has to read an attribute from the instance of Stack. Time complexity has no dependence on height.    \\ \hline
+    \texttt{contains(self, item) -> bool}         & $O(n)$                     & Has to iterate over each of the elements in the instance of Stack. In the worse case all must be checked. \\ \hline
+    \texttt{peek(self) -> str | int | None}       & $O(1)$                     & Only has to check one element. Time complexity has no dependence on height.                               \\ \hline
+    \texttt{pop(self) -> str | int | None}        & $O(1)$                     & Only has to return one element. Time complexity has no dependence on height.                              \\ \hline
+    \texttt{push(self, item: str | int) -> None}  & $O(n)$ or $O(1)$ amortized & See note below.                                                                                           \\ \hline
+  \end{tabularx}
+\end{center}
+
+Note on \texttt{push}: Because the Python list that contains the data is implemented as a dynamic array, when its capacity is filled, this will result in a resizing operation that takes $O(n)$ time. However, when looking at the average performance of \texttt{push}, the additional cost of the resizing operations reduces to a constant cost on average. This is because the frequency with which the resizing operations must be performed decreases exponentially as the size of the underlying array grows, under the assumption that the size of the array is doubled each time it is resized. See \textcite{EnWikipediaorgAmortizedAnalysis}, which will point to \textcite{Kozen2011CornellLectureAmortizedAnalysis}, which is itself a clarifying reformulation of \textcite{Tarjan1985AmortizedComputationalComplexity} for more details.
 \section{Algorithms}
 
 TODO: Add discussion of stack algorithms from class slides and their generic forms
