@@ -11,11 +11,13 @@ What is the lab doing again? We want to convert expressions in this form: `+AB` 
 ```commandline
 usage: python -m lab1 [-h] in_file out_file
 
+Convert prefix -> postfix expressions from in_file and write them to out_file
+
 positional arguments:
   in_file     Input File Pathname
   out_file    Output File Pathname
 
-optional arguments:
+options:
   -h, --help  show this help message and exit
 ```
 
