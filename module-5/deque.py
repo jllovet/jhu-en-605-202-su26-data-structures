@@ -19,7 +19,7 @@ class Deque:
 
     def __str__(self):
         currentNode = self.left
-        node_str = []
+        node_str = [f"left: {self.left}", f"right: {self.right}"]
         while True:
             if currentNode is None:
                 break
@@ -66,6 +66,10 @@ def main():
     DeleteRight(d)
     print(d)
     print("now deleting...")
+    DeleteRight(d)
+    print(d)
+    DeleteRight(d)
+    print(d)
     DeleteRight(d)
     print(d)
 
