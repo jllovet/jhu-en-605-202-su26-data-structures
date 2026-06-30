@@ -63,14 +63,14 @@ A deque (pronounced deck) is an ordered set of items from which items may be del
 
 \begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{Go}
 type Node {
-  data: T
-  previous: Node | null
-  next: Node | null
+    data: T
+    previous: Node | null
+    next: Node | null
 }
 
 type Deque {
-  left: Node | null
-  right: Node | null
+    left: Node | null
+    right: Node | null
 }
 
 function InsertLeft(d: Deque, data: T) {
