@@ -7,6 +7,9 @@ class Node:
         self.data = data
         self.previous = None
         self.next = None
+    
+    def __str__(self) -> str:
+        return str(self.data)
 
 
 class Deque:
