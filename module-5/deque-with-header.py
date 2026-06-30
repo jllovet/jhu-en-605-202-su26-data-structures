@@ -38,6 +38,7 @@ class Deque:
 
 def InsertRight(d: Deque, data):
     node = Node(data, isHeader=False)
+    # Case length == 0
     if d.header.data == 0:
         node.previous = d.header
         node.next = d.header
@@ -45,7 +46,8 @@ def InsertRight(d: Deque, data):
         d.right = node
         d.header.next = node
         d.header.previous = node
-    else:
+    # Case length > 0
+    if d.header.data > 0:
         node.previous = d.right
         d.right.next = node
         node.next = d.header
@@ -56,16 +58,16 @@ def InsertRight(d: Deque, data):
 
 
 def DeleteLeft(d: Deque):
-    # Case 0
+    # Case length == 0
     if d.header.data == 0:
         return d
-    # Case 1
+    # Case length == 1
     if d.left.next.isHeader:
         d.left = d.header
         d.right = d.header
         d.header.next = d.header
         d.header.previous = d.header
-    # Case > 1
+    # Case length > 1
     if not d.left.next.isHeader:
         d.left.next.previous = d.header
         d.header.next = d.left.next
