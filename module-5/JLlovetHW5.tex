@@ -117,6 +117,78 @@ Implement a deque from problem 1 as a doubly-linked circular list with a header.
 \noindent\textbf{Answer:}
 \medskip
 
+\begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{Go}
+type Node {
+    isHeader: boolean
+    data: T
+    previous: Node | null
+    next: Node | null
+}
+
+type Deque {
+    header: Node
+    left: Node | null
+    right: Node | null
+}
+
+function newDeque(){
+    // To be called in hypothetical program to initialize
+    // Handled idiomatically in Python/Java/Go/C++/etc constructors
+    d = Deque()
+    d.header = Node(data=0, isHeader=True)
+    // header.data represents the length of the list excluding the header
+    d.header.data = 0
+    d.left = d.header
+    d.right = d.header
+}
+
+function InsertRight(d: Deque, data: T) {
+    node = Node(data=data, isHeader=False)
+    // Case length == 0
+    if d.header.data == 0 {
+        node.previous = d.header
+        node.next = d.header
+        d.left = node
+        d.right = node
+        d.header.next = node
+        d.header.previous = node
+    }
+    // Case length > 0
+    if d.header.data > 0 {
+        node.previous = d.right
+        d.right.next = node
+        node.next = d.header
+        d.header.previous = node
+        d.right = node
+    }
+    d.header.data += 1
+    return d
+}
+
+function DeleteLeft(d: Deque) {
+    // Case length == 0
+    if d.header.data == 0 {
+        return d
+    }
+    // Case length == 1
+    if d.left.next.isHeader {
+        d.left = d.header
+        d.right = d.header
+        d.header.next = d.header
+        d.header.previous = d.header
+    }
+    // Case length > 1
+    if not d.left.next.isHeader {
+        d.left.next.previous = d.header
+        d.header.next = d.left.next
+        d.left = d.left.next
+    }
+    d.header.data -= 1
+    return d
+}
+\end{minted}
+
+
 \pagebreak
 
 \noindent\textbf{Problem 3:}
