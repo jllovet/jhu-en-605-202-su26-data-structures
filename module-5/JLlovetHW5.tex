@@ -23,7 +23,7 @@
 \addbibresource{references.bib}
 
 \usepackage{minted}
-\usemintedstyle{colorful}
+\usemintedstyle{algol_nu}
 \usepackage{xltabular}
 \usepackage{pdflscape}
 
@@ -60,6 +60,51 @@ A deque (pronounced deck) is an ordered set of items from which items may be del
 \medskip
 \noindent\textbf{Answer:}
 \medskip
+
+\begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{Go}
+type Node {
+  data: T
+  previous: Node | null
+  next: Node | null
+}
+
+type Deque {
+  left: Node | null
+  right: Node | null
+}
+
+function InsertLeft(d: Deque, data: T) {
+    node = Node(data)
+    if d.left == null {
+      d.left = node
+      d.right = node
+    }
+    else {
+      node.next = d.left
+      d.left.previous = node
+      d.left = node
+    }
+    return d
+}
+
+function DeleteRight(d: Deque) {
+    if d.right == null {
+      return d
+    }
+    if d.right.previous == null {
+      d.right = null
+      d.left = null
+      return d
+    }
+    if d.right.previous != null {
+      // have to store d.right in a variable to avoid prematurely removing reference to it  
+      currentRight = d.right
+      d.right.previous.next = null
+      d.right = currentRight.previous
+      return d
+    }
+}
+\end{minted}
 
 \pagebreak
 
