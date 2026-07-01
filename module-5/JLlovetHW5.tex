@@ -276,17 +276,17 @@ item = 3.14
 isEmpty(storage) // true
 isFull(storage) // false
 
-addItem(storage, queue, item) // returns: (true, queue, storage)
+addItem(storage, queue, item) // returns: (true, storage, queue)
 // storage.freeSpace was popped, the value 3.14 is written to storage.data[0],
 // the return values indicate that the addition was successful and provide
 // the updated queue (with its first data element updated) and StorageManager
 
-addItem(storage, stack, item) // returns: (true, stack, storage)
+addItem(storage, stack, item) // returns: (true, storage, stack)
 // storage.freeSpace was popped, the value 3.14 is written to storage.data[1],
 // the return values indicate that the addition was successful and provide
 // the updated stack (with its first data element updated) and StorageManager
 
-removeItem(storage, queue)    // returns: (3.14, queue, storage)
+removeItem(storage, queue)    // returns: (3.14, storage, queue)
 // storage.freeSpace had the value 0 pushed onto it, since queue is
 // no longer using it.
 // The queue is updated to be empty, with its first position represented as -1.
