@@ -302,6 +302,105 @@ addItem(storage, stack, item) // returns: (false, stack, storage)
 // no modification to stack or storage, since the underlying storage is full
 \end{minted}
 
+Coming back to the StorageManager functions themselves, here is a possible approach:
+
+\begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{Go}
+type StorageManager {
+    maxSize:        int
+    freeSpace:      Stack(maxSize)
+    data:           Sequence<T>
+}
+
+function newStorageManager(maxSize: int) -> StorageManager {
+    s = StorageManager()
+    s.maxSize = maxSize
+    space = Stack(maxSize)
+    for i in maxSize..0 {
+        space.push(i)
+    }
+    s.freeSpace = space
+    s.data = array[maxSize]
+    return s
+}
+
+function isEmpty(s: StorageManager) -> bool {
+    // checks internal stack used to track free locations
+    return s.freeSpace.isEmpty()
+}
+
+function isFull(s: StorageManager)  -> bool {
+    // checks internal stack used to track free locations
+    return s.freeSpace.isFull()
+}
+
+function addItem(s: StorageManager, seq: LinearStorage, item: T) -> (bool, StorageManager, LinearStorage) {
+    if s.isFull() {
+        return (false, s, seq)
+    }
+    nodeLocation = s.freeSpace.pop()
+    node = Node()
+    node.data = item
+    if seq.isEmpty() {
+        node.previous = null
+        node.next = null
+        seq.head = nodeLocation
+        if seq.ordering == FIFO { \\ queue
+            seq.tail = nodeLocation
+        }
+    }
+    if not seq.isEmpty() {
+        if seq.ordering == LIFO { // stack
+            node.next = seq.head
+            node.previous = null
+            s.data[nodeLocation] = node    
+            s.data[seq.head].next = nodeLocation
+            seq.head = nodeLocation
+        }
+        if seq.ordering == FIFO { // queue
+            node.previous = seq.tail
+            node.next = null
+            s.data[nodeLocation] = node
+            s.data[seq.tail].next = nodeLocation
+            seq.tail = nodeLocation
+        }
+    }
+    seq.size += 1
+    return (true, s, seq)
+}
+
+function removeItem(s: StorageManager, seq: LinearStorage) -> (T | null, StorageManager, LinearStorage) {
+    if s.isEmpty() or seq.isEmpty() {
+      return (null, s, seq)
+    }
+    if seq.ordering == LIFO { // stack
+        nodeLocation = seq.head
+        node = s.data[nodeLocation]
+        if seq.size == 1 {
+            seq.head = null
+        }
+        else if seq.size > 1 {
+            s.data[node.previous].previous = null
+            seq.head = node.previous
+        }
+    }
+    if seq.ordering == FIFO { // queue
+        nodeLocation = seq.head
+        node = s.data[nodeLocation]
+        if seq.size == 1 {
+            seq.head = null
+            seq.tail = null
+        }
+        else if seq.size > 1 {
+            s.data[node.next].previous = null
+            seq.head = node.next
+        }
+    }
+    seq.size -= 1
+    s.freeSpace.push(nodeLocation)
+    return (node.data, s, seq)
+}
+\end{minted}
+
 \pagebreak
 
 \section*{Source Code}
