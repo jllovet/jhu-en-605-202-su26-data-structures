@@ -223,7 +223,8 @@ type Node {
 interface LinearStorage {
     ordering:   LIFO | FIFO
     data:       Sequence<T>
-    head:       int
+    head:       Node
+    tail:       Node
     maxSize:    int
     isEmpty:    Sequence<T> -> bool
     isFull:     Sequence<T> -> bool
