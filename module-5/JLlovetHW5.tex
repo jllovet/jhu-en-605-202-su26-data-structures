@@ -247,11 +247,11 @@ type StorageManager {
     freeSpace:      Stack(maxSize)
     data:           Sequence<T>
 }
-
-isEmpty:    StorageManager -> bool
-isFull:     StorageManager -> bool
-addItem:    StorageManager -> LinearStorage -> T -> (bool, LinearStorage, StorageManager)
-removeItem: StorageManager -> LinearStorage -> (T | null, LinearStorage, StorageManager)
+newStorageManager: int            -> StorageManager
+isEmpty:           StorageManager -> bool
+isFull:            StorageManager -> bool
+addItem:           StorageManager -> LinearStorage -> T -> (bool, StorageManager, LinearStorage)
+removeItem:        StorageManager -> LinearStorage -> (T | null, StorageManager, LinearStorage)
 \end{minted}
 
 Why the tuples of return values? Our functions rely on multiple items, and there are multiple items that are potentially modified during the calculation. We are returning all the values so that the caller can appropriately update their references, rather than rely on hidden mutation of state.
