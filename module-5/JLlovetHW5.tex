@@ -26,6 +26,7 @@
 \usemintedstyle{algol_nu}
 \usepackage{xltabular}
 \usepackage{pdflscape}
+\usepackage{tcolorbox}
 
 
 % Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
@@ -195,10 +196,97 @@ function DeleteLeft(d: Deque) {
 
 Write a set of routines for implementing several stacks and queues within a single array. Hint: Look at the lecture material on the hybrid implementation.
 
-
 \medskip
 \noindent\textbf{Answer:}
 \medskip
+
+We can take advantage of the characteristics of the ADTs for queues and stacks to make reasoning about this simpler. The ADTs for both data structures, at their core, each satisfy the following interface, just with different semantics and implementation details for the underlying behavior (e.g. LIFO vs FIFO).
+
+\begin{tcolorbox}[colback=gray!10!white, colframe=gray!80!black, title=Note]
+  In the following, consider a \texttt{Sequence} an abstraction over stacks, queues, arrays, linked lists, and other linear storage types. It's just a collection of elements with an ordering. Characteristics such as whether access is random or sequential, the sequence has a particular ordering, and so forth, are handled in an implementation or in the semantics of the ADT that consume it, rather than in the \texttt{Sequence} itself. The notation \texttt{Sequence<T>} signifies that a \texttt{Sequence} contains elements of type \texttt{T}. Convention from Java.
+  \medskip
+
+  Note that the notation \texttt{f: A -> B} $\equiv$ \texttt{f(A) -> B}, and \texttt{g: A -> B -> C} $\equiv$ \texttt{f(A,B) -> C}, signifying that a function \texttt{f} takes one argument of type \texttt{A} and returns a value of type \texttt{B}, and that a function \texttt{g} takes two arguments of types \texttt{A} and \texttt{B} and returns a value of type \texttt{C}. Convention from Haskell and category theory.
+\end{tcolorbox}
+
+\begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{Go}
+interface LinearStorage {
+    ordering:   LIFO | FIFO
+    data:       Sequence<T>
+    head:       int
+    maxSize:    int
+    isEmpty:    Sequence<T> -> bool
+    isFull:     Sequence<T> -> bool
+    peek:       Sequence<T> -> T | null
+    contains:   Sequence<T> -> T -> bool
+    addItem:    Sequence<T> -> T -> bool
+    removeItem: Sequence<T> -> T | null
+}
+\end{minted}
+
+For an object of type \texttt{Stack}, \texttt{addItem} is usually called \texttt{push}, and it satisfies \texttt{LIFO} semantics. Similarly, for an object of type \texttt{Queue}, \texttt{addItem} is usually called \texttt{enqueue} or \texttt{add}, and it satisfies \texttt{FIFO} semantics. So, we can develop a generic way to support both of these types for a given underlying array.
+
+\medskip
+
+We will create a \texttt{StorageManager} that has the following attributes. Real implementations might store metadata about consumers, among other details that we will not consider here.
+
+\begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{Go}
+type StorageManager {
+    maxSize:        int
+    freeSpace:      Stack(maxSize)
+    data:           Sequence<T>
+}
+
+isEmpty:    StorageManager -> bool
+isFull:     StorageManager -> bool
+addItem:    StorageManager -> LinearStorage -> T -> (bool, LinearStorage, StorageManager)
+removeItem: StorageManager -> LinearStorage -> (T | null, LinearStorage, StorageManager)
+\end{minted}
+
+Why the tuples of return values? Our functions rely on multiple items, and there are multiple items that are potentially modified during the calculation. We are returning all the values so that the caller can appropriately update their references, rather than rely on hidden mutation of state.
+
+\pagebreak
+\noindent Reframed in a more C-language-family style to illustrate the design:
+
+\begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{Python}
+type StorageManager{
+    maxSize: int
+    freeSpace: Stack(maxSize)
+    data: Sequence<T>
+}
+
+storage = StorageManager(10)
+// constructor allocates 10 items of space
+// then it fills the storage.freeSpace stack with positions 0-9
+queue = LinearStorage(FIFO)
+stack = LinearStorage(LIFO)
+item = 3.14
+
+isEmpty(storage) // true
+isFull(storage) // false
+
+addItem(storage, queue, item) // returns: (true, queue, storage)
+// storage.freeSpace was popped, the value 3.14 is written to storage.data[0],
+// the return values indicate that the addition was successful and provide
+// the updated queue (with its first data element updated) and StorageManager
+
+addItem(storage, stack, item) // returns: (true, stack, storage)
+// storage.freeSpace was popped, the value 3.14 is written to storage.data[1],
+// the return values indicate that the addition was successful and provide
+// the updated stack (with its first data element updated) and StorageManager
+
+removeItem(storage, queue)    // returns: (3.14, queue, storage)
+// storage.freeSpace had the value 0 pushed onto it, since queue is
+// no longer using it.
+// The queue is updated to be empty, with its first position represented as -1.
+\end{minted}
+
+\noindent Presuming that storage were full, we would see the following behavior:
+
+\begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{Python}
+addItem(storage, stack, item) // returns: (false, stack, storage)
+// no modification to stack or storage, since the underlying storage is full
+\end{minted}
 
 \pagebreak
 
