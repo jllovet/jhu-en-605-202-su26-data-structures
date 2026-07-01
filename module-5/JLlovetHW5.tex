@@ -200,7 +200,7 @@ Write a set of routines for implementing several stacks and queues within a sing
 \noindent\textbf{Answer:}
 \medskip
 
-We can take advantage of the characteristics of the ADTs for queues and stacks to make reasoning about this simpler. The ADTs for both data structures, at their core, each satisfy the following interface, just with different semantics and implementation details for the underlying behavior (e.g. LIFO vs FIFO).
+We can take advantage of the shared characteristics of the ADTs for queues and stacks to make reasoning about this simpler. The ADTs for both data structures, at their core, each satisfy the following interface, just with different semantics and implementation details for the underlying behavior (e.g. LIFO vs FIFO).
 
 \begin{tcolorbox}[colback=gray!10!white, colframe=gray!80!black, title=Note]
   In the following, consider a \texttt{Sequence} an abstraction over stacks, queues, arrays, linked lists, and other linear storage types. It's just a collection of elements with an ordering. Characteristics such as whether access is random or sequential, the sequence has a particular ordering, and so forth, are handled in an implementation or in the semantics of the ADT that consume it, rather than in the \texttt{Sequence} itself. The notation \texttt{Sequence<T>} signifies that a \texttt{Sequence} contains elements of type \texttt{T}. Convention from Java.
