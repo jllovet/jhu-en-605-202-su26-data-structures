@@ -213,8 +213,9 @@ For both stacks and queues in the following, assume they are composed of nodes w
 
 \begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{Go}
 type Node {
-    data: T
-    next: Node
+    data:     T
+    location: int
+    next:     Node
     previous: Node
 }
 \end{minted}
