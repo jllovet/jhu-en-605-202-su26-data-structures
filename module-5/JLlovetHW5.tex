@@ -209,7 +209,7 @@ We can take advantage of the shared characteristics of the ADTs for queues and s
   Note that the notation \texttt{f: A -> B} $\equiv$ \texttt{f(A) -> B}, and \texttt{g: A -> B -> C} $\equiv$ \texttt{f(A,B) -> C}, signifying that a function \texttt{f} takes one argument of type \texttt{A} and returns a value of type \texttt{B}, and that a function \texttt{g} takes two arguments of types \texttt{A} and \texttt{B} and returns a value of type \texttt{C}. Convention from Haskell and category theory.
 \end{tcolorbox}
 
-For both stacks and queues in the following, assume they are composed of nodes with the following characteristics:
+We will be using a hybrid sequence management approach, where the data is in an underlying array for storage, and the sequence data structures we have consume that array will just keep track of the head if they are stacks or the head and tail if they are queues. Nodes will be as follows.
 
 \begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{Go}
 type Node {
@@ -218,6 +218,8 @@ type Node {
     previous: Node
 }
 \end{minted}
+
+The underlying storage mechanism is as follows:
 
 \begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{Go}
 interface LinearStorage {
