@@ -344,7 +344,7 @@ function addItem(s: StorageManager, seq: LinearStorage, item: T) -> (bool, Stora
         node.previous = null
         node.next = null
         seq.head = nodeLocation
-        if seq.ordering == FIFO { \\ queue
+        if seq.ordering == FIFO { // queue
             seq.tail = nodeLocation
         }
     }
