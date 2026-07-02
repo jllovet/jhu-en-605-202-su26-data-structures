@@ -1,0 +1,105 @@
+\documentclass[10pt,letterpaper,final]{report}
+\usepackage[margin=.75in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\renewcommand\qedsymbol{$\blacksquare$}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{automata,arrows}
+\usepackage{mdframed}
+\usepackage[
+  backend=biber,
+  style=numeric-comp,
+  sorting=none
+]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{minted}
+\usemintedstyle{algol_nu}
+\usepackage{xltabular}
+\usepackage{pdflscape}
+\usepackage{tcolorbox}
+
+
+% Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
+
+\begin{document}
+\begin{center}
+  \fbox{
+    \vbox{
+      \begin{flushleft}
+        Jonathan Llovet \\  % authors' names
+        EN.605.202.81 \\  %class
+        2026-07-01 \\  % date
+        Module 5 \& 6 - Discussion 3 \\ % ID
+      \end{flushleft}
+      \center{\Large{\textbf{Data Structures - Discussion 3 - Sparse Matrices}}}
+      %\end{mdframed}
+    } % end vbox
+  } % end fbox
+  \vline
+\end{center}
+
+
+\medskip
+
+\noindent\textbf{Discussion Prompt:}
+
+Suggest an implementation for sparse matrices, selecting from non-linked options as well as linked options. Pick something that has not already been selected by another student. Discuss your choice in terms of possible row and column operations on the matrix and consider efficiency issues.
+
+\medskip
+\noindent\textbf{Initial Answer:}
+\medskip
+
+A sparse matrix is a normal matrix but contains mostly values with zero. How can we represent the set of non-zero values of a matrix? One such way is the Coordinate List (COO) representation. This representation organizes the two dimensional coordinates for the row and column, along with the value of the non-zero position in the matrix into three arrays. These arrays represent the row, column, and value respectively and are referred to as: $i$, $j$, and $v$. Consider the matrix $B$ below (0-indexed).
+
+\[
+B =
+  \begin{bmatrix}
+    0 & 0 & 0 & 1 \\
+    0 & 0 & 0 & 0 \\
+    0 & 2 & 0 & 0 \\
+    1 & 0 & 5 & 0 \\
+  \end{bmatrix}
+\]
+
+This matrix can be represented in COO form as:
+\begin{center}
+  \texttt{i = [0,2,3,3]} \\
+  \texttt{j = [3,1,0,2]} \\
+  \texttt{v = [1,2,1,5]}
+\end{center}
+
+As is pointed out by one of the students in the class from Izzat El Hajj from the American University of Beirut \parencite{IzzatElHajj2022Lecture}, you may end up with more values in the sparse matrix representation than in the matrix itself if the matrix is dense. There are $3x$ values stored in the COO representation, where $x$ is the number of non-zero elements in the matrix. Hence, from a storage perspective, it will be more efficient than direct representation as long as $x < \frac{m \times n}{3}$, where the matrix is of size $m \times n$. For small or dense matrices, this representation may not provide much benefit, but for larger ones the reduction in storage space can be significant.
+
+Scalar addition and multiplication are quite simple for this form of matrix. Adapting the definition of scalar multiplication from Schneider \parencite{Schneider1989MatricesAndLinear}: Let there be a sparse matrix $A = [a_{ij}]$ of size $m \times n$. For a number $x \in \mathbb{R}$, we can multiply $x$ and $A$ such that
+
+\begin{align*}
+    B = Ax = xA\\
+    \text{such that with } a \in A,\ b \in B, \\
+    b_{ij} = a_{ij}x = xa_{ij}
+\end{align*}
+
+To implement scalar multiplication for our sparse matrices, we just have to map over the value array \texttt{v} with the function \texttt{(*x)}. No modification of the arrays \texttt{i} or \texttt{j} are required. We can similarly implement scalar addition by doing the same map over the value array \texttt{v} with the function \texttt{(+x)}. This same strategy can be applied to perform operations on specific rows and columns as well, and it can be performed efficiently if we apply a few constraints. In general, if we want to apply a function to each of the elements in a specific row $m$ or column $n$, we can just iterate over the value array, keeping track of the \texttt{index} of the current element of \texttt{v}, and wherever \texttt{i[index] = m} or \texttt{i[index] = n}, according to whether we want to update on a row or column, we can update the value of  \texttt{v[index]} by applying a function \texttt{f} to it, \texttt{f(v[index])}. This takes $O(v)$ time to perform, where $v$ is the number of non-zero values we are storing. In practice, we can improve the likely execution time (since it is decidedly unlikely that for a random sparse matrix will have all its non-zero values in a single row or a single column) by operating on the arrays sorted (elementwise across all three arrays, not just one of them) by row or by column, according to what we wish to operate on. It may not be worthwhile to do this sorting in practice if the COO representation of the matrix is not already sorted this way, but if it is constructed so that it is sorted by rows, this might be feasible. Why do these sorted COO representations likely operate in less than $v$ steps? Because if we are operating on a given row, we can iterate over the row array \texttt{i} until we find the value corresponding to the row we are interested in. Then we can apply our function \texttt{f} to the corresponding elements at the same positions in \texttt{v} until we have exhausted the elements of \texttt{i} with the value of the row we care about, after which we can stop iterating over the array.
+
+I'm curious to work out matrix multiplication for this representation, since I have heard that it is quite difficult, and I see that the scipy implementation converts COO to Compressed Sparse Row (CSR) \parencite{DocsnvidiacomSparseMatrixFormats} \parencite{GitHubScipyscipysparsebasepyAtV}.
+
+\pagebreak
+
+\section*{Source Code}
+The full source code, including LaTeX, tooling, other artifacts, and git history is available on my Github repository for the class here:
+\begin{center}
+  \url{https://github.com/jllovet/jhu-en-605-202-su26-data-structures}
+\end{center}
+
+\printbibliography
+
+\end{document}
