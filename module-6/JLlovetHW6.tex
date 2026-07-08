@@ -317,6 +317,17 @@ Define the Fibonacci binary tree of order n as follows: If n=0 or n=1, the tree 
 \noindent\textbf{Answer:}
 \medskip
 
+\begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{Go}
+function fibTree(n){
+    if n == 0:
+        return Tree(0) // left = null, right = null
+    if n == 1:
+        return Tree(1) // left = null, right = null
+    return Tree(n, left=fibTree(n-1), right=fibTree(n-2))
+}
+\end{minted}
+
+
 \medskip
 \noindent\textbf{Problem 5:}
 \medskip
