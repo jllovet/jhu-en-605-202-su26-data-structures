@@ -344,6 +344,27 @@ Answer the following questions about Fibonacci binary tree defined in the previo
 \noindent\textbf{Answer:}
 \medskip
 
+\begin{enumerate}
+  \item Is such a tree strictly binary?
+  
+  Yes. Each node in each subtree either has no children or exactly two, down to the leaves for values $0$ and $1$.
+  
+  \item What is the number of leaves in the Fibonacci tree of order n?
+  
+  \[
+  f(n) =
+  \begin{cases}
+    1       & \text{if } n = 0 \\
+    1       & \text{if } n = 1 \\
+    f(n-1) + f(n-2) & \text{if } n \ge 2
+  \end{cases}
+\]
+  \item What is the depth of the Fibonacci tree of order n?
+  \[
+  n-1
+  \]
+\end{enumerate}
+
 \pagebreak
 
 \section*{Source Code}
