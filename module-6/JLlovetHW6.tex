@@ -7,12 +7,15 @@
 \usepackage{amsthm}
 \renewcommand\qedsymbol{$\blacksquare$}
 \usepackage{enumerate}
+\usepackage{enumitem}
 \usepackage{hyperref}
 \usepackage{pdfpages}
 \usepackage{graphics}
 \usepackage{graphicx}
 \usepackage{tikz}
 \usepackage{tikz-qtree}
+\usepackage{forest}
+\usepackage{float}
 \usetikzlibrary{automata,arrows}
 \usepackage{mdframed}
 \usepackage[
@@ -48,8 +51,6 @@
   \vline
 \end{center}
 
-Write pseudo-code for problems requiring code. Do not write Java, Python or C++. You are responsible for the appropriate level of detail. For the questions asking for justification, please provide a detailed mathematically oriented discussion. A proof is not required. 
-
 \medskip
 
 \noindent\textbf{Problem 1:}
@@ -75,13 +76,143 @@ Prove that a strictly binary tree (regular binary tree) with n leaves contains 2
 
 \textbf{Proof by Induction:}
 
-\textbf{Base Case} $n_0 = 1$.
+\noindent Let the predicate $P(n)$ signify that there are $2n - 1$ nodes in a tree with $n$ leaf nodes.
 
-\textbf{Inductive Hypothesis} $P(k) = 2k - 1$, that is, a strictly binary tree with $k$ leaves contains $2k-1$ nodes.
+\begin{tcolorbox}[colback=gray!10!white, colframe=gray!80!black, title=Note]
+  I am interpreting ``strictly binary'' to mean ``full'', in the sense defined by \citeauthor{zybooks-ds2026} in \cite{zybooks-ds2026}. I will denote that a tree $T$ is full by $F(T)$.
 
-\textbf{WWTS:} $P(k) \implies P(k+1)$, where $k \ge n_0, k \in \mathbb{Z}$
+  \medskip
 
-\textbf{By mathematical induction:}
+  ``A binary tree is full if every node contains 0 or 2 children.''
+
+  \medskip
+
+  I will follow the graph theory notational convention and denote the set of vertices in a tree as $V$ and the set of edges $E$, with the tree $T = (V,E)$. Additionally, I will denote the out-degree of a node $v \in V$ with $deg^+(v)$, the in-degree with $deg^-(v)$. See \cite{EnwikipediaorgDirectedGraph}
+\end{tcolorbox}
+
+\noindent Base Case: $n_0 = 1$.
+
+In a tree with only a root node, there is one leaf (the root itself). For the root node $deg^+(r) = 0$, and
+\[
+  V = \{r\} \wedge deg^+(r) = 0 \implies F(t)
+\]
+Furthermore, there are $2n - 1 = 2(1) - 1 = 1$ nodes. Therefore, $P(n)$ holds when $n_0 = 0$ when the only leaf is the root.
+
+\begin{figure}[H]
+  \centering
+  \begin{forest}
+    for tree={circle, draw, l sep=20pt}
+      [$r$]
+  \end{forest}
+  \caption{Binary tree with a single node.}\label{fig:binary-tree-with-single-node}
+\end{figure}
+
+\medskip
+
+Here we will assume an inductive hypothesis.
+\begin{equation}
+  P(k) = 2k - 1\text{, where } k \ge n_0, k \in \mathbb{Z}
+  \label{eq: inductive-hypothesis}
+\end{equation}
+
+That is, assume that if $k$ is an integer, that a strictly binary tree with $k$ leaves contains $2k-1$ nodes.
+
+\medskip
+
+\noindent WWTS: $P(k) \implies P(k+1)$, where $k \ge n_0, k \in \mathbb{Z}$
+
+\medskip
+
+For each leaf node $m$, the $m$ either has a parent or it does not. If the $m$ does not have a parent, then $m$ is the root. This gives us two cases.
+
+\begin{enumerate}[label={Case \arabic*:}, leftmargin=*]
+  \item the single leaf node is the root node. This is the same as the base case above.
+  \item each leaf node is not the root node
+\end{enumerate}
+
+In a full binary tree $T$, with a root $r$ and $deg^+(r) > 0$, it must be the case that $deg^+(r) = 2$. Each of the outgoing edges from $r$ must point to a distinct node. Let them be called $v_{\text{left}}$ and $v_{\text{right}}$, respectively. Because the definition of a tree is recursive, $v_{\text{left}}$ and $v_{\text{right}}$ each are a full binary tree themselves. Hence, for each $v$, $deg^+(v) = 0$ if it is a leaf or $deg^+(v) = 2$ if it is not a leaf.
+
+Consider the case where there are $k$ leaves in the tree, such as in the example below.
+
+\begin{figure}[H]
+  \centering
+  \begin{forest}
+    for tree={ellipse, draw, l sep=20pt}
+      [$r_0$
+        [$r_1$
+          [$\cdots$
+            [$m_{1}$]
+            [$m_{2}$]
+          ]
+          [$\cdots$
+            [$\cdots$]
+            [$\cdots$]
+          ]
+        ]
+        [$r_2$
+          [$\cdots$
+            [$m_{k-1}$]
+            [$m_k$]
+          ]
+          [$m_0$
+          ]
+        ]
+      ]
+  \end{forest}
+  \caption{Binary tree with multiple internal nodes and k leaves.}\label{fig:putative-tree-with-another-leaf}
+\end{figure}
+
+If one of the leaves were converted into an internal node, then the number of nodes $n$ in the tree would need to grow by $2$, while the number of leaves $k$ of the tree would grow by $1$. Recall that $P(k) = 2k - 1$. What happens when we increment $k$ to $k+1$?
+
+\begin{align*}
+  P(k+1) & = 2(k+1) - 1 & \text{by substitution}   \\
+         & = 2k+2 - 1   & \text{by simplification} \\
+         & = 2k + 1     & \text{by simplification}
+\end{align*}
+
+But then, making use of our inductive hypothesis, we see that we do in fact have two more nodes in the tree when we have add one leaf.
+\begin{align*}
+  P(k+1) - P(k) & = (2k + 1) - (2k - 1) & \text{by substitution} \\
+                & = 2k + 1 - 2k + 1     & \text{by simplification} \\
+                & = 2                   & \text{by simplification} \\
+\end{align*}
+
+\begin{figure}[H]
+  \centering
+  \begin{forest}
+    for tree={ellipse, draw, l sep=20pt}
+      [$r_0$
+        [$r_1$
+          [$\cdots$
+            [$m_{1}$]
+            [$m_{2}$]
+          ]
+          [$\cdots$
+            [$\cdots$]
+            [$\cdots$]
+          ]
+        ]
+        [$r_2$
+          [$\cdots$
+            [$m_{k-2}$]
+            [$m_{k-1}$]
+          ]
+          [$m_0$
+            [$m_{k}$]
+            [$m_{k+1}$]
+          ]
+        ]
+      ]
+  \end{forest}
+  \caption{Binary tree with multiple internal nodes and k+1 leaves.}\label{fig:putative-tree-with-another-leaf}
+\end{figure}
+
+
+\medskip
+
+\noindent Because $P(k) \implies P(k+1)$, where $k \ge n_0, k \in \mathbb{Z}$, by mathematical induction, therefore $P(n)$ is true for all $n \ge 1$, where $n \in \mathbb{Z}$.
+
+\medskip
 
 \medskip
 \noindent\textbf{Problem 3:}
@@ -110,9 +241,9 @@ Define the Fibonacci binary tree of order n as follows: If n=0 or n=1, the tree 
 Answer the following questions about Fibonacci binary tree defined in the previous problem.
 
 \begin{enumerate}
-    \item Is such a tree strictly binary?
-    \item What is the number of leaves in the Fibonacci tree of order n?
-    \item What is the depth of the Fibonacci tree of order n? 
+  \item Is such a tree strictly binary?
+  \item What is the number of leaves in the Fibonacci tree of order n?
+  \item What is the depth of the Fibonacci tree of order n?
 \end{enumerate}
 
 \medskip
