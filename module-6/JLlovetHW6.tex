@@ -17,6 +17,7 @@
 \usepackage{forest}
 \usepackage{float}
 \usetikzlibrary{automata,arrows}
+\usetikzlibrary{shapes.multipart, positioning}
 \usepackage{mdframed}
 \usepackage[
   backend=biber,
@@ -172,7 +173,7 @@ If one of the leaves were converted into an internal node, then the number of no
 
 But then, making use of our inductive hypothesis, we see that we do in fact have two more nodes in the tree when we have add one leaf.
 \begin{align*}
-  P(k+1) - P(k) & = (2k + 1) - (2k - 1) & \text{by substitution} \\
+  P(k+1) - P(k) & = (2k + 1) - (2k - 1) & \text{by substitution}   \\
                 & = 2k + 1 - 2k + 1     & \text{by simplification} \\
                 & = 2                   & \text{by simplification} \\
 \end{align*}
@@ -223,6 +224,88 @@ Explain in detail that if m pointer fields are set aside in each node of a gener
 \medskip
 \noindent\textbf{Answer:}
 \medskip
+
+This can similarly be proven by induction. Let $P(n)$ represent that the number of null child pointers in a tree of $n$ nodes is $n*(m-1)+1$.
+
+For the base case, consider when $n_0 = 1$, and there is only a root node. In this case,
+\[
+  n*(m-1)+1 = 1*(m-1)+1 = m
+\]
+This is correct, because when the tree is only the root node, there are no children, and consequently all of the children pointers are null.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \node[rectangle split, rectangle split horizontal, rectangle split parts=6,
+      draw, minimum height=8mm, minimum width=8mm] (root)
+    {
+      $r$
+      \nodepart{two}      $1$
+      \nodepart{three}    $2$
+      \nodepart{four}     $\cdots$
+      \nodepart{five}     $m-1$
+      \nodepart{six}      $m$
+    };
+  \end{tikzpicture}
+  \caption{An $m$-ary tree with of a single root node $r$, whose $m$ child pointers are all null.}\label{fig:m-ary-tree-with-single-node}
+\end{figure}
+
+Assume the inductive hypothesis $P(k) = k*(m-1)+1$, where $k \in \mathbb{Z}, k \ge n_0$. WWTS $P(k) \implies P(k+1)$. To do this, we'll take a similar strategy to the one we took in Problem 2. How much should the number of null pointers grow if we add one node? Reasoning structurally about the nodes, there will be a new node with $m$ null child pointers, but the parent of that new node will now have one fewer null child pointers. So, there should be a difference of $m-1$ between when there are $k+1$ and $k$ nodes.
+
+\begin{figure}[H]
+  \centering
+
+  \begin{tikzpicture}[>=stealth,
+      mnode/.style={rectangle split, rectangle split horizontal,
+          rectangle split parts=6, draw,
+          minimum height=8mm, minimum width=8mm}]
+    \node[mnode] (root)
+    {
+      \nodepart{one}      $r$
+      \nodepart{two}      $1$
+      \nodepart{three}    $2$
+      \nodepart{four}     $\cdots$
+      \nodepart{five}     $m-1$
+      \nodepart{six}      $m$
+    };
+    \node[mnode, below=1.6cm of root] (child)
+    {
+      \nodepart{one}      $r_1$
+      \nodepart{two}      $1$
+      \nodepart{three}    $2$
+      \nodepart{four}     $\cdots$
+      \nodepart{five}     $m-1$
+      \nodepart{six}      $m$
+    };
+    \draw[->] (root.two south) -- (child.one north);
+  \end{tikzpicture}
+  \caption{An $m$-ary tree with two nodes, where the $m$ child pointers on the second node are all null.}\label{fig:m-ary-tree-with-two-nodes}
+\end{figure}
+
+Consider the following, which demonstrates that the difference described above is obtained in general. $P(k)$ simplifies as follows:
+
+\begin{align*}
+  P(k) & = k(m-1)+1 & \text{by hypothesis}   \\
+       & = km-k+1   & \text{by distribution}
+\end{align*}
+
+Similarly, $P(k+1)$ simplifies as:
+\begin{align*}
+  P(k+1) & = (k+1)(m-1)+1       & \text{by substitution} \\
+         & = km - k + m - 1 + 1 & \text{by substitution} \\
+         & = km - k + m         & \text{by substitution}
+\end{align*}
+
+Then, applying our inductive hypothesis:
+
+\begin{align*}
+  P(k+1) - P(k) & = (km - k + m) - (km - k + 1) & \text{by substitution}  \\
+                & = km - k + m - km + k - 1     & \text{by distribution}  \\
+                & = km - km - k + k + m - 1     & \text{by commutativity} \\
+                & = m - 1                       & \text{by subtraction}   \\
+\end{align*}
+
+This is what we wanted to show. Therefore, because $P(k) \implies P(k+1)$, where $k \ge n_0$ where $k \in \mathbb{Z}$, by mathematical induction, $P(n)$ is true for all $n \ge 1$, where $n \in \mathbb{Z}$.
 
 \medskip
 \noindent\textbf{Problem 4:}
