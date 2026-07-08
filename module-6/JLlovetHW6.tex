@@ -1,0 +1,132 @@
+\documentclass[10pt,letterpaper,final]{report}
+\usepackage[margin=.75in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\renewcommand\qedsymbol{$\blacksquare$}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{automata,arrows}
+\usepackage{mdframed}
+\usepackage[
+  backend=biber,
+  style=numeric-comp,
+  sorting=none
+]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{minted}
+\usemintedstyle{algol_nu}
+\usepackage{xltabular}
+\usepackage{pdflscape}
+\usepackage{tcolorbox}
+
+
+% Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
+
+\begin{document}
+\begin{center}
+  \fbox{
+    \vbox{
+      \begin{flushleft}
+        Jonathan Llovet \\  % authors' names
+        EN.605.202.81 \\  %class
+        2026-07-07 \\  % date
+        Module 5 - Homework 5 \\ % ID
+      \end{flushleft}
+      \center{\Large{\textbf{Data Structures - Trees}}}
+      %\end{mdframed}
+    } % end vbox
+  } % end fbox
+  \vline
+\end{center}
+
+Write pseudo-code for problems requiring code. Do not write Java, Python or C++. You are responsible for the appropriate level of detail. For the questions asking for justification, please provide a detailed mathematically oriented discussion. A proof is not required. 
+
+\medskip
+
+\noindent\textbf{Problem 1:}
+\medskip
+
+How many ancestors does a node at level $n$ in a binary tree have? Provide justification.
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+The level of a node $m$ in a binary tree is determined by the length of the path from the root node $r$ of the tree to $m$, in other words, how many edges there are between $r$ and $m$. Note that there is a unique path from the root $r$ to any particular node $m$, with one edge between each level. In light of this, also consider that a parent $p$ of a node $m$ is the only node from which there is an incoming edge $p \to m$. Starting from $m$, the incoming edge will be from $p_m$, where $p_m$ is the immediate parent of $m$. Similarly for the parent of $p_m$. If we were to follow the lineage of ancestors up from $m$ at level $n$ of the binary tree, this would take us $n$ steps until we reached $r$. Taking the sum of the number of parents up from $m$, we find that there are $n$ ancestors of $m$.
+
+\medskip
+\noindent\textbf{Problem 2:}
+\medskip
+
+Prove that a strictly binary tree (regular binary tree) with n leaves contains 2n-1 nodes. Provide justification.
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+\textbf{Proof by Induction:}
+
+\textbf{Base Case} $n_0 = 0$.
+
+\textbf{Inductive Hypothesis} $P(k) = 2k - 1$, that is, a strictly binary tree with $k$ leaves contains $2k-1$ nodes.
+
+\textbf{WWTS:} $P(k) \implies P(k+1)$, where $k \ge n_0, k \in \mathbb{Z}$
+
+\textbf{By mathematical induction:}
+
+\medskip
+\noindent\textbf{Problem 3:}
+\medskip
+
+Explain in detail that if m pointer fields are set aside in each node of a general m-ary tree to point to a maximum of m child nodes, and if the number of nodes in the tree is n, the number of null child pointer fields is n*(m-1)+1.
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+\medskip
+\noindent\textbf{Problem 4:}
+\medskip
+
+Define the Fibonacci binary tree of order n as follows: If n=0 or n=1, the tree consists of a single node. If n>1, the tree consists of a root, with the Fibonacci tree of order n-1 as the left subtree and the Fibonacci tree of order n-2 as the right subtree. Write a method that builds a Fibonacci binary tree of order n and returns a pointer to it.
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+\medskip
+\noindent\textbf{Problem 5:}
+\medskip
+
+Answer the following questions about Fibonacci binary tree defined in the previous problem.
+
+\begin{enumerate}
+    \item Is such a tree strictly binary?
+    \item What is the number of leaves in the Fibonacci tree of order n?
+    \item What is the depth of the Fibonacci tree of order n? 
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+\pagebreak
+
+\section*{Source Code}
+The full source code, including LaTeX, tooling, other artifacts, and git history is available on my Github repository for the class here:
+\begin{center}
+  \url{https://github.com/jllovet/jhu-en-605-202-su26-data-structures}
+\end{center}
+
+\printbibliography
+
+\end{document}
