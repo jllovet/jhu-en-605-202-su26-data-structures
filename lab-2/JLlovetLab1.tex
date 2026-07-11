@@ -1,0 +1,449 @@
+\documentclass[10pt,letterpaper,final]{report}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\renewcommand\qedsymbol{$\blacksquare$}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{automata,arrows}
+\usepackage{mdframed}
+\usepackage[
+  backend=biber,
+  style=numeric-comp,
+  sorting=none
+]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{minted}
+\usemintedstyle{algol_nu}
+\usepackage{xltabular}
+\usepackage{pdflscape}
+\usepackage{multicol}
+\usepackage{underscore}
+\usepackage{changepage}
+
+\NewDocumentCommand{\sourcefile}{m v}{
+  \subsection{\texttt{#2}}\label{sec:#2}
+  \inputminted[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{6pt}{7pt}\selectfont}]{#1}{#2}
+}
+
+% Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
+
+\renewcommand{\thesection}{\arabic{section}}
+
+\begin{document}
+\begin{center}
+  \fbox{
+    \vbox{
+      \begin{flushleft}
+        Jonathan Llovet \\  % authors' names
+        EN.605.202.81 \\  %class
+        2026-06-23 \\  % date
+        Lab 1 \\ % ID
+      \end{flushleft}
+      \center{\Large{\textbf{Use of Stacks - Converting Prefix to Postfix Expressions}}}
+      %\end{mdframed}
+    } % end vbox
+  } % end fbox
+  \vline
+\end{center}
+
+\noindent\textbf{Prompt:}
+
+In this assignment you will a stack to convert prefix expressions directly to postfix expressions. You may not use recursion as we will use recursion to revisit this problem in Lab 2.
+
+
+Write a program that accepts a prefix expression containing single letter operands and the operators \verb|+, -, *, /, $| (\verb|$|representing exponentiation). Output the corresponding postfix epression.
+
+\begin{itemize}
+  \item For example, if your input is \verb|*AB| then output should be \verb|AB*|. Output of \verb|BA*| is considered incorrect.
+\end{itemize}
+
+In your analysis, be sure to discuss the implementation you choose and why, why a stack makes sense. Consider a recursive solution (you should not implement recursion) and compare it to your iterative solution. Is one better than the other? Why? Tell us what you learned and what you would do differently. Be sure to review the Programming Assignment Guidelines for specific requirements for the Analysis and before submitting this assignment.
+
+Don't forget to do reasonable error checking and try to make your error messages specific and helpful.  You may not use library functions. You must write your own code and, specifically, you must write the stack code. Be sure to include the stack source code in your submission. You must read and write from named files.
+
+The required input is provided in a separate text file.
+
+In processing the input, you should expect to read line by line and within a line, character by character, as specified in the programming assignment guidelines. This will allow you to parse the expression as you read it.
+
+\tableofcontents
+
+\pagebreak
+
+\section{The Problem to Solve}
+
+This lab illustrates the use of stacks in the conversion of prefix expressions to postfix expressions. The prefix expressions will be read in from a file and then output to a file, both of which are provided at the command line. Errors will be printed to stderr for review. The lab is meant to be run as a module. See \texttt{README.md} for running instructions.
+We want to convert expressions in this form: \texttt{+AB} to this form \texttt{AB+}. Both of these are equivalent to the probably more familiar infix notation for the same expression \texttt{A+B}. Put another way, we want to convert from Polish notation to Reverse Polish notation \parencite{EnWikipediaorgReversePolishNotation}.
+
+The program should satisfy the following:
+
+\begin{enumerate}
+  \item Transform a prefix (Polish) expression to an equivalent postfix (Reverse Polish) expression
+  \item Use an iterative (as opposed to a recursive) implementation of the algorithm for doing so
+  \item Handle expressions with single-letter operands and the operations \verb|+, -, *, /, $|
+  \item Be callable from the command line as a Python module
+  \item Read an input file specified at the command line
+  \item Output results to an output file specified at the command line
+  \item Output errors related to invalid input to the user
+  \item Report issues in a helpful way to the user
+  \item Have reasonable error handling
+  \item Produce no other side effects
+\end{enumerate}
+
+\section{Strategy}\label{sec:strategy}
+
+In this solution to the problem, I built in some mechanisms for helping to ensure that the conversions were correct. First, I will describe the pipeline that I have built, then I will discuss a few of the improvements that I would look into making to the solution that would provide better assurance of correctness.
+
+First, as I discuss in \autoref{sec:testing}, I used test-driven development while building the solution. My approach to the implementation was to work from the bottom up, building the stack, then a parser, then the validation and evaluation components, before finally building the full converter. This approach solves the subproblems first, with the tests validating that the solutions were correct up to the specification that they provided. Take for example the stack tests in \autoref{sec:lab1/tests/test_stack.py}. As I developed the stack implementation, I wrote the constraints that the implementation would have to satisfy, e.g. that a newly initialized stack should be empty. Assuming that the tests define a correct specification for the stack's behavior and for the components addressing other subproblems such as parsing the individual elements of the expressions provided in input, my implementations remained correct, even as they were restructured and revised. There are a combination of granular tests of small functions and larger tests that validate that the behavior of the whole pipeline works. These tests are complemented by running the program itself, as described in \autoref{sec:demo}.
+
+Second, in addition to writing the core functionality that performs the \texttt{prefix \to\ postfix} transformation, I wrote what amounts to an interpreter that performs variable replacement and then evaluates prefix and postfix expressions as arithmetic expressions. My reasoning was that if I could run the original expressions and the postfix expressions they were translated to as if they were code, then I could validate that they were equivalent to each other by checking that their output when evaluated was equivalent. This validates against a significant set of possible errors, since it does constrain the conversion function to solutions that are numerically equivalent when evaluated. As one of the validation steps performed during conversion, the program will reject a conversion that produces a postfix expression that does not evaluate to the same value that the original does. Concretely, the expression \texttt{+AB} must reduce to the same value that \texttt{convert("+AB")} reduces to. However, this approach does not actually guarantee the syntactic equivalence of the expressions.
+
+Let the set of prefix expressions be represented by $A$, and let the set of postfix expressions be represented by $B$. A function $f: A \to B$ produces a postfix expression $b \in B$ when provided a prefix expression $a \in A$. Suppose this function is bijective, so that there is a one to one mapping between all pairs $(a,b)$ such that $a \in A, b \in B$. Suppose there is a similarly bijective function $g: B \to A$, where $g = f^{-1}$, that is, where $g$ is the inverse of $f$. These would have the property that $a = g \circ f(a)$ and $b = f \circ g(b)$. That is, $f$ and $g$ compose to produce the original value, whether we compose $f \circ g$ or $g \circ f$. This would be equivalent to writing a bidirectional converter which could turn a prefix expression into a postfix expression and could similarly translate a postfix expression to a prefix expression. This would be compatible with my current approach, where there could be some function $v: A \cup B \to \mathbb{Z}$ that evaluated an expression of type $A$ or $B$, like my function \texttt{eval} shown in \autoref{sec:lab1/parse/evaluate.py} does. The reason this would still not work is that neither $v: A \to \mathbb{Z}$ nor $v: B \to \mathbb{Z}$ is a bijection. In fact, $\forall k \in \mathbb{Z}$, there are infinitely many expressions $c \in C$ where $C = A \cup B$ and $v(c) = k$. In order to prove that $f(a) = b$ such that $a \in A, b \in B$ and that $g(b) = a$ such that $a \in A, b \in B$, we would have to write another function that created the abstract syntax trees for the expressions and demonstrated that those trees were equal to each other (in which case the conditions above about composition and the reduction of the expressions would still hold). If I were to revise the strategy of this project, I would prioritize adding this syntactic equivalence check to ensure correctness. All of this said, in practice, the test-based solution is often taken and might be sufficient for some use cases.
+
+The mathematical case above notwithstanding, the evaluation step in the validation done before actual conversion provides a strong heuristic. Admittedly, this is a simple problem, and it was only after some thought after having written the lab while thinking about \textcite{Cheng2022JoyOfAbstraction} that I realized the issues in my reasoning. While the mathematically provably correct solution is better, a heuristic driven approach is often a good place to start, and in this case it brought me rather far. For some more inherently difficult problems, a heuristic-based solution may be the best one available, either because of the computational complexity inherent in the problem (e.g. if the problem is in $NP$) or because of the bounds on the mathematical tools available to use.
+
+From here, I will describe the core flow of the program. First, the IO portion from the command line and the main portion that drives the program.
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.9\linewidth]{lab1-strategy-io.pdf}
+  \caption{Core IO flow}\label{fig:strategy-io}
+\end{figure}
+
+The IO flow above calls into the conversion flow, which is sketched below.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.9\linewidth]{lab1-strategy-conversion.pdf}
+  \caption{Conversion flow}\label{fig:strategy-conversion}
+\end{figure}
+
+The validation flow is the next layer down. It is sketched below. Details about conditions that are checked can be seen in \autoref{sec:lab1/parse/validate.py}.
+
+The evaluation flow is similar to the validation flow, and in fact \texttt{evaluate.eval} calls \texttt{validate.is_valid_expression}. In the current form of the codebase, \texttt{evaluate.eval} is used as a helper function in tests. Because it is ancillary, I will refer the reader to \autoref{sec:lab1/parse/evaluate.py} for more details.
+
+\begin{landscape}
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\linewidth]{lab1-strategy-validation.pdf}
+    \caption{Validation flow}\label{fig:strategy-validation}
+  \end{figure}
+\end{landscape}
+
+
+\clearpage\pagebreak
+
+\section{Structure}\label{sec:structure}
+
+\begin{verbatim}
+lab1
+|-- __init__.py            | Python-required for module
+|-- __main__.py            | Main entrypoint
+|-- convert                | Package that handles actual pre->post conversion
+|   |-- __init__.py        | Python-required for package
+|   `-- converter.py       | The pre->post conversion pipeline
+|-- lab1.py                | IO entrypoint for processing files and printing errors
+|-- launch.json            | Configuration for IDE
+|-- parse                  | Package to handle parsing expressions
+|   |-- __init__.py        | Python-required for package
+|   |-- evaluate.py        | Evaluates expressions to help with validity checks
+|   |-- parser.py          | Parsing for expressions, symbol lookup, and 
+|   `-- validate.py        | Validation functions that check expressions, symbols
+|-- stack                  | Package for an array-based stack
+|   |-- __init__.py        | Python-required for package
+|   `-- stack.py           | Implementation of an array-based stack (uses Python list)
+`-- tests                  | "Testing, 1, 2"
+    |-- __init__.py        | Python-required for package
+    |-- test_converter.py  | Tests for the convert package
+    |-- test_parser.py     | Tests for the parse package
+    |-- test_postfix.py    | Tests for postfix operations
+    |-- test_prefix.py     | Tests for prefix operations
+    |-- test_stack.py      | Tests for the stack package
+    `-- test_validate.py   | Tests for the validate package
+
+5 directories, 19 files
+\end{verbatim}
+
+\section{Design Decisions}
+
+In this lab, I am using a Python list as the underlying structure for the data contained in the stack. Why? There are two main reasons: more straightforward implementation and better use of hardware resources.
+
+Python lists are dynamic arrays of pointers to data objects \cite{PythonDocumentationDesignAndHistory}. The actual data items are stored separately, but indexing a list \texttt{a[i]} can be performed in $O(1)$, rather than needing to iterate through all the elements like in a linked list. These characteristics gave me some benefits for implementation. For example, because the array contains pointers, rather than the objects themselves, I was able to write my \texttt{Stack} class (see \autoref{sec:lab1/stack/stack.py}) to accept either data of type \texttt{str} or \texttt{int}, which meant that my functions for evaluating expressions (see \autoref{sec:strategy}) more straightforward to implement because they could just use the same stack used elsewhere.
+
+Python's use of dynamic arrays instead of linked lists comes with another benefit, namely that the underlying layout of the pointers in memory is contiguous. The contiguity of the data makes it more likely that the data can be stored together in cache. Based on the locality principle used by many systems when retrieving information from resources like main memory or disc, if the data is contiguous in memory, then it is more likely that when a particular item is fetched from memory so too will the other items that are going to be needed in the near future. See Chapter 6 of \textcite{null2023essentials}, where there is a discussion of locality in memory management.
+
+The performance of the stack's operations in my implementation are as follows:
+
+\begin{center}
+  \begin{tabularx}{\textwidth}{|l|l|X|}
+    \hline
+    Function                                      & Worst Case                 & Description                                                                                               \\ \hline
+    \texttt{__init__(self, max_height: int = -1)} & $O(1)$                     & Only has to initialize an instance of Stack. Time complexity has no dependence on n or max_height.        \\ \hline
+    \texttt{is_empty(self) -> bool}               & $O(1)$                     & Only has to read an attribute from the instance of Stack. Time complexity has no dependence on height.    \\ \hline
+    \texttt{is_full(self) -> bool}                & $O(1)$                     & Only has to read an attribute from the instance of Stack. Time complexity has no dependence on height.    \\ \hline
+    \texttt{contains(self, item) -> bool}         & $O(n)$                     & Has to iterate over each of the elements in the instance of Stack. In the worse case all must be checked. \\ \hline
+    \texttt{peek(self) -> str | int | None}       & $O(1)$                     & Only has to check one element. Time complexity has no dependence on height.                               \\ \hline
+    \texttt{pop(self) -> str | int | None}        & $O(1)$                     & Only has to return one element. Time complexity has no dependence on height.                              \\ \hline
+    \texttt{push(self, item: str | int) -> None}  & $O(n)$ or $O(1)$ amortized & See note below.                                                                                           \\ \hline
+  \end{tabularx}
+\end{center}
+
+Note on \texttt{push}: Because the Python list that contains the data is implemented as a dynamic array, when its capacity is filled, this will result in a resizing operation that takes $O(n)$ time. However, when looking at the average performance of \texttt{push}, the additional cost of the resizing operations reduces to a constant cost on average. This is because the frequency with which the resizing operations must be performed decreases exponentially as the size of the underlying array grows, under the assumption that the size of the array is doubled each time it is resized. See \textcite{EnWikipediaorgAmortizedAnalysis}, which will point to \textcite{Kozen2011CornellLectureAmortizedAnalysis}, which is itself a clarifying reformulation of \textcite{Tarjan1985AmortizedComputationalComplexity} for more details.
+
+
+The following is the implementation of \texttt{converter.pre2post}, with the docstring and other long comments stripped out to save space. The full version is in \autoref{sec:lab1/convert/converter.py}. I have added notations for each step to indicate the time complexity required for the operation.
+
+
+\begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{7pt}{8pt}\selectfont}]{python}
+def pre2post(expression: str) -> str:
+    if not validate.is_valid_expression(expression=expression, expression_type="prefix"): # O(n)
+        raise ValueError(f"'{expression}' is not a valid prefix expression")              # O(1)
+    stack = Stack()                                                                       # O(1)
+    parsed_expression = parser.parse(expression=expression)                               # O(n)
+    postfix_expression_components = []                                                    # O(1)
+    if parsed_expression == [] or len(parsed_expression) == 1:                            # O(1)
+        return expression                                                                 # O(1)
+    for i in range(0, len(parsed_expression)):  # iterate from right                      # O(n)
+        index = len(parsed_expression) - (i + 1)                                          # O(1)
+        symbol = parsed_expression[index]                                                 # O(1)
+        if validate.is_parenthesis(symbol):                                               # O(1)
+            continue                                                                      # O(1)
+        if validate.is_operator(str(symbol)):                                             # O(1)
+            a = stack.pop()                                                               # O(1)
+            b = stack.pop()                                                               # O(1)
+            stack.push(f"{a}{b}{symbol}")                                                 # O(1)
+        elif isinstance(symbol, str):                                                     # O(1)
+            stack.push(symbol)                                                            # O(1)
+    while not stack.is_empty():                                                           # O(1)
+        symbol = stack.pop()                                                              # O(n)/amortized O(1)
+        postfix_expression_components.append(symbol)                                      # O(n)/amortized O(1)
+    postfix_expression = "".join(postfix_expression_components)                           # O(n)
+    return postfix_expression                                                             # O(1)
+\end{minted}
+
+The core of the preceding analysis applies similarly to the function \texttt{validate.is_valid_expression} (in \autoref{sec:lab1/parse/validate.py}) and to \texttt{parser.parse} (in \autoref{sec:lab1/parse/parser.py}).
+
+From this, we can conclude that for each of the steps in the conversion pipeline, there are at most $kn$ steps, where $k \in \mathbb{Z^+}$ and $n$ is the length of the original expression. The time complexity's being an integer multiple of the size of the input implies that the worst case complexity is $O(n)$ for the program.
+
+
+\section{Algorithms and ADTs}
+
+For this lab, a stack is a reasonable ADT to use because of the structure of the problem itself. Prefix and postfix notation for mathematical expressions themselves are designed around stacks. As you read a symbol in either format, the determination of how to handle it is unambiguous because of the stack semantics inherent in the notation. This is in notable contrast to infix notation, with which there is ambiguity about evaluation order that must be disambiguated using parentheses.
+
+Because the problem of parsing these expressions lends itself inherently a stack, it lends itself also naturally to a recursive implementation. A recursive implementation implicitly uses the stacks, and when evaluated, it will take advantage of the stack provided by the operating system to execute. The problem also semantically suggests a recursive definition, because it can be expressed using a context free grammar.
+
+\begin{align*}
+   & R \to XAA \mid RR                                                                 \\
+   & X \to \texttt{+} \mid \texttt{-} \mid \texttt{*} \mid \texttt{/} \mid \texttt{\$} \\
+   & A \to R\ | \texttt{Int}
+\end{align*}
+
+This reads that a variable $R$ can be replaced either by $XAA$ or a sequence of two variables $RR$. $X$ can be replaced by one of the terminal operators, and $A$ can be replaced either by another variable R or an integer. With this pattern, we can produce any prefix operation. The grammar for a postfix expression is the following:
+
+\begin{align*}
+   & R \to AAX \mid RR                                                                 \\
+   & X \to \texttt{+} \mid \texttt{-} \mid \texttt{*} \mid \texttt{/} \mid \texttt{\$} \\
+   & A \to R\ | \texttt{Int}
+\end{align*}
+
+Why does it matter that this can be expressed as a context free grammar (CFG)? Every CFG is computationally equivalent to a pushdown automaton (PDA) \cite{sipser2013}, which is a model of computation that only has states and a single stack that it can push and pop from. Context free grammars make clear that there is a recursive definition for any of the languages (i.e. computational problems) that they model. A recursive definition of the conversion problem would be more straightforward to implement and to reason about, because we would not have to manage the stack manipulation ourselves. This does not necessarily make the recursive definition of the problem better, since for a given language and for a given problem, a naive recursive solution to a problem may not make effective use of space, as we have seen in the case of calculating Fibonacci numbers recursively. However, the benefits of declarative, high-level functional programming are significant. Recursive functions lend themselves to such contexts, and given that there are compiler optimizations, intelligent memoization, and tail recursion available for us to use, I would recommend the use of a recursive solution to this and similar problems where possible. The manual state management of the stack is similar to memory management in system-level languages. There is usually a reasonable abstraction provided by an implemntation that handles the low-level details correctly, and using that abstraction is likely to reduce the likelihood of bugs and cognitive effort's being spent on implementation details when it could be spent modeling the domain appropriately. We don't need to reinvent sequence iteration every time we want to handle all the elements in a list. Instead, we could just use map and a function.
+
+\pagebreak
+
+\section{Testing}\label{sec:testing}
+
+I used test-driven development with unit tests written in \texttt{unittest} to help with the development of my code and to ensure that I did not break portions of the codebase as I built new features, performed refactors, and did other chores. My test writing strategy is drawn from sources like \citetitle{JamesLearnGoWithTests}, where I learned to write tests to specify an API contract for a package, set of functions, or entire program before implementing the features themselves. As I added features to this lab, I wrote the tests first, mocking out the functions that I would call, and then I implemented the features. Before and after each code change, I ran the full test suite, so that I could immediately detect and address any changes to the code that resulted in changes in behavior of the program that either satisfied or broke the constraints of the specification encoded in the tests. There are a few small functions that I extracted later on in the lab that are not as comprehensively covered by the tests. Consequently, there is not 100\% coverage for the codebase. I don't think this is necessarily needed. Rather, the goal that I aimed for was external contract coverage and guarantees across the packages and for the program as a whole, leaving details of the implementation of those specifications out of test. This is analogous to the behavior seen in writing tests for languages like Java and Go, which have conventions about private vs public methods or unexported vs exported functions, respectively.
+
+In light of these decisions about testing and the boundaries that I set for what I would require of myself when writing those tests, I was judicious about where I added tests for small functions that aided in the implementation but weren't part of the external contract. when I was refactoring the codebase later in its development, the core features and workflows of each package were already under test and passing. Hence, when I abstracted or parameterized various portions of the functionality and behavior of the packages, I could check the tests to ensure that the specified behavior of the whole was preserved, even as implementation details changed. This proved quite useful several times, since I performed multiple significant reorganizations as the codebase grew over the course of the implementation. Between the findings of the Python type checker and those of the tests, I was able to make changes confidently, knowing that the program was in a working state at each commit.
+
+In a further development of this lab or in an industry context, I would add tests to explicitly articulate the precise specifications of the functions' expected behavior and increase the coverage of the codebase overall. As a methodological note, when developing the tests the steps I took were:
+
+\begin{enumerate}
+  \item Write a test that reflects an atomic aspect of the expected behavior.
+  \item Validate that the test fails without the implementation in place.
+  \item Write a minimal implementation that makes the test pass.
+  \item Iterate with new tests.
+\end{enumerate}
+
+To run the tests, I used the built-in \texttt{unittest} module's \texttt{discover} command. As I proceeded, I ran tests by calling the following from \texttt{jhu-en-605-202-su26-data-structures/test-1}: \texttt{python -m unittest discover -s lab1/tests}. This printed test results like the following:
+
+{\small
+  \begin{verbatim}
+  python -m unittest discover -s lab1/tests
+  .............................................................................
+  ----------------------------------------------------------------------
+  Ran 77 tests in 0.003s
+  
+  OK
+\end{verbatim}
+}
+
+I referenced several documentation and tutorial resources to get back up to speed with testing in Python using \texttt{unittest}, such as \textcite{PythonDocumentationUnittestUnit}, \textcite{CodewithJosh2024HowToTest}, \textcite{CoreySchafer2017PythonTutorial}, and \textcite{ArjanCodes2025HowToWriteGreatUnitTestsInPython}.
+
+
+\pagebreak
+\section{Demo}\label{sec:demo}
+
+For the following, I assume that I start in the root of the Github repository. From some appropriate location on your filesystem, clone the repository and move into the root of the repo.
+  {\small
+    \begin{verbatim}
+  git clone https://github.com/jllovet/jhu-en-605-202-su26-data-structures.git
+  cd jhu-en-605-202-su26-data-structures
+\end{verbatim}
+  }
+
+\noindent From there, move into the folder for this lab.
+
+  {\small
+    \begin{verbatim}
+  cd lab-1
+\end{verbatim}
+  }
+
+\noindent From here, the python module can be run as follows.
+
+  {\small
+    \begin{verbatim}
+  python -m lab1 resources/input/in.txt resources/output/output.txt
+\end{verbatim}
+  }
+
+\noindent If the program is run with the incorrect number of arguments, then an error message similar to the one shown below will be printed to the user.
+
+  {\small
+    \begin{verbatim}
+  python -m lab1
+  usage: python3.14 -m lab1 [-h] in_file out_file
+
+  Convert prefix -> postfix expressions from in_file and write them to out_file
+
+  positional arguments:
+    in_file     Input File Pathname
+    out_file    Output File Pathname
+
+  options:
+    -h, --help  show this help message and exit
+\end{verbatim}
+  }
+
+\noindent The input and resulting output of an example successful run are shown below:
+
+\begin{center}
+  \begin{minipage}[t]{0.2\textwidth}
+    \centering
+    \textbf{\texttt{resources/input/in.txt}}\\
+    \inputminted[frame=single,fontsize=\footnotesize]{text}{resources/input/in.txt}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.76\textwidth}
+    \centering
+    \textbf{\texttt{resources/output/output.txt}}\\
+    \inputminted[frame=single,fontsize=\footnotesize]{text}{resources/output/output.txt}
+  \end{minipage}
+\end{center}
+
+\noindent When the program is executed, the error message on the following page will be written to \texttt{stderr}:
+
+\pagebreak
+
+{\small
+  \begin{center}
+    \begin{verbatim}
+WARNING: 19 errors found during conversion
+WARNING: Invalid expressions not written to output file
+
+Check expressions to ensure the are well formed and only use allowed symbols.
+
+Note: whitespace is not allowed. Expressions with whitespace will be rejected.
+
+Allowed symbols: ABCDEFGHIJKLMNOPQRSTUVWXYZ+-*/$()
+
+Example valid expressions:
+	(base case):	'A'	-> 'A'
+	(single op):	'+AB'	-> 'AB+'
+	(more ops):	'-+ABC'	-> 'AB+C-'
+--------------------------------------------------------------------------------
+ERRORS:
+resources/input/in.txt - line 2: 'AB' is not a valid prefix expression
+resources/input/in.txt - line 3: 'AB+' is not a valid prefix expression
+resources/input/in.txt - line 6: '++AB' is not a valid prefix expression
+resources/input/in.txt - line 7: '+++' is not a valid prefix expression
+resources/input/in.txt - line 8: 'A+B' is not a valid prefix expression
+resources/input/in.txt - line 9: 'A-B' is not a valid prefix expression
+resources/input/in.txt - line 10: 'A=B' is not a valid prefix expression
+resources/input/in.txt - line 11: 'A#B' is not a valid prefix expression
+resources/input/in.txt - line 12: 'A@B' is not a valid prefix expression
+resources/input/in.txt - line 13: 'A$B' is not a valid prefix expression
+resources/input/in.txt - line 17: 'miscellaneous' is not a valid prefix expression
+resources/input/in.txt - line 18: '+La-sc*ia$te' is not a valid prefix expression
+resources/input/in.txt - line 19: '$+' is not a valid prefix expression
+resources/input/in.txt - line 23: '/A+BC +C*BA  ' is not a valid prefix expression
+resources/input/in.txt - line 24: '*-*-ABC+BA  ' is not a valid prefix expression
+resources/input/in.txt - line 25: '/+/A-BC-BA  ' is not a valid prefix expression
+resources/input/in.txt - line 26: '*$A+BC+C-BA ' is not a valid prefix expression
+resources/input/in.txt - line 27: '//A+B0-C+BA' is not a valid prefix expression
+resources/input/in.txt - line 28: '*$A^BC+C-BA' is not a valid prefix expression
+\end{verbatim}
+  \end{center}
+}
+
+\pagebreak
+
+\section{Lab Source Code}
+
+On the following pages, you can find the source code for the project. In addition to the resources I mentioned above for testing, I reviewed multiple resources for information about a few Python-specific details for a few topics, such as error handling \textcite{PythonDocumentationErrorsAndExceptions}, the \texttt{match} operator's syntax \textcite{PythonEnhancementProposalsPEP0636}, and typing \textcite{PythonDocumentationTypingLiterals}.
+
+As a basis for an internal standard for docstring formatting, I referenced the Google Python Style Guide \textcite{GooglePythonStyleGuide}. I departed slightly from their convention, notably in adding sections of the docstring to describe functions' side effects and whether the function is idempotent. In some codebases at work, we have used higher order functions to make Python decorators to annotate whether a function was pure or had side effects, along with other characteristics. This was especially useful in that context, because it allowed the codebase to be searched programmatically for functions that did or did have specified characteristics. E.g., it was possible to get a list of all the functions in the codebase that were annotated as pure or were known to have side effects.
+
+Along with being theoretically interesting, the decorator annotations provided a quantitative basis for design discussions where we were planning modifications to the codebase. It helped us make the codebase more reliably testable because it helped us answer questions like ``What functions can we rewrite to reduce the percentage of the codebase that has side effects?'' In this codebase, I did not opt for such a decorator-driven annotation style, since all the functions have extensive docstrings. That said, in the style that the annotations in the docstrings have in this codebase, I think that it would be reasonably feasible to have a static analyzer search the codebase for similar characteristics, though I expect that the approach required to parse and correctly interpret the docstrings would be more complex than the one required for the function decorators. From the perspective of long-term maintenance and testability of that observability itself, I think that the decorator pattern has some benefits. Tests that check for the absence or presence of decorators from a set of annotation decorators in the codebase would be easier to write and run reliably than analogous functions that interpreted the contents of the docstrings.
+
+\bigskip
+
+The pages below present the source code for each of the files presented under \autoref{sec:structure}.
+
+
+\begin{landscape}
+  \setlength{\columnsep}{3em}
+  \begin{adjustwidth}{3em}{0pt}
+    \begin{multicols}{2}
+      \sourcefile{python}{lab1/__init__.py}
+      \sourcefile{python}{lab1/__main__.py}
+      \sourcefile{python}{lab1/convert/__init__.py}
+      \sourcefile{python}{lab1/convert/converter.py}
+      \sourcefile{python}{lab1/lab1.py}
+      \sourcefile{json}{lab1/launch.json}
+      \sourcefile{python}{lab1/parse/__init__.py}
+      \sourcefile{python}{lab1/parse/evaluate.py}
+      \sourcefile{python}{lab1/parse/parser.py}
+      \sourcefile{python}{lab1/parse/validate.py}
+      \sourcefile{python}{lab1/stack/__init__.py}
+      \sourcefile{python}{lab1/stack/stack.py}
+      \sourcefile{python}{lab1/tests/__init__.py}
+      \sourcefile{python}{lab1/tests/test_converter.py}
+      \sourcefile{python}{lab1/tests/test_parser.py}
+      \sourcefile{python}{lab1/tests/test_postfix.py}
+      \sourcefile{python}{lab1/tests/test_prefix.py}
+      \sourcefile{python}{lab1/tests/test_stack.py}
+      \sourcefile{python}{lab1/tests/test_validate.py}
+    \end{multicols}
+  \end{adjustwidth}
+\end{landscape}
+
+\pagebreak
+
+\section{Source Code}
+The full source code, including LaTeX, tooling, other artifacts, and git history is available on my Github repository for the class here:
+\begin{center}
+  \url{https://github.com/jllovet/jhu-en-605-202-su26-data-structures}
+\end{center}
+
+\printbibliography[heading=bibintoc]
+
+\end{document}

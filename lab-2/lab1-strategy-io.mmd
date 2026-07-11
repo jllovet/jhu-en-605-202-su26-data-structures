@@ -1,0 +1,19 @@
+sequenceDiagram
+    participant stderr as stderr
+    participant in as in.txt
+    participant out as out.txt
+    participant process_files
+    participant pre2post as converter.pre2post
+
+    par
+    in->>+process_files: input
+    out->>+process_files: input
+    end
+    process_files ->> process_files: break into lines
+    process_files ->> pre2post: input each line
+    pre2post ->> pre2post: convert expressions
+    pre2post ->> process_files: error or result
+    par
+    pre2post ->> stderr: write error messages
+    pre2post ->> out: write results of conversions
+    end
