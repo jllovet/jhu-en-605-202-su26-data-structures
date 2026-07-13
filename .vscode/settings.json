@@ -128,5 +128,6 @@
 
   // PDF preview settings
   "latex-workshop.view.pdf.viewer": "tab",
-  "latex-workshop.view.pdf.internal.synctex.keybinding": "double-click"
+  "latex-workshop.view.pdf.internal.synctex.keybinding": "double-click",
+  "python-envs.defaultEnvManager": "ms-python.python:system"
 }
