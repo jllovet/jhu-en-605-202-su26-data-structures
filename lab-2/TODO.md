@@ -24,5 +24,6 @@
 
 ### Enhancements
 
+- [ ] Add description of cleaner to write test for equivalence of cleaned and non-cleaned parsing
 - [ ] Add note about unit testing
 - [ ] Add note about unicode
