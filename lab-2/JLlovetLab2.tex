@@ -58,22 +58,24 @@
 
 \noindent\textbf{Prompt:}
 
-In this assignment you will a stack to convert prefix expressions directly to postfix expressions. You may not use recursion as we will use recursion to revisit this problem in Lab 2.
+In this assignment you will use recursion to convert prefix expressions directly to postfix expressions. You may not use a stack as you did in Lab 1.
 
+Write a program that accepts a prefix expression containing single letter operands and the operators \texttt{+, -, *, /,} and \texttt{\$} (representing exponentiation). Output the corresponding postfix expression.  For example, if your input is \texttt{*AB} then output should be \texttt{AB*}. Output of \texttt{BA*} is considered incorrect. In your analysis, be sure to discuss why recursion makes sense. Consider your recursive solution with your iterative solution from Lab 1. Is one better than the other? Do you feel differently than you did when you wrote Lab 1. Tell us what you learned and what you would do differently. Be sure to review the Programming Assignment Guidelines for specific requirements for the Analysis and before submitting this assignment.
 
-Write a program that accepts a prefix expression containing single letter operands and the operators \verb|+, -, *, /, $| (\verb|$|representing exponentiation). Output the corresponding postfix epression.
+Don't forget to do reasonable error checking and try to make your error messages specific and helpful. You may not use library functions. You must write your own code. You must read and write
+from named files.
+
+\noindent \textbf{Additional guidelines from instructor:}
 
 \begin{itemize}
-  \item For example, if your input is \verb|*AB| then output should be \verb|AB*|. Output of \verb|BA*| is considered incorrect.
+  \item Whitespace should be quietly stripped out (skipped) on a per character basis.
+  \item You should not accept characters outside of the bounds of what you accept. If you choose to only accept the valid operator characters \$*/+- and alphabetical characters that is fine. There is no reason to accept any other characters. I recommend using your language's version of \texttt{isAlpha()} to determine if a non operator character is valid.
+  \item Numeric literals are up to you, however, I would recommend not accepting (and raising errors) for integer literals. Namely, it is a very hard problem to handle:
+  \begin{itemize}
+    \item Consider \texttt{+123}. Is it \texttt{1 + 23}, \texttt{12 + 3}, or \texttt{123 +} a missing a value? If you decide to use numeric literals, you must detail in your readme and analysis, providing the rules required for numeric integers, how they can be formed, and of course have matching code to enforce those rules.
+    \item Even if you don't use numeric literals, your readme should clearly state what character sets are acceptable.
+  \end{itemize}
 \end{itemize}
-
-In your analysis, be sure to discuss the implementation you choose and why, why a stack makes sense. Consider a recursive solution (you should not implement recursion) and compare it to your iterative solution. Is one better than the other? Why? Tell us what you learned and what you would do differently. Be sure to review the Programming Assignment Guidelines for specific requirements for the Analysis and before submitting this assignment.
-
-Don't forget to do reasonable error checking and try to make your error messages specific and helpful.  You may not use library functions. You must write your own code and, specifically, you must write the stack code. Be sure to include the stack source code in your submission. You must read and write from named files.
-
-The required input is provided in a separate text file.
-
-In processing the input, you should expect to read line by line and within a line, character by character, as specified in the programming assignment guidelines. This will allow you to parse the expression as you read it.
 
 \tableofcontents
 
@@ -403,38 +405,6 @@ On the following pages, you can find the source code for the project. In additio
 As a basis for an internal standard for docstring formatting, I referenced the Google Python Style Guide \textcite{GooglePythonStyleGuide}. I departed slightly from their convention, notably in adding sections of the docstring to describe functions' side effects and whether the function is idempotent. In some codebases at work, we have used higher order functions to make Python decorators to annotate whether a function was pure or had side effects, along with other characteristics. This was especially useful in that context, because it allowed the codebase to be searched programmatically for functions that did or did have specified characteristics. E.g., it was possible to get a list of all the functions in the codebase that were annotated as pure or were known to have side effects.
 
 Along with being theoretically interesting, the decorator annotations provided a quantitative basis for design discussions where we were planning modifications to the codebase. It helped us make the codebase more reliably testable because it helped us answer questions like ``What functions can we rewrite to reduce the percentage of the codebase that has side effects?'' In this codebase, I did not opt for such a decorator-driven annotation style, since all the functions have extensive docstrings. That said, in the style that the annotations in the docstrings have in this codebase, I think that it would be reasonably feasible to have a static analyzer search the codebase for similar characteristics, though I expect that the approach required to parse and correctly interpret the docstrings would be more complex than the one required for the function decorators. From the perspective of long-term maintenance and testability of that observability itself, I think that the decorator pattern has some benefits. Tests that check for the absence or presence of decorators from a set of annotation decorators in the codebase would be easier to write and run reliably than analogous functions that interpreted the contents of the docstrings.
-
-\bigskip
-
-The pages below present the source code for each of the files presented under \autoref{sec:structure}.
-
-
-\begin{landscape}
-  \setlength{\columnsep}{3em}
-  \begin{adjustwidth}{3em}{0pt}
-    \begin{multicols}{2}
-      \sourcefile{python}{lab1/__init__.py}
-      \sourcefile{python}{lab1/__main__.py}
-      \sourcefile{python}{lab1/convert/__init__.py}
-      \sourcefile{python}{lab1/convert/converter.py}
-      \sourcefile{python}{lab1/lab1.py}
-      \sourcefile{json}{lab1/launch.json}
-      \sourcefile{python}{lab1/parse/__init__.py}
-      \sourcefile{python}{lab1/parse/evaluate.py}
-      \sourcefile{python}{lab1/parse/parser.py}
-      \sourcefile{python}{lab1/parse/validate.py}
-      \sourcefile{python}{lab1/stack/__init__.py}
-      \sourcefile{python}{lab1/stack/stack.py}
-      \sourcefile{python}{lab1/tests/__init__.py}
-      \sourcefile{python}{lab1/tests/test_converter.py}
-      \sourcefile{python}{lab1/tests/test_parser.py}
-      \sourcefile{python}{lab1/tests/test_postfix.py}
-      \sourcefile{python}{lab1/tests/test_prefix.py}
-      \sourcefile{python}{lab1/tests/test_stack.py}
-      \sourcefile{python}{lab1/tests/test_validate.py}
-    \end{multicols}
-  \end{adjustwidth}
-\end{landscape}
 
 \pagebreak
 
