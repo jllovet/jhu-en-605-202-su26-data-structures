@@ -9,7 +9,7 @@ What is the lab doing again? We want to convert expressions in this form: `+AB` 
 # Running Lab 2
 
 ```commandline
-usage: python -m lab1 [-h] in_file out_file
+usage: python -m lab2 [-h] in_file out_file
 
 Convert prefix -> postfix expressions from in_file and write them to out_file
 
@@ -21,7 +21,7 @@ options:
   -h, --help  show this help message and exit
 ```
 
-For example, presume you have the following folder structure (ignoring the contents of lab1 for the moment).
+For example, presume you have the following folder structure (ignoring the contents of lab2 for the moment).
 
 ```
 .
@@ -96,6 +96,6 @@ git clone https://github.com/jllovet/jhu-en-605-202-su26-data-structures.git
 Then you can run the full test suite like follows.
 
 ```shell
-cd jhu-en-605-202-su26-data-structures/lab-1
-python -m unittest discover -s lab1/tests
+cd jhu-en-605-202-su26-data-structures/lab-2
+python -m unittest discover -s lab2/tests
 ```
