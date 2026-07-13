@@ -22,16 +22,16 @@ class Node:
 
 
 def _pre2post(expression: str, index: int = 0) -> Tuple[Node, int] | Tuple[None, int]:
-    print(f"in pre2post({expression, index})")
+    # print(f"in pre2post({expression, index})")
     if index == len(expression):
         return None, index
     while index <= len(expression) - 1 and (expression[index].isspace() or validate.is_parenthesis(expression[index])):
         print(index)
         index += 1
-    print(
-        f"after char skip loop in pre2post({expression, len(expression), index})")
+    # print(
+        # f"after char skip loop in pre2post({expression, len(expression), index})")
     n = Node(expression[index])
-    print(f"created node: {n}")
+    # print(f"created node: {n}")
     if validate.is_operator(expression[index]):
         left, index = _pre2post(expression, index+1)
         right, index = _pre2post(expression, index+1)
