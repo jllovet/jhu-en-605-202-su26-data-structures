@@ -56,6 +56,8 @@ class TestSymbolClassifiers(unittest.TestCase):
         self.assertTrue(validate.is_allowed("Y"))
         self.assertTrue(validate.is_allowed("Z"))
         self.assertTrue(validate.is_allowed("a"))
+        self.assertTrue(validate.is_allowed("ф")) # Unicode: Cyrillic
+        self.assertTrue(validate.is_allowed("ἄ")) # Unicode: Polytonic Ancient Greek
 
         self.assertTrue(validate.is_allowed("+"))
         self.assertTrue(validate.is_allowed("-"))
