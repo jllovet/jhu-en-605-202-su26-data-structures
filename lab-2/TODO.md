@@ -6,6 +6,8 @@
 - [ ] Model error propagation, with explicit plan for how errors should be routed, handled, or bubble up
 - [ ] Handle string with a single-pass
 - [ ] Generator usage
+- [ ] Add logger with flag for usage
+- [ ] Add runtime metrics
 
 
 ## Analysis
