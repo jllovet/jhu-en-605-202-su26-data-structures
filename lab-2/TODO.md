@@ -3,6 +3,7 @@
 ## Implementation
 
 - [ ] Add comprehensive testing for whitespace
+- [ ] Use cleaner to write test for equivalence of cleaned and non-cleaned parsing
 - [ ] Model error propagation, with explicit plan for how errors should be routed, handled, or bubble up
 - [ ] Handle string with a single-pass
 - [ ] Generator usage
