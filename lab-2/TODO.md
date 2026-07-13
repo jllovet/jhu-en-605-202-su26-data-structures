@@ -15,3 +15,8 @@
 - [ ] Update strategy diagrams
 - [ ] Add section What I Learned
 - [ ] Add section Enhancements
+
+### Enhancements
+
+- [ ] Add note about unit testing
+- [ ] Add note about unicode
