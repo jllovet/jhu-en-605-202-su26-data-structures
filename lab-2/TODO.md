@@ -9,6 +9,11 @@
 - [ ] Add logger with flag for usage
 - [ ] Add runtime metrics
 
+## README
+
+- [ ] Add description of allowed values, disallowing numbers for example
+- [ ] Add usage information for flags, e.g. for logging
+
 
 ## Analysis
 
