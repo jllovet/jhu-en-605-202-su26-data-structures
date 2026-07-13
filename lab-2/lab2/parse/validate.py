@@ -321,7 +321,7 @@ def is_allowed(symbol: str) -> bool:
     """Returns a boolean indicating whether the symbol is allowed
 
     Returns true if the symbol is an operator or parenthesis or any
-    of A,B,C...,X,Y,Z
+    character for which str.isalpha returns true
 
     Args:
         symbol: str a single character from an expression
@@ -341,6 +341,6 @@ def is_allowed(symbol: str) -> bool:
     """
     if not isinstance(symbol, str):
         return False
-    if is_operator_or_bracket(symbol) or is_capital_ascii_letter(symbol):
+    if is_operator_or_bracket(symbol) or symbol.isalpha():
         return True
     return False

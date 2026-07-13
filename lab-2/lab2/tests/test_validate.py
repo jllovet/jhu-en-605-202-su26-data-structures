@@ -55,6 +55,7 @@ class TestSymbolClassifiers(unittest.TestCase):
         self.assertTrue(validate.is_allowed("X"))
         self.assertTrue(validate.is_allowed("Y"))
         self.assertTrue(validate.is_allowed("Z"))
+        self.assertTrue(validate.is_allowed("a"))
 
         self.assertTrue(validate.is_allowed("+"))
         self.assertTrue(validate.is_allowed("-"))
@@ -65,7 +66,6 @@ class TestSymbolClassifiers(unittest.TestCase):
         self.assertTrue(validate.is_allowed(")"))
 
         self.assertFalse(validate.is_allowed("!"))
-        self.assertFalse(validate.is_allowed("a"))
         self.assertFalse(validate.is_allowed("<"))
         self.assertFalse(validate.is_allowed(1))  # type: ignore
 
