@@ -1,12 +1,14 @@
 sequenceDiagram
     participant process_files
     participant pre2post as converter.pre2post
+    participant clean as parser.clean
     participant is_valid_expression as validate.is_valid_expression
     participant parser as parser.parse
     participant stack as stack.Stack
 
     process_files ->> pre2post: pass prefix expression
-    pre2post ->> is_valid_expression: expression
+    pre2post ->> clean: expression
+    clean ->> is_valid_expression: expression
     is_valid_expression ->> is_valid_expression: check
     is_valid_expression ->> pre2post: boolean
     pre2post ->> pre2post: raise ValueError if false
