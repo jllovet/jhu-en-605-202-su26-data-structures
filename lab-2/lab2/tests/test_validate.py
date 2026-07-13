@@ -69,7 +69,8 @@ class TestSymbolClassifiers(unittest.TestCase):
 
         self.assertFalse(validate.is_allowed("!"))
         self.assertFalse(validate.is_allowed("<"))
-        self.assertFalse(validate.is_allowed(1))  # type: ignore
+        for i in range(0,100):
+            self.assertFalse(validate.is_allowed(i))  # type: ignore
 
 
 class TestIsValidExpression(unittest.TestCase):
