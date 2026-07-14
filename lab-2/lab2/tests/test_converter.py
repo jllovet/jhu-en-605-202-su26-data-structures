@@ -6,7 +6,7 @@ import lab2.convert.errors as errors
 class TestPre2Post(unittest.TestCase):
     def test_converter_pre2post_raises_error_on_postfix_expression(self):
         with self.assertRaises(errors.InvalidExpressionError):
-            print(converter.pre2post("AA+"))
+            converter.pre2post("AA+")
 
     def test_converter_pre2post_is_identity_for_single_element_prefix_expressions(self):
         prefix_expression = "A"
