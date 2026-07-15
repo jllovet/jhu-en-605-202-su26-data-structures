@@ -7,6 +7,23 @@ logger = logging.getLogger(__name__)
 
 
 def is_skip_char(s: str) -> bool:
+    """Returns bool indicating whether character can be skipped
+
+    Args:
+        s: str to evaluate whether it should be skipped
+
+    Returns:
+        bool indicating whether character can be skipped
+
+    Raises:
+        None
+
+    Side Effects:
+        None
+
+    Idempotent:
+        True
+    """
     return s.isspace() or validate.is_parenthesis(s)
 
 
