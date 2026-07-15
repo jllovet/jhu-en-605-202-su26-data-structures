@@ -21,6 +21,7 @@
 
 - [ ] Update strategy diagrams
 - [ ] Add section What I Learned
+  - [ ] Add note about how factoring error logging to the custom error classes themselves was not helpful, because it resulted in lost context
 - [ ] Add section Enhancements
 
 ### Enhancements
