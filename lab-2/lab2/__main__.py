@@ -5,10 +5,17 @@
 # imports. This whole file is basically the java equivalent of:
 # public static void main(string args[]), or c's int main();
 
+from lab2.lab2 import process_files
 from pathlib import Path
 import argparse
 
-from lab2.lab2 import process_files
+import logging
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename='lab2.log',
+                    level=logging.DEBUG,
+                    format="%(asctime)s - [%(filename)s:%(funcName)s:%(lineno)d] - %(levelname)s - %(message)s",
+                    datefmt="%Y-%m-%dT%H:%M:%S%z")
+
 
 try:
     arg_parser = argparse.ArgumentParser(exit_on_error=False)
@@ -25,6 +32,8 @@ try:
     # successful results to the output file. The input and output files are
     # read from the command line input above.
     with in_path.open('r') as input_file, out_path.open('w') as output_file:
+        logger.info(
+            f"processing input file {in_path} and writing to {out_path}")
         process_files(input_file, output_file)
 
 except:

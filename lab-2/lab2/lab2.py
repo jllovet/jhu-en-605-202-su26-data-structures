@@ -2,6 +2,8 @@ from sys import stderr
 from typing import TextIO
 import lab2.convert.converter as converter
 import lab2.convert.errors as errors
+import logging
+logger = logging.getLogger(__name__)
 
 
 def process_files(input_file: TextIO, output_file: TextIO) -> None:
@@ -35,10 +37,12 @@ def process_files(input_file: TextIO, output_file: TextIO) -> None:
     lines = input_file.read().splitlines()
     raised_errors = []
     print("Processing expressions below:", file=stderr)
+    logger.info("Beginning to process expressions")
     for line_number, line in enumerate(lines):
         if line is not None and line != "":
             try:
                 postfix = converter.pre2post(line)
+                logger.debug(f"Converted '{line}' -> '{postfix}'")
                 if postfix == "":  # skip blank lines silently
                     continue
                 else:
@@ -57,6 +61,7 @@ def process_files(input_file: TextIO, output_file: TextIO) -> None:
             output_file.write(f"{line} -> {postfix}")
             output_file.write("\n")
     if raised_errors:
+        logger.warning("Errors raised")
         print_errors(raised_errors)
 
 
@@ -96,4 +101,5 @@ Example valid expressions:
         print(msg, file=stderr)
 
     for error in errors:
+        logger.error(error)
         print(error, file=stderr)
