@@ -305,7 +305,7 @@ For the following, I assume that I start in the root of the Github repository. F
 
   {\small
     \begin{verbatim}
-  cd lab-1
+  cd lab-2
 \end{verbatim}
   }
 
@@ -313,27 +313,29 @@ For the following, I assume that I start in the root of the Github repository. F
 
   {\small
     \begin{verbatim}
-  python -m lab1 resources/input/in.txt resources/output/output.txt
+  python3 -m lab2 resources/input/in.txt resources/output/output.txt
 \end{verbatim}
   }
 
 \noindent If the program is run with the incorrect number of arguments, then an error message similar to the one shown below will be printed to the user.
 
-  {\small
-    \begin{verbatim}
-  python -m lab1
-  usage: python3.14 -m lab1 [-h] in_file out_file
+\begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{text}
+python -m lab1
+usage: python3.14 -m lab2 [-h] [-l {INFO,WARNING,ERROR,DEBUG,CRITICAL,FATAL}] [-f LOGFILE] in_file out_file
 
-  Convert prefix -> postfix expressions from in_file and write them to out_file
+Convert prefix -> postfix expressions from in_file and write them to out_file
 
-  positional arguments:
-    in_file     Input File Pathname
-    out_file    Output File Pathname
+positional arguments:
+  in_file               Input File Pathname
+  out_file              Output File Pathname
 
-  options:
-    -h, --help  show this help message and exit
-\end{verbatim}
-  }
+options:
+  -h, --help            show this help message and exit
+  -l, --level {INFO,WARNING,ERROR,DEBUG,CRITICAL,FATAL}
+                        Sets the level of the logger. Default INFO
+  -f, --logfile LOGFILE
+                        Sets the filename where logs are written
+\end{minted}
 
 \noindent The input and resulting output of an example successful run are shown below:
 
@@ -346,54 +348,45 @@ For the following, I assume that I start in the root of the Github repository. F
   \begin{minipage}[t]{0.76\textwidth}
     \centering
     \textbf{\texttt{resources/output/output.txt}}\\
-    \inputminted[frame=single,fontsize=\footnotesize]{text}{resources/output/output.txt}
+    \inputminted[breaklines, breakanywhere, fontsize=\footnotesize, frame=single, fontsize=\footnotesize]{text}{resources/output/output.txt}
   \end{minipage}
 \end{center}
 
-\noindent When the program is executed, the error message on the following page will be written to \texttt{stderr}:
+\noindent When the program is executed as below, the message on the following page will be written to \texttt{stderr}:
 
 \pagebreak
 
-{\small
-  \begin{center}
-    \begin{verbatim}
-WARNING: 19 errors found during conversion
-WARNING: Invalid expressions not written to output file
-
-Check expressions to ensure the are well formed and only use allowed symbols.
-
-Note: whitespace is not allowed. Expressions with whitespace will be rejected.
-
-Allowed symbols: ABCDEFGHIJKLMNOPQRSTUVWXYZ+-*/$()
-
-Example valid expressions:
-	(base case):	'A'	-> 'A'
-	(single op):	'+AB'	-> 'AB+'
-	(more ops):	'-+ABC'	-> 'AB+C-'
---------------------------------------------------------------------------------
-ERRORS:
-resources/input/in.txt - line 2: 'AB' is not a valid prefix expression
-resources/input/in.txt - line 3: 'AB+' is not a valid prefix expression
-resources/input/in.txt - line 6: '++AB' is not a valid prefix expression
-resources/input/in.txt - line 7: '+++' is not a valid prefix expression
-resources/input/in.txt - line 8: 'A+B' is not a valid prefix expression
-resources/input/in.txt - line 9: 'A-B' is not a valid prefix expression
-resources/input/in.txt - line 10: 'A=B' is not a valid prefix expression
-resources/input/in.txt - line 11: 'A#B' is not a valid prefix expression
-resources/input/in.txt - line 12: 'A@B' is not a valid prefix expression
-resources/input/in.txt - line 13: 'A$B' is not a valid prefix expression
-resources/input/in.txt - line 17: 'miscellaneous' is not a valid prefix expression
-resources/input/in.txt - line 18: '+La-sc*ia$te' is not a valid prefix expression
-resources/input/in.txt - line 19: '$+' is not a valid prefix expression
-resources/input/in.txt - line 23: '/A+BC +C*BA  ' is not a valid prefix expression
-resources/input/in.txt - line 24: '*-*-ABC+BA  ' is not a valid prefix expression
-resources/input/in.txt - line 25: '/+/A-BC-BA  ' is not a valid prefix expression
-resources/input/in.txt - line 26: '*$A+BC+C-BA ' is not a valid prefix expression
-resources/input/in.txt - line 27: '//A+B0-C+BA' is not a valid prefix expression
-resources/input/in.txt - line 28: '*$A^BC+C-BA' is not a valid prefix expression
-\end{verbatim}
-  \end{center}
-}
+ \begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{text}
+  python -m lab2 resources/input/in.txt resources/output/output.txt    
+  Processing expressions below:
+  -+ABC
+  -A+BC
+  $+-ABC+D-EF
+  -*A$B+C-DE*EF
+  **A+BC+C-BA
+  /A+BC +C*BA  
+  *-*-ABC+BA  
+  /+/A-BC-BA  
+  *$A+BC+C-BA 
+  //A+B0-C+BA
+  *$A^BC+C-BA
+  
+  WARNING: 5 errors found during conversion!
+  Check expressions are well-formed prefix expressions and only use allowed symbols.
+  
+  Allowed symbols are alphabetical characters and any of: +-*/$()
+  
+  Example valid expressions:
+  (base case):    'A'     -> 'A'
+  (single op):    '+AB'   -> 'AB+'
+  (more ops):     '-+ABC' -> 'AB+C-'
+  --------------------------------------------------------------------------------
+  ERROR: resources/input/in.txt - line 6: '/A+BC +C*BA  ' could not be processed. Please ensure it has a valid prefix structure.
+  ERROR: resources/input/in.txt - line 7: '*-*-ABC+BA  ' has too many operators.
+  ERROR: resources/input/in.txt - line 8: '/+/A-BC-BA  ' has too many operators.
+  ERROR: resources/input/in.txt - line 10: '//A+B0-C+BA' has an illegal character '0' at position 6.
+  ERROR: resources/input/in.txt - line 11: '*$A^BC+C-BA                                   ' has an illegal character '^' at position 4.
+ \end{minted}
 
 \pagebreak
 
