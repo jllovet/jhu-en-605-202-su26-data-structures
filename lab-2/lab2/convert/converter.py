@@ -208,7 +208,24 @@ def _pre2post(expression: str, segment: str, node: Node | None, depth: int, oper
     return expression, segment, n, depth-1, operators, operands
 
 
-def tree2str(tree) -> str:
+def tree2str(tree: Node) -> str:
+    """Iterates over the tree and returns the str representation
+
+    Args:
+        tree: Node the root of the tree
+
+    Returns:
+        str: the str representation of the tree, here in postfix
+
+    Raises:
+        None
+
+    Side Effects:
+        None
+
+    Idempotent:
+        True
+    """
     if tree:
         return "".join(n for n in tree)
     else:
@@ -245,7 +262,7 @@ def pre2post(expression: str) -> str:
             expression=expression, segment=expression, node=None, depth=0, operators=0, operands=0)
         if operands == 0 and operators == 0:
             return ""
-        postfix = tree2str(tree)
+        postfix = tree2str(tree) # type: ignore
         logger.debug(f"POSTFIX EXPRESSION: '{postfix}'")
         return postfix
     except (errors.InvalidExpressionError) as err:
