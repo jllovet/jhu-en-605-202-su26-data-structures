@@ -14,7 +14,6 @@ class Node:
 
     def __str__(self, level=1):
         return f"{self.data}\n{'\t'*level}left: {self.left}\n{'\t'*level}right: {self.right}"
-        # return f"{self.data}, left: {self.left}, right: {self.right}"
 
     def __iter__(self):
         if self.left:
