@@ -18,7 +18,7 @@ try:
     arg_parser.add_argument("-l", "--level", type=str, default="INFO",
                             choices=["INFO", "WARNING", "ERROR",
                                      "DEBUG", "CRITICAL", "FATAL"],
-                            help="Sets the level of the logger",
+                            help="Sets the level of the logger. Default INFO",
                             required=False)
     arg_parser.add_argument("-f", "--logfile", type=str, default="lab2.log",
                             help="Sets the filename where logs are written",
