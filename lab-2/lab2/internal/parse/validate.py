@@ -105,31 +105,6 @@ def is_parenthesis(symbol: str) -> bool:
     return symbol == "(" or symbol == ")"
 
 
-def is_capital_ascii_letter(symbol: str) -> bool:
-    """Returns a boolean indicating whether the symbol is a capital ascii letter
-
-    Returns true if the symbol is any of A,B,C...,X,Y,Z
-
-    Args:
-        symbol: str a single character from an expression
-
-    Returns:
-        A bool indicating whether the symbol is any of A,B,C...,X,Y,Z
-
-    Raises:
-        None
-
-    Side Effects:
-        None
-
-    Idempotent:
-        True
-    """
-    if not isinstance(symbol, str):
-        return False
-    return (ord(symbol) >= 65 and ord(symbol) <= 90)
-
-
 def is_operator_or_bracket(symbol: str) -> bool:
     """Returns a boolean indicating whether the symbol is an operator or parenthesis
 
