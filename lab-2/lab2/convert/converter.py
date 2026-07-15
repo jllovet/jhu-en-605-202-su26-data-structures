@@ -1,6 +1,6 @@
 import lab2.convert.errors as errors
-import lab2.parse.validate as validate
-from lab2.tree.tree import Node
+import lab2.internal.parse.validate as validate
+from lab2.internal.tree.tree import Node
 from typing import Tuple
 
 

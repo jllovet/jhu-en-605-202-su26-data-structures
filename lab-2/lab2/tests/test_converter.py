@@ -1,7 +1,7 @@
 import unittest
 import lab2.convert.converter as converter
 import lab2.convert.errors as errors
-import lab2.parse.cleaner as cleaner
+import lab2.internal.parse.cleaner as cleaner
 
 
 class TestPre2Post(unittest.TestCase):

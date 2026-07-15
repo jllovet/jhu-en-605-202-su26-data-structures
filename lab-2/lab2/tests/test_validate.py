@@ -1,5 +1,5 @@
 import unittest
-import lab2.parse.validate as validate
+import lab2.internal.parse.validate as validate
 
 
 class TestSymbolClassifiers(unittest.TestCase):

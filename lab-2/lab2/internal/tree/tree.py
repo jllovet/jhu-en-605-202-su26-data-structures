@@ -1,5 +1,5 @@
 import lab2.convert.errors as errors
-import lab2.parse.validate as validate
+import lab2.internal.parse.validate as validate
 from typing import Optional
 
 

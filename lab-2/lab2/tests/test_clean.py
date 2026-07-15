@@ -1,5 +1,5 @@
 import unittest
-import lab2.parse.cleaner as cleaner
+import lab2.internal.parse.cleaner as cleaner
 
 
 class TestClean(unittest.TestCase):

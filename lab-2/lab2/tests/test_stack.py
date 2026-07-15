@@ -1,5 +1,5 @@
 import unittest
-import lab2.stack.stack as s
+import lab2.internal.stack.stack as s
 
 
 class TestStack(unittest.TestCase):

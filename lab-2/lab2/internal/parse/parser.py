@@ -1,4 +1,4 @@
-import lab2.parse.validate as validate
+import lab2.internal.parse.validate as validate
 
 
 def lookup_symbol(symbol: str) -> int | str:

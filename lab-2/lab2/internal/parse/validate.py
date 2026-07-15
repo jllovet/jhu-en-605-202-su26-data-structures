@@ -1,7 +1,7 @@
 from typing import Literal
-import lab2.parse.parser as parser
-import lab2.parse.evaluate as evaluate
-from lab2.stack.stack import Stack
+import lab2.internal.parse.parser as parser
+import lab2.internal.parse.evaluate as evaluate
+from lab2.internal.stack.stack import Stack
 
 
 def is_valid_expression(expression: str, expression_type: Literal["prefix", "postfix"]) -> bool:

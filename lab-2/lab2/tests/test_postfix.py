@@ -1,6 +1,6 @@
 import unittest
-import lab2.parse.validate as validate
-from lab2.parse.evaluate import eval
+import lab2.internal.parse.validate as validate
+from lab2.internal.parse.evaluate import eval
 
 
 class TestIsValidPostfixExpression(unittest.TestCase):
