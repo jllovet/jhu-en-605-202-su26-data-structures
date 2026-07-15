@@ -4,9 +4,9 @@
 
 - [x] Add comprehensive testing for whitespace
 - [ ] Write docstring for clean
-- [ ] Use cleaner to write test for equivalence of cleaned and non-cleaned parsing
-- [ ] Model error propagation, with explicit plan for how errors should be routed, handled, or bubble up
-- [ ] Handle string with a single-pass
+- [x] Use cleaner to write test for equivalence of cleaned and non-cleaned parsing
+- [x] Model error propagation, with explicit plan for how errors should be routed, handled, or bubble up
+- [x] Handle string with a single-pass
 - [ ] Generator usage
 - [ ] Add logger with flag for usage
 - [ ] Add runtime metrics
