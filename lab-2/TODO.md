@@ -14,23 +14,23 @@
 
 ## README
 
-- [ ] Add description of allowed values, disallowing numbers for example
-- [ ] Add usage information for flags, e.g. for logging
+- [x] Add description of allowed values, disallowing numbers for example
+- [x] Add usage information for flags, e.g. for logging
 
 ## Analysis
 
 - [x] Update strategy diagrams
-- [ ] Add section What I Learned
-  - [ ] Add note about how factoring error logging to the custom error classes themselves was not helpful, because it resulted in lost context
-  - [ ] Add note about how writing this in an object-oriented/imperative style, even with recursion, made the structure of the core _pre2post function unwieldy. I would rather have wrapper functions. I don't like that in the way I've written the program, there are side effects liberally spread around the functions (e.g. writing to logs)
-- [ ] Add section Enhancements
+- [x] Add section What I Learned
+  - [x] Add note about how factoring error logging to the custom error classes themselves was not helpful, because it resulted in lost context
+  - [x] Add note about how writing this in an object-oriented/imperative style, even with recursion, made the structure of the core _pre2post function unwieldy. I would rather have wrapper functions. I don't like that in the way I've written the program, there are side effects liberally spread around the functions (e.g. writing to logs)
+- [x] Add section Enhancements
 
 
 ### Enhancements
 
-- [ ] Add note about unit testing
-  - [ ] Add description of cleaner.clean to write test for equivalence of cleaned and non-cleaned parsing
-  - [ ] Add note about unicode
-- [ ] Logging, cmd line flag for logging
-- [ ] Generator to traverse tree in post-order (and inspiration for generator usage from discussion in office hours)
-- [ ] Custom error types
+- [x] Add note about unit testing
+  - [x] Add description of cleaner.clean to write test for equivalence of cleaned and non-cleaned parsing
+  - [x] Add note about unicode
+- [x] Logging, cmd line flag for logging
+- [x] Generator to traverse tree in post-order (and inspiration for generator usage from discussion in office hours)
+- [x] Custom error types
