@@ -701,7 +701,7 @@ See the example below that shows that the converter succeeds even when mixing mu
 
 Based on a conversation with the professor during office hours, I experimented in this lab with using python's generators. Using \texttt{yield} in the \texttt{__iter__} function of the \texttt{Node} class in the correct order, I was able to make extracting the postfix expression from the tree simple. I form an abstract syntax tree, and then I use the \texttt{__iter__} function to iterate over the nodes in post-order, meaning that I start with the leaves, reading the left child, then the right child, then the parent, left to right, up the tree recursively. In the future I will experiment more with using generators and iterators to have lazy evaluation in python.
 
-While I read and watched multiple resources to learn about generators, I'm especially indebted to the strategy described here: \url{https://martinheinz.dev/blog/88}.
+While I read and watched multiple resources to learn about generators, I'm especially indebted to the strategy described here: \citeurl{Martinheinzdev2023LazyEvaluationUsing}.
 
 Here is \texttt{Node.__iter__}:
 
