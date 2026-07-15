@@ -63,6 +63,54 @@ def skip(expression: str, segment: str) -> Tuple[str, str, bool]:
 
 def _pre2post(expression: str, segment: str, node: Node | None, depth: int, operators: int = 0, operands: int = 0) \
         -> Tuple[str, str, Node | None, int, int, int]:
+    """Recursive function implementing prefix to postfix conversion
+
+    Strategy summary:
+        - Initial structural checks
+            - Empty expression
+            - Starts with an operand
+            - Current character is an illegal character
+        - Skip irrelevant characters (whitespace, parentheses)
+        - Structural check
+            - Ends with operator
+        - Make node
+        - Decide whether to recurse, depending on whether current char is operand or operator
+            - Increment number of operators and operands
+        - Recurse for left and right children
+        - Climb back up from recursion
+        - Validate that we're at the end of the expression or the rest is irrelevant
+        - Handle cases where structure is imbalanced
+        - Return
+
+    Args:
+        expression: str the prefix expression to convert
+        segment: str a suffix of the expression
+        node: Node | None a node of the tree representing the AST of the expression
+        depth: int the current recursion depth
+        operators: int the number of operators that have been encountered so far
+        operands: int the number of operands that have been encountered so far
+
+    Returns:
+        expression: str the prefix expression to convert
+        segment: str a suffix of the expression
+        node: Node | None a node of the tree representing the AST of the expression
+        depth: int the current recursion depth
+        operators: int the number of operators that have been encountered so far
+        operands: int the number of operands that have been encountered so far
+
+    Raises:
+        InvalidExpressionError if a structural issue is found, details provided where possible
+        TooManyOperatorsError if there are too many operators in the expression
+        TooManyOperandsError if there are too many operands in the expression
+
+    Side Effects:
+        Writes to logs
+        Raises InvalidExpressionError, TooManyOperatorsError, or TooManyOperandsError as
+        described above
+
+    Idempotent:
+        True
+    """
     # Fail Fast
     if expression == "":
         return expression, segment, None, depth, operators, operands
