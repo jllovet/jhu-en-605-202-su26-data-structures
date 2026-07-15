@@ -85,7 +85,7 @@ def print_errors(errors: list[str]) -> None:
     error_preamble = [
         f"""\nWARNING: {len(errors)} errors found during conversion!
 Check expressions are well-formed prefix expressions and only use allowed symbols.\n
-Allowed symbols: alphabetical characters and any of: +-*/$()\n
+Allowed symbols are alphabetical characters and any of: +-*/$()\n
 Example valid expressions:
 \t(base case):\t'A'\t-> '{converter.pre2post('A')}'
 \t(single op):\t'+AB'\t-> '{converter.pre2post('+AB')}'
