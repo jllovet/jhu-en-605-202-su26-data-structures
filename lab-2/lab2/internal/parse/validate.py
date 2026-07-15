@@ -238,7 +238,7 @@ def is_operand(symbol: str) -> bool:
 def is_whitespace(symbol: str) -> bool:
     """Returns a boolean indicating whether the symbol is whitespace
 
-    Returns true if the symbol is any of " ", "\t", "\n", "\v", "\f"
+    Returns true when symbol.isspace() is True
 
     Args:
         symbol: str a single character from an expression
@@ -257,18 +257,7 @@ def is_whitespace(symbol: str) -> bool:
     """
     if not isinstance(symbol, str):
         return False
-    match symbol:
-        case " ":
-            return True
-        case "\t":
-            return True
-        case "\n":
-            return True
-        case "\v":
-            return True
-        case "\f":
-            return True
-    return False
+    return symbol.isspace()
 
 
 def is_parenthesis(symbol: str) -> bool:
