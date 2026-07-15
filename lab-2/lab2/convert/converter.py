@@ -78,7 +78,7 @@ def _pre2post(expression: str, segment: str, node: Node | None, depth: int, oper
 
     # Raise error if there are illegal characters
     if not any([validate.is_operand(current_char), validate.is_operator(current_char), is_skip_char(current_char)]):
-        msg=f"'{expression}' has an illegal character '{current_char}' at position {index+1}."
+        msg = f"'{expression}' has an illegal character '{current_char}' at position {index+1}."
         logger.error(msg)
         raise errors.IllegalOperandError(msg)
 
@@ -94,7 +94,7 @@ def _pre2post(expression: str, segment: str, node: Node | None, depth: int, oper
     if is_last_segment:
         # Raise an error if the expression ends with an operator
         if validate.is_operator(current_char):
-            msg=f"'{expression}' could not be processed. Prefix expressions cannot end with an operator."
+            msg = f"'{expression}' could not be processed. Prefix expressions cannot end with an operator."
             logger.error(msg)
             raise errors.TooManyOperatorsError(msg)
         # A node should not be created if we encounter an irrelevant character
@@ -148,11 +148,11 @@ def _pre2post(expression: str, segment: str, node: Node | None, depth: int, oper
     except IndexError:
         # Return a specific error if we can
         if operands <= operators:
-            msg=f"'{expression}' has too many operators."
+            msg = f"'{expression}' has too many operators."
             logger.error(msg)
             raise errors.TooManyOperatorsError(msg)
         else:  # Otherwise fall back to a generic one
-            msg=f"'{expression}' could not be processed. Please ensure it has a valid prefix structure."
+            msg = f"'{expression}' could not be processed. Please ensure it has a valid prefix structure."
             logger.error(msg)
             raise errors.InvalidExpressionError(msg)
 
@@ -175,7 +175,7 @@ def _pre2post(expression: str, segment: str, node: Node | None, depth: int, oper
                 expression=expression,
                 segment=segment)
         else:  # We found something relevant when we shouldn't have, meaning the expression is ill-structured
-            msg=f"'{expression}' has too many operands."
+            msg = f"'{expression}' has too many operands."
             logger.error(msg)
             raise errors.TooManyOperandsError(msg)
 
@@ -185,7 +185,7 @@ def _pre2post(expression: str, segment: str, node: Node | None, depth: int, oper
 
     # If we get here, there was an issue with the conversion, and the expression is likely ill-structured
     if not is_last_segment:
-        msg=f"'{expression}' could not be processed. Please ensure it has a valid prefix structure."
+        msg = f"'{expression}' could not be processed. Please ensure it has a valid prefix structure."
         logger.error(msg)
         raise errors.InvalidExpressionError(msg)
 
@@ -195,12 +195,12 @@ def _pre2post(expression: str, segment: str, node: Node | None, depth: int, oper
         return expression, segment, n, depth-1, operators, operands
     # Unbalanced
     elif operands <= operators:
-        msg=f"'{expression}' has too many operators."
+        msg = f"'{expression}' has too many operators."
         logger.error(msg)
         raise errors.TooManyOperatorsError(msg)
     # Unbalanced
     elif operands > operators:
-        msg=f"'{expression}' has too many operators."
+        msg = f"'{expression}' has too many operators."
         logger.error(msg)
         raise errors.TooManyOperandsError(msg)
 
@@ -262,7 +262,7 @@ def pre2post(expression: str) -> str:
             expression=expression, segment=expression, node=None, depth=0, operators=0, operands=0)
         if operands == 0 and operators == 0:
             return ""
-        postfix = tree2str(tree) # type: ignore
+        postfix = tree2str(tree)  # type: ignore
         logger.debug(f"POSTFIX EXPRESSION: '{postfix}'")
         return postfix
     except (errors.InvalidExpressionError) as err:
