@@ -30,6 +30,7 @@ def process_files(input_file: TextIO, output_file: TextIO) -> None:
         Reads from input_file
         Writes to output_file
         Prints errors to stderr
+        Writes to logs
 
     Idempotent:
         True
