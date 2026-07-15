@@ -1,0 +1,25 @@
+sequenceDiagram
+    participant pre2post as pre2post
+    participant _pre2post as _pre2post
+    participant skip as skip
+    participant tree as tree.Node
+
+    pre2post ->> _pre2post: expression
+    _pre2post ->> _pre2post: error if expression is empty
+    _pre2post ->> _pre2post: error if expression starts with operand
+    _pre2post ->> _pre2post: error if current char is illegal
+    _pre2post ->> skip: skip irrelevant characters like whitespace and parens
+    skip ->> _pre2post: return new segment of expression to continue from
+    _pre2post ->> _pre2post: error if expression ends with operator
+    _pre2post ->> tree: create node
+    tree ->> _pre2post: return node
+    alt current char is operator
+        _pre2post ->> _pre2post: recurse to make left and right children of current node
+    else current char is operand
+        _pre2post ->> _pre2post: return current node
+    end
+    _pre2post ->> _pre2post: climb back up from recursion
+    _pre2post ->> skip: skip irrelevant characters like whitespace and parens
+    skip ->> _pre2post: return new segment of expression to continue from
+    _pre2post ->> _pre2post: error if structure is not balanced
+    _pre2post ->> pre2post: return tree root

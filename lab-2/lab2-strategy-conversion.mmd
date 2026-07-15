@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant process_files
+    participant pre2post as converter.pre2post
+    participant _pre2post as _pre2post
+    participant tree as tree.Node
+
+    process_files ->> pre2post: pass prefix expression
+    pre2post ->> _pre2post: expression
+    loop recurse while expression segments are non-empty
+    _pre2post ->> tree: create node
+    tree ->> _pre2post: return node
+    _pre2post ->> _pre2post: handle improper structure
+    _pre2post ->> _pre2post: create node children: recursing on operators, return on operands
+    end
+    _pre2post ->> pre2post: return tree
+    pre2post ->> pre2post: iterate symbols in tree (post-order) and join into string
+    pre2post ->> process_files: return postfix expression

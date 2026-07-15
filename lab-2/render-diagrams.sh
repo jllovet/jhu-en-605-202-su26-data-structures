@@ -1,3 +1,3 @@
-./render-mermaid.sh lab1-strategy-conversion.mmd
-./render-mermaid.sh lab1-strategy-io.mmd
-./render-mermaid.sh lab1-strategy-validation.mmd
+./render-mermaid.sh lab2-strategy-conversion.mmd
+./render-mermaid.sh lab2-strategy-io.mmd
+./render-mermaid.sh lab2-strategy-validation.mmd
