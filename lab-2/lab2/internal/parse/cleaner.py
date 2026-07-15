@@ -6,7 +6,7 @@ def clean(expression: str) -> str:
     for s in expression:
         if validate.is_whitespace(s):
             continue
-        if validate.is_allowed:
+        if validate.is_allowed(s):
             characters.append(s)
             continue
     cleaned_expression = "".join(characters)
