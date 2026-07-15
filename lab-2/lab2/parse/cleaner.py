@@ -1,5 +1,6 @@
 import lab2.parse.validate as validate
 
+
 def clean(expression: str) -> str:
     characters = []
     for s in expression:

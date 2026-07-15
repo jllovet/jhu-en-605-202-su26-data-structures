@@ -6,6 +6,7 @@ class InvalidExpressionError(ValueError):
     Args:
         msg: str a custom message for the error
     """
+
     def __init__(self, msg: str):
         super().__init__(msg)
 
@@ -18,7 +19,8 @@ class TooManyOperatorsError(InvalidExpressionError):
     Args:
         msg: str a custom message for the error
     """
-    def __init__(self, msg: str="Too many operators provided in expression"):
+
+    def __init__(self, msg: str = "Too many operators provided in expression"):
         super().__init__(msg)
 
 
@@ -30,8 +32,10 @@ class TooManyOperandsError(InvalidExpressionError):
     Args:
         msg: str a custom message for the error
     """
-    def __init__(self, msg: str="Too many operands provided in expression"):
+
+    def __init__(self, msg: str = "Too many operands provided in expression"):
         super().__init__(msg)
+
 
 class IllegalOperandError(InvalidExpressionError):
     """Custom Error type that inherits from InvalidExpressionError
@@ -41,5 +45,6 @@ class IllegalOperandError(InvalidExpressionError):
     Args:
         msg: str a custom message for the error
     """
-    def __init__(self, msg: str="Illegal operand provided in expression"):
+
+    def __init__(self, msg: str = "Illegal operand provided in expression"):
         super().__init__(msg)

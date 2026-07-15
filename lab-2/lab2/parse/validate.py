@@ -209,6 +209,7 @@ def is_operator(symbol: str) -> bool:
             return True
     return False
 
+
 def is_operand(symbol: str) -> bool:
     """Returns a boolean indicating whether the symbol is an operand
 

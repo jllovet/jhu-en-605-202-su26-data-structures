@@ -1,6 +1,6 @@
 import unittest
 import lab2.parse.parser as parser
-import lab2.parse.evaluate as evaluate 
+import lab2.parse.evaluate as evaluate
 
 
 class TestSymbolLookup(unittest.TestCase):

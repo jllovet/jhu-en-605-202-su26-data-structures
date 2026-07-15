@@ -23,15 +23,15 @@ class TestPre2Post(unittest.TestCase):
         expression = "++AA"
         with self.assertRaises(errors.TooManyOperatorsError):
             converter._pre2post(
-            expression=expression, segment=expression, node=None, depth=0, operators=0, operands=0)
+                expression=expression, segment=expression, node=None, depth=0, operators=0, operands=0)
         with self.assertRaises(errors.InvalidExpressionError):
             converter.pre2post(expression)
-    
+
     def test_converter_pre2post_raises_error_on_expression_with_too_many_operands(self):
         expression = "++AAAA"
         with self.assertRaises(errors.TooManyOperandsError):
             converter._pre2post(
-            expression=expression, segment=expression, node=None, depth=0, operators=0, operands=0)
+                expression=expression, segment=expression, node=None, depth=0, operators=0, operands=0)
         with self.assertRaises(errors.InvalidExpressionError):
             converter.pre2post(expression)
 
@@ -39,7 +39,7 @@ class TestPre2Post(unittest.TestCase):
         expression = "A+AB"
         with self.assertRaises(errors.InvalidExpressionError):
             converter._pre2post(
-            expression=expression, segment=expression, node=None, depth=0, operators=0, operands=0)
+                expression=expression, segment=expression, node=None, depth=0, operators=0, operands=0)
         with self.assertRaises(errors.InvalidExpressionError):
             converter.pre2post(expression)
 
@@ -47,18 +47,18 @@ class TestPre2Post(unittest.TestCase):
         expression = "+ABB+"
         with self.assertRaises(errors.InvalidExpressionError):
             converter._pre2post(
-            expression=expression, segment=expression, node=None, depth=0, operators=0, operands=0)
+                expression=expression, segment=expression, node=None, depth=0, operators=0, operands=0)
         with self.assertRaises(errors.InvalidExpressionError):
             converter.pre2post(expression)
-    
+
     def test_converter_pre2post_raises_error_on_prefix_expression_with_illegal_characters(self):
         expression = "//A+B0-C+BA"
         with self.assertRaises(errors.IllegalOperandError):
             converter._pre2post(
-            expression=expression, segment=expression, node=None, depth=0, operators=0, operands=0)
+                expression=expression, segment=expression, node=None, depth=0, operators=0, operands=0)
         with self.assertRaises(errors.InvalidExpressionError):
             converter.pre2post(expression)
-    
+
     def test_converter_pre2post_converts_known_good_expressions_properly(self):
         self.assertEqual("AB+C-", converter.pre2post("-+ABC"))
         self.assertEqual("ABC+-", converter.pre2post("-A+BC"))
