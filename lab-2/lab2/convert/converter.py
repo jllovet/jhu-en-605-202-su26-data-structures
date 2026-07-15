@@ -28,6 +28,26 @@ def is_skip_char(s: str) -> bool:
 
 
 def skip(expression: str, segment: str) -> Tuple[str, str, bool]:
+    """Skips over irrelevant characters up to the next relevant or end of expression
+
+    Args:
+        expression: str the original expression
+        segment: str the segment possibly containing irrelevant characters as prefix
+
+    Returns:
+        str: new segment
+        str: current char at the beginning of the new segment
+        bool: indicating whether the new segment segment is the last segment
+
+    Raises:
+        None
+
+    Side Effects:
+        Writes to logs
+
+    Idempotent:
+        True
+    """
     logging.debug(f"Skipping whitespace, non-operands, and non-operators")
     index = len(expression) - len(segment)
     is_last_segment = index == len(expression) - 1
