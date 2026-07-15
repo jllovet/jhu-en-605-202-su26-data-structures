@@ -127,18 +127,15 @@ The IO flow above calls into the conversion flow, which is sketched below.
   \caption{Conversion flow}\label{fig:strategy-conversion}
 \end{figure}
 
-The validation flow is the next layer down. It is sketched below. Details about conditions that are checked can be seen in \autoref{sec:lab1/parse/validate.py}.
+The validation flow is the next layer down. It is sketched below. Details about conditions that are checked can be seen in \texttt{lab2/convert/converter.py} and \texttt{lab2/parse/validate.py}.
 
-The evaluation flow is similar to the validation flow, and in fact \texttt{evaluate.eval} calls \texttt{validate.is_valid_expression}. In the current form of the codebase, \texttt{evaluate.eval} is used as a helper function in tests. Because it is ancillary, I will refer the reader to \autoref{sec:lab1/parse/evaluate.py} for more details.
+I removed the evaluation flow in lab2 in order to simplify the project. The interpreter that I built in lab1 was valuable in some ways, but it did not add enough to warrant re-implementing recursively.
 
-\begin{landscape}
-  \begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.9\linewidth]{lab2-strategy-validation.pdf}
-    \caption{Validation flow}\label{fig:strategy-validation}
-  \end{figure}
-\end{landscape}
-
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.9\linewidth]{lab2-strategy-validation.pdf}
+  \caption{Validation flow}\label{fig:strategy-validation}
+\end{figure}
 
 \clearpage\pagebreak
 
@@ -148,34 +145,35 @@ The evaluation flow is similar to the validation flow, and in fact \texttt{evalu
 lab1
 |-- __init__.py            | Python-required for module
 |-- __main__.py            | Main entrypoint
-|-- convert                | Package that handles actual pre->post conversion
-|   |-- __init__.py        | Python-required for package
-|   `-- converter.py       | The pre->post conversion pipeline
-|-- lab1.py                | IO entrypoint for processing files and printing errors
-|-- launch.json            | Configuration for IDE
-|-- parse                  | Package to handle parsing expressions
-|   |-- __init__.py        | Python-required for package
-|   |-- evaluate.py        | Evaluates expressions to help with validity checks
-|   |-- parser.py          | Parsing for expressions, symbol lookup, and 
-|   `-- validate.py        | Validation functions that check expressions, symbols
-|-- stack                  | Package for an array-based stack
-|   |-- __init__.py        | Python-required for package
-|   `-- stack.py           | Implementation of an array-based stack (uses Python list)
-`-- tests                  | "Testing, 1, 2"
-    |-- __init__.py        | Python-required for package
-    |-- test_converter.py  | Tests for the convert package
-    |-- test_parser.py     | Tests for the parse package
-    |-- test_postfix.py    | Tests for postfix operations
-    |-- test_prefix.py     | Tests for prefix operations
-    |-- test_stack.py      | Tests for the stack package
-    `-- test_validate.py   | Tests for the validate package
+lab2
+|-- __init__.py
+|-- __main__.py
+|-- convert
+|   |-- __init__.py
+|   |-- converter.py
+|   `-- errors.py
+|-- internal
+|   |-- parse
+|   |   |-- __init__.py
+|   |   |-- cleaner.py
+|   |   `-- validate.py
+|   `-- tree
+|       |-- __init__.py
+|       `-- tree.py
+|-- lab2.py
+|-- launch.json
+`-- tests
+    |-- __init__.py
+    |-- test_clean.py
+    |-- test_converter.py
+    `-- test_validate.py
 
-5 directories, 19 files
+6 directories, 16 files
 \end{verbatim}
 
 \section{Design Decisions}
 
-In this lab, I am using a Python list as the underlying structure for the data contained in the stack. Why? There are two main reasons: more straightforward implementation and better use of hardware resources.
+Python lists are dynamic arrays of pointers to data objects \cite{PythonDocumentationDesignAndHistory}. The actual data items are stored separately, but indexing a list \texttt{a[i]} can be performed in $O(1)$, rather than needing to iterate through all the elements like in a linked list. These characteristics gave me some benefits for implementation. For example, because the array contains pointers, rather than the objects themselves, I was able to write my \texttt{Stack} class (see \autoref{sec:lab1/stack/stack.py}) to accept either data of type \texttt{str} or \texttt{int}, which meant that my functions for evaluating expressions (see \autoref{sec:strategy}) more straightforward to implement because they could just use the same stack used elsewhere.
 
 Python lists are dynamic arrays of pointers to data objects \cite{PythonDocumentationDesignAndHistory}. The actual data items are stored separately, but indexing a list \texttt{a[i]} can be performed in $O(1)$, rather than needing to iterate through all the elements like in a linked list. These characteristics gave me some benefits for implementation. For example, because the array contains pointers, rather than the objects themselves, I was able to write my \texttt{Stack} class (see \autoref{sec:lab1/stack/stack.py}) to accept either data of type \texttt{str} or \texttt{int}, which meant that my functions for evaluating expressions (see \autoref{sec:strategy}) more straightforward to implement because they could just use the same stack used elsewhere.
 
