@@ -1,16 +1,19 @@
 from lab2.stack.stack import Stack
 import lab2.parse.parser as parser
+import lab2.convert.errors as errors
 import lab2.parse.validate as validate
 from typing import Tuple, Optional
 
+
 class Node:
-    def __init__(self, data, left=None, right=None):
+    def __init__(self, parent, data, left=None, right=None):
+        self.parent: Node | None = parent
         self.data: str = data
         self.left: Optional[Node] = left
         self.right: Optional[Node] = right
 
-    def __str__(self):
-        return f"{self.data}"
+    def __str__(self, level=1):
+        return f"{self.data}\n{'\t'*level}left: {self.left}\n{'\t'*level}right: {self.right}"
         # return f"{self.data}, left: {self.left}, right: {self.right}"
 
     def __iter__(self):
@@ -20,26 +23,168 @@ class Node:
             yield from self.right
         yield self.data
 
+    def is_leaf(self) -> bool:
+        return self.left is None and self.right is None
 
-def _pre2post(expression: str, index: int = 0) -> Tuple[Node, int] | Tuple[None, int]:
-    # print(f"in pre2post({expression, index})")
-    if index == len(expression):
-        return None, index
-    while index <= len(expression) - 1 and (expression[index].isspace() or validate.is_parenthesis(expression[index])):
-        print(index)
-        index += 1
-    # print(
-        # f"after char skip loop in pre2post({expression, len(expression), index})")
-    n = Node(expression[index])
-    # print(f"created node: {n}")
-    if validate.is_operator(expression[index]):
-        left, index = _pre2post(expression, index+1)
-        right, index = _pre2post(expression, index+1)
-        n.left = left
-        n.right = right
-    if expression[index].isalpha():
-        pass
-    return n, index
+    def operator_is_leaf(self) -> bool:
+        if validate.is_operand(self.data):
+            return False
+        if validate.is_operator(self.data) and self.is_leaf():
+            return True
+        return False
+
+    def operand_has_operator_child(self) -> bool:
+        if not validate.is_operand(self.data):
+            return False
+        if self.left and validate.is_operator(self.left.data):
+            return True
+        if self.right and validate.is_operator(self.right.data):
+            return True
+        return False
+
+    def has_too_many_operators(self) -> bool:
+        if self.operand_has_operator_child() or self.operator_is_leaf():
+            return True
+        return False
+
+    def has_too_many_operands(self) -> bool:
+        if validate.is_operand(self.data) and not self.is_leaf():
+            return True
+        return False
+
+    def raise_errors_for_invalid_structure(self, expression):
+        if self.has_too_many_operators():
+            raise errors.TooManyOperatorsError(
+                msg=f"In '{expression}' too many operators were provided")
+        if self.has_too_many_operands():
+            raise errors.TooManyOperandsError(
+                msg=f"In '{expression}' too many operands were provided"
+            )
+
+
+def is_skip_char(s: str) -> bool:
+    return s.isspace() or validate.is_parenthesis(s)
+
+
+def skip(expression: str, segment: str) -> Tuple[str, str, bool]:
+    index = len(expression) - len(segment)
+    is_last_segment = index == len(expression) - 1
+    current_char = expression[index]
+    while is_skip_char(current_char) and not is_last_segment:  # silently step past
+        # print(f"CURRENT CHAR:{current_char}")
+        segment = segment[1:]
+        index = len(expression) - len(segment)
+        is_last_segment = index == len(expression) - 1
+        current_char = expression[index]
+    return segment, current_char, is_last_segment
+
+
+def _pre2post(expression: str, segment: str, node: Node | None, depth: int, operators: int = 0, operands: int = 0) \
+        -> Tuple[str, str, Node | None, int, int, int]:
+    # Fail Fast
+    if expression == "":
+        return expression, segment, None, depth, operators, operands
+    if depth == 0 and len(expression) > 1 and validate.is_operand(expression[0]):
+        raise errors.InvalidExpressionError(
+            msg=f"'{expression}' could not be processed. Prefix expressions can't start with an operand."
+        )
+    index = len(expression) - len(segment)
+    is_last_segment = index == len(expression) - 1
+    current_char = expression[index]
+    if not any([validate.is_operand(current_char), validate.is_operator(current_char), is_skip_char(current_char)]):
+        raise errors.IllegalOperandError(
+            f"'{expression}' has an illegal character '{current_char}' at position {index+1}.")
+    # print(f"CURRENT: '{current_char}'")
+    if is_skip_char(current_char):  # silently step past
+        segment, current_char, is_last_segment = skip(
+            expression=expression,
+            segment=segment)
+    if is_last_segment:
+        if validate.is_operator(current_char):
+            raise errors.TooManyOperatorsError(
+                msg=f"'{expression}' could not be processed. Prefix expressions cannot end with an operator.")
+        if is_skip_char(current_char):
+            n = None
+        else:
+            # print(f"MAKING NODE FROM:'{current_char}'")
+            n = Node(parent=node, data=current_char, left=None, right=None)
+        return expression, \
+            segment, \
+            n, \
+            depth-1, \
+            operators, \
+            operands + 1 if validate.is_operand(current_char) else operands
+    # print(f"MAKING NODE FROM:'{current_char}'")
+    n = Node(parent=node, data=current_char, left=None, right=None)
+    # operator
+    # print(f"CURRENT CHAR:{current_char}")
+    try:
+        if validate.is_operator(current_char):
+            # print(f"FOUND OPERATOR:{current_char}")
+            operators += 1
+            expression, segment, left, depth, operators, operands = _pre2post(expression=expression,
+                                                                              segment=segment[1:],
+                                                                              node=n,
+                                                                              depth=depth+1,
+                                                                              operators=operators,
+                                                                              operands=operands)
+
+            n.left = left if left else None
+            expression, segment, right, depth, operators, operands = _pre2post(expression=expression,
+                                                                               segment=segment[1:],
+                                                                               node=n,
+                                                                               depth=depth+1,
+                                                                               operators=operators,
+                                                                               operands=operands)
+            n.right = right if right else None
+        # operand
+        if validate.is_operand(current_char):
+            operands += 1
+    except IndexError:  # Index error can occur above if the expressions are not balanced
+        if operands <= operators:
+            raise errors.TooManyOperatorsError(
+                msg=f"'{expression}' has too many operators.")
+        else:
+            raise errors.InvalidExpressionError(
+                msg=f"'{expression}' could not be processed. Please ensure it has a valid prefix structure."
+            )
+    # Back to the top of the tree, should be finished with recursive calls
+    if depth == 0:
+        index = len(expression) - len(segment)
+        is_last_segment = index == len(expression) - 1
+        # print(f"AT DEPTH 0: OPERATORS:{operators} OPERANDS:{operands}")
+        if not is_last_segment:
+            segment = segment[1:]
+            if is_skip_char(current_char):  # silently step past
+                # print(f"AT DEPTH 0: SKIPPING UNNEEDED CHARACTERS")
+                segment, current_char, is_last_segment = skip(
+                    expression=expression,
+                    segment=segment)
+                index = len(expression) - len(segment)
+                is_last_segment = index == len(expression) - 1
+            else:
+                raise errors.TooManyOperandsError(
+                    msg=f"'{expression}' has too many operands.")
+        if not is_last_segment:
+            raise errors.InvalidExpressionError(
+                msg=f"'{expression}' could not be processed. Please ensure it has a valid prefix structure."
+            )
+        if operands - operators == 1:
+            return expression, segment, n, depth-1, operators, operands
+        elif operands <= operators:
+            raise errors.TooManyOperatorsError(
+                msg=f"'{expression}' has too many operators.")
+        elif operands > operators:
+            raise errors.TooManyOperandsError(
+                msg=f"'{expression}' hass too many operands.")
+    return expression, segment, n, depth-1, operators, operands
+
+
+def tree2str(tree) -> str:
+    if tree:
+        return "".join(n for n in tree)
+    else:
+        return ""
 
 
 def pre2post(expression: str) -> str:
@@ -65,34 +210,17 @@ def pre2post(expression: str) -> str:
     Idempotent:
         True
     """
-    if not validate.is_valid_expression(expression=expression, expression_type="prefix"):
-        raise ValueError(f"'{expression}' is not a valid prefix expression")
-    # Passing here -> parentheses are balanced
-    # We actually don't need to handle them at all for this conversion,
-    # since precedence is explicit in prefix and postfix expressions.
-    # stack = Stack()
-    # parsed_expression = parser.parse(expression=expression)
-    # postfix_expression_components = []
-    # if parsed_expression == [] or len(parsed_expression) == 1:
-    #     return expression
-    # for i in range(0, len(parsed_expression)):  # iterate from right
-    #     index = len(parsed_expression) - (i + 1)
-    #     symbol = parsed_expression[index]
-    #     if validate.is_parenthesis(symbol):
-    #         continue
-    #     if validate.is_operator(str(symbol)):
-    #         a = stack.pop()
-    #         b = stack.pop()
-    #         stack.push(f"{a}{b}{symbol}")
-    #     elif isinstance(symbol, str):
-    #         stack.push(symbol)
-    # while not stack.is_empty():
-    #     symbol = stack.pop()
-    #     postfix_expression_components.append(symbol)
-    # postfix_expression = "".join(postfix_expression_components)
-    # return postfix_expression
-    tree, _ = _pre2post(expression=expression, index=0)
-    if tree:
-        return "".join(n for n in tree)
-    else:
-        return ""
+    try:
+        _, _, tree, _, operators, operands = _pre2post(
+            expression=expression, segment=expression, node=None, depth=0, operators=0, operands=0)
+        if operands == 0 and operators == 0:
+            return ""
+        postfix = tree2str(tree)
+        # print(f"POSTFIX EXPRESSION: '{postfix}'")
+        return postfix
+    except (errors.InvalidExpressionError) as err:
+        raise errors.InvalidExpressionError(
+            f"{err}")
+    finally:
+        pass
+        # print("-"*80)
