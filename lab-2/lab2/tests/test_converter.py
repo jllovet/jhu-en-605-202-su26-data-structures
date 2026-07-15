@@ -75,3 +75,11 @@ class TestPre2Post(unittest.TestCase):
             converter.pre2post(expression),
             converter.pre2post(clean_expression)
         )
+    
+    def test_converter_pre2post_converts_expressions_with_multiple_alphabets(self):
+        expression = "$ἄ +фכ"
+        expected = "ἄфכ+$"
+        self.assertEqual(
+            converter.pre2post(expression),
+            expected
+        )
