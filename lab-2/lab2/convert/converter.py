@@ -1,5 +1,3 @@
-from lab2.stack.stack import Stack
-import lab2.parse.parser as parser
 import lab2.convert.errors as errors
 import lab2.parse.validate as validate
 from typing import Tuple, Optional
