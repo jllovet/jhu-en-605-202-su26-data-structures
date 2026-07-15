@@ -142,9 +142,6 @@ I removed the evaluation flow in lab2 in order to simplify the project. The inte
 \section{Structure}\label{sec:structure}
 
 \begin{verbatim}
-lab1
-|-- __init__.py            | Python-required for module
-|-- __main__.py            | Main entrypoint
 lab2
 |-- __init__.py
 |-- __main__.py
@@ -172,8 +169,6 @@ lab2
 \end{verbatim}
 
 \section{Design Decisions}
-
-Python lists are dynamic arrays of pointers to data objects \cite{PythonDocumentationDesignAndHistory}. The actual data items are stored separately, but indexing a list \texttt{a[i]} can be performed in $O(1)$, rather than needing to iterate through all the elements like in a linked list. These characteristics gave me some benefits for implementation. For example, because the array contains pointers, rather than the objects themselves, I was able to write my \texttt{Stack} class (see \autoref{sec:lab1/stack/stack.py}) to accept either data of type \texttt{str} or \texttt{int}, which meant that my functions for evaluating expressions (see \autoref{sec:strategy}) more straightforward to implement because they could just use the same stack used elsewhere.
 
 Python lists are dynamic arrays of pointers to data objects \cite{PythonDocumentationDesignAndHistory}. The actual data items are stored separately, but indexing a list \texttt{a[i]} can be performed in $O(1)$, rather than needing to iterate through all the elements like in a linked list. These characteristics gave me some benefits for implementation. For example, because the array contains pointers, rather than the objects themselves, I was able to write my \texttt{Stack} class (see \autoref{sec:lab1/stack/stack.py}) to accept either data of type \texttt{str} or \texttt{int}, which meant that my functions for evaluating expressions (see \autoref{sec:strategy}) more straightforward to implement because they could just use the same stack used elsewhere.
 
@@ -313,9 +308,6 @@ OK
 \end{verbatim}
 }
 
-I referenced several documentation and tutorial resources to get back up to speed with testing in Python using \texttt{unittest}, such as \textcite{PythonDocumentationUnittestUnit}, \textcite{CodewithJosh2024HowToTest}, \textcite{CoreySchafer2017PythonTutorial}, and \textcite{ArjanCodes2025HowToWriteGreatUnitTestsInPython}.
-
-
 \pagebreak
 \section{Demo}\label{sec:demo}
 
@@ -382,45 +374,252 @@ options:
 
 \pagebreak
 
- \begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{text}
-  python -m lab2 resources/input/in.txt resources/output/output.txt    
-  Processing expressions below:
-  -+ABC
-  -A+BC
-  $+-ABC+D-EF
-  -*A$B+C-DE*EF
-  **A+BC+C-BA
-  /A+BC +C*BA  
-  *-*-ABC+BA  
-  /+/A-BC-BA  
-  *$A+BC+C-BA 
-  //A+B0-C+BA
-  *$A^BC+C-BA
-  
-  WARNING: 5 errors found during conversion!
-  Check expressions are well-formed prefix expressions and only use allowed symbols.
-  
-  Allowed symbols are alphabetical characters and any of: +-*/$()
-  
-  Example valid expressions:
-  (base case):    'A'     -> 'A'
-  (single op):    '+AB'   -> 'AB+'
-  (more ops):     '-+ABC' -> 'AB+C-'
-  --------------------------------------------------------------------------------
-  ERROR: resources/input/in.txt - line 6: '/A+BC +C*BA  ' could not be processed. Please ensure it has a valid prefix structure.
-  ERROR: resources/input/in.txt - line 7: '*-*-ABC+BA  ' has too many operators.
-  ERROR: resources/input/in.txt - line 8: '/+/A-BC-BA  ' has too many operators.
-  ERROR: resources/input/in.txt - line 10: '//A+B0-C+BA' has an illegal character '0' at position 6.
-  ERROR: resources/input/in.txt - line 11: '*$A^BC+C-BA                                   ' has an illegal character '^' at position 4.
- \end{minted}
+\begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{text}
+python -m lab2 resources/input/in.txt resources/output/output.txt    
+Processing expressions below:
+-+ABC
+-A+BC
+$+-ABC+D-EF
+-*A$B+C-DE*EF
+**A+BC+C-BA
+/A+BC +C*BA  
+*-*-ABC+BA  
+/+/A-BC-BA  
+*$A+BC+C-BA 
+//A+B0-C+BA
+*$A^BC+C-BA
+
+WARNING: 5 errors found during conversion!
+Check expressions are well-formed prefix expressions and only use allowed symbols.
+
+Allowed symbols are alphabetical characters and any of: +-*/$()
+
+Example valid expressions:
+(base case):    'A'     -> 'A'
+(single op):    '+AB'   -> 'AB+'
+(more ops):     '-+ABC' -> 'AB+C-'
+--------------------------------------------------------------------------------
+ERROR: resources/input/in.txt - line 6: '/A+BC +C*BA  ' could not be processed. Please ensure it has a valid prefix structure.
+ERROR: resources/input/in.txt - line 7: '*-*-ABC+BA  ' has too many operators.
+ERROR: resources/input/in.txt - line 8: '/+/A-BC-BA  ' has too many operators.
+ERROR: resources/input/in.txt - line 10: '//A+B0-C+BA' has an illegal character '0' at position 6.
+ERROR: resources/input/in.txt - line 11: '*$A^BC+C-BA                                   ' has an illegal character '^' at position 4.
+\end{minted}
 
 \pagebreak
+\section{Enhancements and What I Learned}\label{sec:enhancements-and-what-I-learned}
 
-\section{Enhancements}\label{sec:enhancements}
+\noindent \textbf{Enhancement: Unit Testing - Validations on Single Passes}
+\medskip
 
-\pagebreak
+For details of the unit testing that I did as an enhancement, please see \ref{sec:testing}.
 
-\section{What I Learned}\label{sec:what-I-learned}
+Building in validations of correctness without additional passes was significantly more difficult than I had anticipated. It's much easier to ensure correctness when multiple passes are allowed, since in those cases you can answer questions about the structure of the whole of the input. With the constraint of performing a single pass over the input, the problem of solution verification must rely on characteristics that can be determined by partial information, which sometimes is insufficient. In the future, I will try to model this more effectively to have a cleaner implementation, especially in the case that I am writing a recursive function, where the mental overhead is slightly higher than in iterative solutions.
+
+\medskip
+\noindent \textbf{Enhancement: Logging}
+\medskip
+
+This version of the lab uses the python logging package to write logs. Most of these are configured to only be emitted when the logger leve is set to debug, but there are a number of logs that are produced at an info and error level. The log level can be set by the user through the command line. By default this is Recall the usage:
+
+\begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{text}
+usage: python3 -m lab2 [-h] [-l {INFO,WARNING,ERROR,DEBUG,CRITICAL,FATAL}]
+                          [-f LOGFILE]
+                          in_file out_file
+
+Convert prefix -> postfix expressions from in_file and write them to out_file
+
+positional arguments:
+  in_file               Input File Pathname
+  out_file              Output File Pathname
+
+options:
+  -h, --help            show this help message and exit
+  -l, --level {INFO,WARNING,ERROR,DEBUG,CRITICAL,FATAL}
+                        Sets the level of the logger. Default INFO
+  -f, --logfile LOGFILE
+                        Sets the filename where logs are written
+\end{minted}
+
+To set the log level to DEBUG, for example, the user could run a command like the following:
+
+\begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{text}
+python -m lab2 resources/input/readme.txt resources/output/output.txt --level DEBUG
+\end{minted}
+
+Similarly, the user can set the name of the logfile. 
+
+\begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{text}
+python -m lab2 resources/input/readme.txt resources/output/output.txt --level DEBUG --logfile mylab2.log
+\end{minted}
+
+This will produce a logfile called \texttt{mylab2.log} with the contents below:
+
+\begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{text}
+2026-07-15T01:21:01-0400 - [__main__.py:<module>:46] - INFO - processing input file resources/input/readme.txt and writing to resources/output/output.txt
+2026-07-15T01:21:01-0400 - [lab2.py:process_files:41] - INFO - Beginning to process expressions
+2026-07-15T01:21:01-0400 - [converter.py:pre2post:307] - INFO - Attempting to convert: 'A'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:134] - DEBUG - Considering whether to skip characters
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:135] - DEBUG - CURRENT: 'A'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:152] - DEBUG - MAKING NODE FROM:'A'
+2026-07-15T01:21:01-0400 - [converter.py:pre2post:314] - DEBUG - POSTFIX EXPRESSION: 'A'
+2026-07-15T01:21:01-0400 - [lab2.py:process_files:46] - DEBUG - Converted 'A' -> 'A'
+2026-07-15T01:21:01-0400 - [converter.py:pre2post:307] - INFO - Attempting to convert: 'AB'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:120] - ERROR - 'AB' could not be processed. Prefix expressions can't start with an operand.
+2026-07-15T01:21:01-0400 - [converter.py:pre2post:317] - ERROR - Reraising error: 'AB' could not be processed. Prefix expressions can't start with an operand.
+2026-07-15T01:21:01-0400 - [converter.py:pre2post:307] - INFO - Attempting to convert: 'AB+'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:120] - ERROR - 'AB+' could not be processed. Prefix expressions can't start with an operand.
+2026-07-15T01:21:01-0400 - [converter.py:pre2post:317] - ERROR - Reraising error: 'AB+' could not be processed. Prefix expressions can't start with an operand.
+2026-07-15T01:21:01-0400 - [converter.py:pre2post:307] - INFO - Attempting to convert: '+AA'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:134] - DEBUG - Considering whether to skip characters
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:135] - DEBUG - CURRENT: '+'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:161] - DEBUG - CURRENT CHAR:+
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:162] - DEBUG - MAKING NODE FROM:'+'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:167] - DEBUG - FOUND OPERATOR:+
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:134] - DEBUG - Considering whether to skip characters
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:135] - DEBUG - CURRENT: 'A'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:161] - DEBUG - CURRENT CHAR:A
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:162] - DEBUG - MAKING NODE FROM:'A'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:134] - DEBUG - Considering whether to skip characters
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:135] - DEBUG - CURRENT: 'A'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:152] - DEBUG - MAKING NODE FROM:'A'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:214] - DEBUG - AT DEPTH 0: OPERATORS:1 OPERANDS:2
+2026-07-15T01:21:01-0400 - [converter.py:pre2post:314] - DEBUG - POSTFIX EXPRESSION: 'AA+'
+2026-07-15T01:21:01-0400 - [lab2.py:process_files:46] - DEBUG - Converted '+AA' -> 'AA+'
+2026-07-15T01:21:01-0400 - [lab2.py:process_files:65] - WARNING - Errors raised
+2026-07-15T01:21:01-0400 - [converter.py:pre2post:307] - INFO - Attempting to convert: 'A'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:134] - DEBUG - Considering whether to skip characters
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:135] - DEBUG - CURRENT: 'A'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:152] - DEBUG - MAKING NODE FROM:'A'
+2026-07-15T01:21:01-0400 - [converter.py:pre2post:314] - DEBUG - POSTFIX EXPRESSION: 'A'
+2026-07-15T01:21:01-0400 - [converter.py:pre2post:307] - INFO - Attempting to convert: '+AB'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:134] - DEBUG - Considering whether to skip characters
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:135] - DEBUG - CURRENT: '+'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:161] - DEBUG - CURRENT CHAR:+
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:162] - DEBUG - MAKING NODE FROM:'+'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:167] - DEBUG - FOUND OPERATOR:+
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:134] - DEBUG - Considering whether to skip characters
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:135] - DEBUG - CURRENT: 'A'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:161] - DEBUG - CURRENT CHAR:A
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:162] - DEBUG - MAKING NODE FROM:'A'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:134] - DEBUG - Considering whether to skip characters
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:135] - DEBUG - CURRENT: 'B'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:152] - DEBUG - MAKING NODE FROM:'B'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:214] - DEBUG - AT DEPTH 0: OPERATORS:1 OPERANDS:2
+2026-07-15T01:21:01-0400 - [converter.py:pre2post:314] - DEBUG - POSTFIX EXPRESSION: 'AB+'
+2026-07-15T01:21:01-0400 - [converter.py:pre2post:307] - INFO - Attempting to convert: '-+ABC'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:134] - DEBUG - Considering whether to skip characters
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:135] - DEBUG - CURRENT: '-'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:161] - DEBUG - CURRENT CHAR:-
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:162] - DEBUG - MAKING NODE FROM:'-'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:167] - DEBUG - FOUND OPERATOR:-
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:134] - DEBUG - Considering whether to skip characters
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:135] - DEBUG - CURRENT: '+'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:161] - DEBUG - CURRENT CHAR:+
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:162] - DEBUG - MAKING NODE FROM:'+'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:167] - DEBUG - FOUND OPERATOR:+
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:134] - DEBUG - Considering whether to skip characters
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:135] - DEBUG - CURRENT: 'A'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:161] - DEBUG - CURRENT CHAR:A
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:162] - DEBUG - MAKING NODE FROM:'A'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:134] - DEBUG - Considering whether to skip characters
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:135] - DEBUG - CURRENT: 'B'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:161] - DEBUG - CURRENT CHAR:B
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:162] - DEBUG - MAKING NODE FROM:'B'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:134] - DEBUG - Considering whether to skip characters
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:135] - DEBUG - CURRENT: 'C'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:152] - DEBUG - MAKING NODE FROM:'C'
+2026-07-15T01:21:01-0400 - [converter.py:_pre2post:214] - DEBUG - AT DEPTH 0: OPERATORS:2 OPERANDS:3
+2026-07-15T01:21:01-0400 - [converter.py:pre2post:314] - DEBUG - POSTFIX EXPRESSION: 'AB+C-'
+2026-07-15T01:21:01-0400 - [lab2.py:print_errors:105] - ERROR - ERROR: resources/input/readme.txt - line 2: 'AB' could not be processed. Prefix expressions can't start with an operand.
+2026-07-15T01:21:01-0400 - [lab2.py:print_errors:105] - ERROR - ERROR: resources/input/readme.txt - line 3: 'AB+' could not be processed. Prefix expressions can't start with an operand.
+\end{minted}
+
+Inspection of the log file produced reveals that the log messages have a timestamp, the file, function, and line number where the log was produced, along with the severity of the message. (Note that the repetition of "ERROR" is because the second instance is shown to the user. It's part of the actual error message in this case.)
+
+\noindent Some considerations:
+
+By working through the implementation, I learned about the configuration of loggers in python, including how to set the log level and specify log outputs through calculated or user-provided values, such as I did in \texttt{lab2/__main__.py}. A similar approach could be used to mnaipulate the logger dynamically using environment variables or perhaps system capacity that was dynamically calculated (for instance, if the log volume written to disk was growing at a certain rate, the log level could be adjusted to accommodate).
+
+I also found that there is a nuanced balance to find between abstraction, collocation, and code readability. What do I mean? While working on the logging I perform while raising errors, I found that the code was becoming more difficult to follow because of the proliferation of logging statements. To simplify the code, I considered that there would be a call to the logger whenever I raised a custom error. So, why not put the log into the error initialization directly, rather than write the log immediately before raising the error? This did in fact improve the main code readability, but it also resulted in losing the context of the issue when reading through the logs. Why? My logger here is configured to provide the file, the function, and the line number all together with the error message and timestamp. When I extracted the log write to the \texttt{__init__} function of the custom errors, I lost that rich context. Since the errors are really best used to investigate specific issues with an expression, it didn't make sense to make this tradeoff, and so I opted for a different refinement that left the logging calls in their original locations.
+
+\medskip
+\noindent \textbf{Enhancement: Testing on \texttt{isalpha()}}
+\medskip
+
+In the refinement of the specification that I discussed with the instructor, he suggested that I instead use \texttt{str.isalpha()} to determine whether a character is a valid operand. I discovered while writing tests for the new lab implementation that \texttt{str.isalpha()} returned \texttt{True} for symbols from other alphabets as well as the latin alphabet. This means that there can be quite amusing combinations of symbols that are used as operands in the expressions (though perhaps this is characteristic of real mathematical typesetting and shouldn't be surprising)! 
+
+See the example below that shows that the converter succeeds even when mixing multiple alphabets, even if they are written in different directions. (The example uses polytonic Ancient Greek, Russian, and Hebrew letters.)
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.9\linewidth]{screenshot-multialphabet-conversions.png}
+  \caption{Screenshot of Multi-Alphabet Conversion on Line 18}\label{fig:multialphabet-conversions}
+\end{figure}
+
+\clearpage
+
+\noindent \textbf{Generators and Yields}
+
+Based on a conversation with the professor during office hours, I experimented in this lab with using python's generators. Using \texttt{yield} in the \texttt{__iter__} function of the \texttt{Node} class in the correct order, I was able to make extracting the postfix expression from the tree simple. I form an abstract syntax tree, and then I use the \texttt{__iter__} function to iterate over the nodes in post-order, meaning that I start with the leaves, reading the left child, then the right child, then the parent, left to right, up the tree recursively. In the future I will experiment more with using generators and iterators to have lazy evaluation in python.
+
+While I read and watched multiple resources to learn about generators, I'm especially indebted to the strategy described here: \url{https://martinheinz.dev/blog/88}.
+
+Here is \texttt{Node.__iter__}:
+
+\begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{python}
+def __iter__(self):
+    """Yield the nodes of the tree in post-order
+
+    Inspired by the strategy described here: https://martinheinz.dev/blog/88
+    
+    Args:
+        None
+
+    Returns:
+        Yields the elements of the tree in post-order.
+
+    Raises:
+        None
+
+    Side Effects:
+        None
+
+    Idempotent:
+        False
+    """
+    if self.left:
+        yield from self.left
+    if self.right:
+        yield from self.right
+    yield self.data
+\end{minted}
+
+\noindent \textbf{Custom Error Types}
+In addition to the items above, I inlcuded custom error types in this lab, to experiment with the inheritance and the pattern of specific sentinel error types. They allow for more precise error types in the function \texttt{_pre2post} than \texttt{ValueError}, for example. The illustration below shows how I defined a base custom error class: \texttt{InvalidExpressionError}, which itself inherits from \texttt{ValueError}. From there there are three child error types inheriting from it, each with its own default error message.
+
+\begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{python}
+class InvalidExpressionError(ValueError):
+    def __init__(self, msg: str):
+        super().__init__(msg)
+
+
+class TooManyOperatorsError(InvalidExpressionError):
+    def __init__(self, msg: str = "Too many operators provided in expression"):
+        super().__init__(msg)
+
+
+class TooManyOperandsError(InvalidExpressionError):
+    def __init__(self, msg: str = "Too many operands provided in expression"):
+        super().__init__(msg)
+
+
+class IllegalOperandError(InvalidExpressionError):
+    def __init__(self, msg: str = "Illegal operand provided in expression"):
+        super().__init__(msg)
+\end{minted}
+
+This experiment was prompted also by discussion with our instructor. I am curious to see how more complex designs that use this pattern work, both at the project level and at the ecosystem level. For example, if you were a consumer of a package like this, you would need to handle the custom error types, meaning anywhere you have code that consumes anything that does not handle that for you, the errors package for this package becomes an import dependency. This could be handled by the package itself handling converting custom errors into standard library errors, but if that were done systematically, there would need to be quite a lot of benefit to make this additional engineering of error types worthwhile for consumers of the package.
 
 \pagebreak
 
