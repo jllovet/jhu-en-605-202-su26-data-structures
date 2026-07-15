@@ -19,7 +19,7 @@
 
 ## Analysis
 
-- [ ] Update strategy diagrams
+- [x] Update strategy diagrams
 - [ ] Add section What I Learned
   - [ ] Add note about how factoring error logging to the custom error classes themselves was not helpful, because it resulted in lost context
   - [ ] Add note about how writing this in an object-oriented/imperative style, even with recursion, made the structure of the core _pre2post function unwieldy. I would rather have wrapper functions. I don't like that in the way I've written the program, there are side effects liberally spread around the functions (e.g. writing to logs)
