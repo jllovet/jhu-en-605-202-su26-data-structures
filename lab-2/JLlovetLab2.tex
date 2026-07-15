@@ -397,13 +397,35 @@ resources/input/in.txt - line 28: '*$A^BC+C-BA' is not a valid prefix expression
 
 \pagebreak
 
-\section{Lab Source Code}
+\section{Enhancements}\label{sec:enhancements}
 
-On the following pages, you can find the source code for the project. In addition to the resources I mentioned above for testing, I reviewed multiple resources for information about a few Python-specific details for a few topics, such as error handling \textcite{PythonDocumentationErrorsAndExceptions}, the \texttt{match} operator's syntax \textcite{PythonEnhancementProposalsPEP0636}, and typing \textcite{PythonDocumentationTypingLiterals}.
+\pagebreak
 
-As a basis for an internal standard for docstring formatting, I referenced the Google Python Style Guide \textcite{GooglePythonStyleGuide}. I departed slightly from their convention, notably in adding sections of the docstring to describe functions' side effects and whether the function is idempotent. In some codebases at work, we have used higher order functions to make Python decorators to annotate whether a function was pure or had side effects, along with other characteristics. This was especially useful in that context, because it allowed the codebase to be searched programmatically for functions that did or did have specified characteristics. E.g., it was possible to get a list of all the functions in the codebase that were annotated as pure or were known to have side effects.
+\section{What I Learned}\label{sec:what-I-learned}
 
-Along with being theoretically interesting, the decorator annotations provided a quantitative basis for design discussions where we were planning modifications to the codebase. It helped us make the codebase more reliably testable because it helped us answer questions like ``What functions can we rewrite to reduce the percentage of the codebase that has side effects?'' In this codebase, I did not opt for such a decorator-driven annotation style, since all the functions have extensive docstrings. That said, in the style that the annotations in the docstrings have in this codebase, I think that it would be reasonably feasible to have a static analyzer search the codebase for similar characteristics, though I expect that the approach required to parse and correctly interpret the docstrings would be more complex than the one required for the function decorators. From the perspective of long-term maintenance and testability of that observability itself, I think that the decorator pattern has some benefits. Tests that check for the absence or presence of decorators from a set of annotation decorators in the codebase would be easier to write and run reliably than analogous functions that interpreted the contents of the docstrings.
+\pagebreak
+
+\section{Resouces Referenced While Coding}
+
+In addition to the resources I mentioned above, I reviewed multiple resources for information about generators and iterators in python. In particular:
+
+\begin{enumerate}
+  \item \fullcite{PythondocumentationExpressions}
+  \item \fullcite{StackOverflowDifferenceBetweenPythonsGeneratorsAndIterators}
+  \item \fullcite{RedditcomCanSomeonePleaseExplainWhatIsAGenerator}
+  \item \fullcite{PythonEnhancementProposalsPEP255}
+  \item \fullcite{StackOverflowUnderstandingGeneratorsIn}
+  \item \fullcite{RedditcomCanYouMakeAnInfiniteGeneratorWithGeneratorExpressionSyntax}
+  \item \fullcite{PythondocumentationItertoolsFunctions}
+  \item \fullcite{CoreySchafer2015PythonTutorialGenerators}
+  \item \fullcite{MCoding2022PythonGenerators}
+  \item \fullcite{ArjanCodes2026WhatMostPython}
+  \item \fullcite{NeuralNine2021GeneratorsAdvanced}
+\end{enumerate}
+
+I am especially indebted to \textcite{Martinheinzdev2023LazyEvaluationUsing} for the idea on how to use \texttt{yield} to allow me to traverse the abstract syntax tree for my expression in post-order, effectively letting me read off the postfix expresssion directly from the tree.
+
+A few other sources I referenced include \textcite{PythonDocumentationTypingLiterals} for information on Python typing, and the Google Python Style Guide \textcite{GooglePythonStyleGuide} as a basis for an internal standard for docstring formatting. I departed slightly from the Google convention, notably in adding sections of the docstring to describe functions' side effects and whether the function is idempotent.
 
 \pagebreak
 
