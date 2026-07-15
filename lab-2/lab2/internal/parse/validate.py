@@ -134,7 +134,7 @@ def is_allowed(symbol: str) -> bool:
     """Returns a boolean indicating whether the symbol is allowed
 
     Returns true if the symbol is an operator or parenthesis or any
-    character for which str.isalpha returns true
+    character for which symbol.isalpha() returns true
 
     Args:
         symbol: str a single character from an expression
