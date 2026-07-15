@@ -31,11 +31,9 @@ def _pre2post(expression: str, segment: str, node: Node | None, depth: int, oper
         return expression, segment, None, depth, operators, operands
     # Raise error if the expression starts with an operand
     if depth == 0 and len(expression) > 1 and validate.is_operand(expression[0]):
-        logger.error(
-            f"'{expression}' could not be processed. Prefix expressions can't start with an operand.")
-        raise errors.InvalidExpressionError(
-            msg=f"'{expression}' could not be processed. Prefix expressions can't start with an operand."
-        )
+        msg = f"'{expression}' could not be processed. Prefix expressions can't start with an operand."
+        logger.error(msg)
+        raise errors.InvalidExpressionError(msg=msg)
 
     index = len(expression) - len(segment)
     is_last_segment = index == len(expression) - 1
@@ -43,10 +41,9 @@ def _pre2post(expression: str, segment: str, node: Node | None, depth: int, oper
 
     # Raise error if there are illegal characters
     if not any([validate.is_operand(current_char), validate.is_operator(current_char), is_skip_char(current_char)]):
-        logger.error(
-            f"'{expression}' has an illegal character '{current_char}' at position {index+1}.")
-        raise errors.IllegalOperandError(
-            f"'{expression}' has an illegal character '{current_char}' at position {index+1}.")
+        msg=f"'{expression}' has an illegal character '{current_char}' at position {index+1}."
+        logger.error(msg)
+        raise errors.IllegalOperandError(msg)
 
     # We need to skip whitespace and irrelevant characters we encounter
     logging.debug(f"Considering whether to skip characters")
@@ -60,10 +57,9 @@ def _pre2post(expression: str, segment: str, node: Node | None, depth: int, oper
     if is_last_segment:
         # Raise an error if the expression ends with an operator
         if validate.is_operator(current_char):
-            logger.error(
-                f"'{expression}' could not be processed. Prefix expressions cannot end with an operator.")
-            raise errors.TooManyOperatorsError(
-                msg=f"'{expression}' could not be processed. Prefix expressions cannot end with an operator.")
+            msg=f"'{expression}' could not be processed. Prefix expressions cannot end with an operator."
+            logger.error(msg)
+            raise errors.TooManyOperatorsError(msg)
         # A node should not be created if we encounter an irrelevant character
         if is_skip_char(current_char):
             n = None
@@ -77,9 +73,9 @@ def _pre2post(expression: str, segment: str, node: Node | None, depth: int, oper
             operators, \
             operands + 1 if validate.is_operand(current_char) else operands
 
+    logging.debug(f"CURRENT CHAR:{current_char}")
     logging.debug(f"MAKING NODE FROM:'{current_char}'")
     n = Node(parent=node, data=current_char, left=None, right=None)
-    logging.debug(f"CURRENT CHAR:{current_char}")
     try:
         # Handle operator
         if validate.is_operator(current_char):
@@ -115,15 +111,13 @@ def _pre2post(expression: str, segment: str, node: Node | None, depth: int, oper
     except IndexError:
         # Return a specific error if we can
         if operands <= operators:
-            logger.error(f"'{expression}' has too many operators.")
-            raise errors.TooManyOperatorsError(
-                msg=f"'{expression}' has too many operators.")
+            msg=f"'{expression}' has too many operators."
+            logger.error(msg)
+            raise errors.TooManyOperatorsError(msg)
         else:  # Otherwise fall back to a generic one
-            logger.error(
-                f"'{expression}' could not be processed. Please ensure it has a valid prefix structure.")
-            raise errors.InvalidExpressionError(
-                msg=f"'{expression}' could not be processed. Please ensure it has a valid prefix structure."
-            )
+            msg=f"'{expression}' could not be processed. Please ensure it has a valid prefix structure."
+            logger.error(msg)
+            raise errors.InvalidExpressionError(msg)
 
     if depth != 0:
         return expression, segment, n, depth-1, operators, operands
@@ -144,9 +138,9 @@ def _pre2post(expression: str, segment: str, node: Node | None, depth: int, oper
                 expression=expression,
                 segment=segment)
         else:  # We found something relevant when we shouldn't have, meaning the expression is ill-structured
-            logger.error(f"'{expression}' has too many operands.")
-            raise errors.TooManyOperandsError(
-                msg=f"'{expression}' has too many operands.")
+            msg=f"'{expression}' has too many operands."
+            logger.error(msg)
+            raise errors.TooManyOperandsError(msg)
 
     # Since we may skipped over irrelevant characters, we have to recalculate in case state was changed above
     index = len(expression) - len(segment)
@@ -154,11 +148,9 @@ def _pre2post(expression: str, segment: str, node: Node | None, depth: int, oper
 
     # If we get here, there was an issue with the conversion, and the expression is likely ill-structured
     if not is_last_segment:
-        logger.error(
-            f"'{expression}' could not be processed. Please ensure it has a valid prefix structure.")
-        raise errors.InvalidExpressionError(
-            msg=f"'{expression}' could not be processed. Please ensure it has a valid prefix structure."
-        )
+        msg=f"'{expression}' could not be processed. Please ensure it has a valid prefix structure."
+        logger.error(msg)
+        raise errors.InvalidExpressionError(msg)
 
     # Check for operand-operator balance
     # Happy path
@@ -166,15 +158,15 @@ def _pre2post(expression: str, segment: str, node: Node | None, depth: int, oper
         return expression, segment, n, depth-1, operators, operands
     # Unbalanced
     elif operands <= operators:
-        logger.error(f"'{expression}' has too many operators.")
-        raise errors.TooManyOperatorsError(
-            msg=f"'{expression}' has too many operators.")
+        msg=f"'{expression}' has too many operators."
+        logger.error(msg)
+        raise errors.TooManyOperatorsError(msg)
     # Unbalanced
     elif operands > operators:
-        logger.error(f"'{expression}' has too many operands.")
-        raise errors.TooManyOperandsError(
-            msg=f"'{expression}' has too many operands.")
-    
+        msg=f"'{expression}' has too many operators."
+        logger.error(msg)
+        raise errors.TooManyOperandsError(msg)
+
     # If we have cleared all the checks above, we can return
     return expression, segment, n, depth-1, operators, operands
 
@@ -205,6 +197,7 @@ def pre2post(expression: str) -> str:
 
     Side Effects:
         Raises ValueError if the expression provided was not valid
+        Writes to logs
 
     Idempotent:
         True
