@@ -141,7 +141,7 @@ def is_allowed(symbol: str) -> bool:
 
     Returns:
         A bool indicating whether the symbol is operator or parenthesis
-        or any of A,B,C...,X,Y,Z
+        or any alphabetc character
 
     Raises:
         None
