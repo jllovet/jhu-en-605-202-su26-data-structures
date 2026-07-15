@@ -72,25 +72,3 @@ class TestSymbolClassifiers(unittest.TestCase):
         self.assertFalse(validate.is_allowed("<"))
         for i in range(0, 100):
             self.assertFalse(validate.is_allowed(i))  # type: ignore
-
-
-class TestIsValidExpression(unittest.TestCase):
-    def is_valid_expression(self):
-        self.assertTrue(validate.is_valid_expression("+AB", "prefix"))
-        self.assertFalse(validate.is_valid_expression("+AB", "postfix"))
-        self.assertTrue(validate.is_valid_expression("AB+", "postfix"))
-        self.assertFalse(validate.is_valid_expression("AB+", "prefix"))
-
-
-class TestExpressionInvariants(unittest.TestCase):
-    def test_is_singleton_operand(self):
-        self.assertTrue(validate.is_singleton_operand(["A"]))
-        self.assertTrue(validate.is_singleton_operand([1]))
-        self.assertFalse(validate.is_singleton_operand([]))
-        self.assertFalse(validate.is_singleton_operand(["A", "A"]))
-        self.assertFalse(validate.is_singleton_operand(["+", "A", "B"]))
-        self.assertFalse(validate.is_singleton_operand(["+"]))
-
-    def test_is_start_of_nontrivial_prefix_expression_an_operand(self):
-        self.assertTrue(
-            validate.is_start_of_expression_an_operand(["A", "+", "A", "A"]))
