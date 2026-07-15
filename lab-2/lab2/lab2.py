@@ -1,6 +1,7 @@
 from sys import stderr
 from typing import TextIO
 import lab2.convert.converter as converter
+import lab2.convert.errors as errors
 
 
 def process_files(input_file: TextIO, output_file: TextIO) -> None:
@@ -32,21 +33,31 @@ def process_files(input_file: TextIO, output_file: TextIO) -> None:
         True
     """
     lines = input_file.read().splitlines()
-    errors = []
+    raised_errors = []
+    print("Processing expressions below:", file=stderr)
     for line_number, line in enumerate(lines):
         if line is not None and line != "":
             try:
                 postfix = converter.pre2post(line)
-            except ValueError as e:
-                errors.append(
-                    f"{input_file.name} - line {line_number + 1}: {e}")
-                output_file.write(f"{input_file.name} - line {line_number + 1}: {e}")
+                if postfix == "":  # skip blank lines silently
+                    continue
+                else:
+                    print(line, file=stderr)
+            except (ValueError,
+                    errors.InvalidExpressionError,
+                    errors.TooManyOperandsError,
+                    errors.TooManyOperatorsError) as e:
+                print(line, file=stderr)
+                raised_errors.append(
+                    f"ERROR: {input_file.name} - line {line_number + 1}: {e}")
+                output_file.write(
+                    f"ERROR: {input_file.name} - line {line_number + 1}: {e}")
                 output_file.write("\n")
                 continue
             output_file.write(f"{line} -> {postfix}")
             output_file.write("\n")
-    if errors:
-        print_errors(errors)
+    if raised_errors:
+        print_errors(raised_errors)
 
 
 def print_errors(errors: list[str]) -> None:
@@ -72,17 +83,14 @@ def print_errors(errors: list[str]) -> None:
         True
     """
     error_preamble = [
-        f"""WARNING: {len(errors)} errors found during conversion
-WARNING: Invalid expressions not written to output file\n
-Check expressions to ensure the are well formed and only use allowed symbols.\n
-Note: whitespace is not allowed. Expressions with whitespace will be rejected.\n
-Allowed symbols: ABCDEFGHIJKLMNOPQRSTUVWXYZ+-*/$()\n
+        f"""\nWARNING: {len(errors)} errors found during conversion!
+Check expressions are well-formed prefix expressions and only use allowed symbols.\n
+Allowed symbols: alphabetical characters and any of: +-*/$()\n
 Example valid expressions:
 \t(base case):\t'A'\t-> '{converter.pre2post('A')}'
 \t(single op):\t'+AB'\t-> '{converter.pre2post('+AB')}'
 \t(more ops):\t'-+ABC'\t-> '{converter.pre2post('-+ABC')}'""",
         "-"*80,
-        "ERRORS:"
     ]
     for msg in error_preamble:
         print(msg, file=stderr)
