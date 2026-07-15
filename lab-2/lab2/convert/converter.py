@@ -193,10 +193,10 @@ def pre2post(expression: str) -> str:
         A str containing the postfix expression equivalent to the expression provided
 
     Raises:
-        ValueError: if the expression is not a valid prefix expression
+        InvalidExpressionError: if the expression is not a valid prefix expression
 
     Side Effects:
-        Raises ValueError if the expression provided was not valid
+        Raises InvalidExpressionError if the expression provided was not valid
         Writes to logs
 
     Idempotent:
