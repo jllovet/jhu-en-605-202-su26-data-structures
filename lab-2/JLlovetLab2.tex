@@ -47,8 +47,8 @@
       \begin{flushleft}
         Jonathan Llovet \\  % authors' names
         EN.605.202.81 \\  %class
-        2026-06-23 \\  % date
-        Lab 1 \\ % ID
+        2026-07-15 \\  % date
+        Lab 2 \\ % ID
       \end{flushleft}
       \center{\Large{\textbf{Recursion - Converting Prefix to Postfix Expressions}}}
       %\end{mdframed}
@@ -673,7 +673,7 @@ This will produce a logfile called \texttt{mylab2.log} with the contents below:
 2026-07-15T01:21:01-0400 - [lab2.py:print_errors:105] - ERROR - ERROR: resources/input/readme.txt - line 3: 'AB+' could not be processed. Prefix expressions can't start with an operand.
 \end{minted}
 
-Inspection of the log file produced reveals that the log messages have a timestamp, the file, function, and line number where the log was produced, along with the severity of the message. (Note that the repetition of "ERROR" is because the second instance is shown to the user. It's part of the actual error message in this case.)
+Inspection of the log file produced reveals that the log messages have a timestamp, the file, function, and line number where the log was produced, along with the severity of the message. (Note that the repetition of "ERROR" is because the second instance is shown to the user. It's part of the actual error message.)
 
 \noindent Some considerations:
 
@@ -697,7 +697,7 @@ See the example below that shows that the converter succeeds even when mixing mu
 
 \clearpage
 
-\noindent \textbf{Generators and Yields}
+\noindent \textbf{Enhancement: Generators and Yields}
 
 Based on a conversation with the professor during office hours, I experimented in this lab with using python's generators. Using \texttt{yield} in the \texttt{__iter__} function of the \texttt{Node} class in the correct order, I was able to make extracting the postfix expression from the tree simple. I form an abstract syntax tree, and then I use the \texttt{__iter__} function to iterate over the nodes in post-order, meaning that I start with the leaves, reading the left child, then the right child, then the parent, left to right, up the tree recursively. In the future I will experiment more with using generators and iterators to have lazy evaluation in python.
 
@@ -733,7 +733,7 @@ def __iter__(self):
     yield self.data
 \end{minted}
 
-\noindent \textbf{Custom Error Types}
+\noindent \textbf{Enhancement: Custom Error Types}
 In addition to the items above, I inlcuded custom error types in this lab, to experiment with the inheritance and the pattern of specific sentinel error types. They allow for more precise error types in the function \texttt{_pre2post} than \texttt{ValueError}, for example. The illustration below shows how I defined a base custom error class: \texttt{InvalidExpressionError}, which itself inherits from \texttt{ValueError}. From there there are three child error types inheriting from it, each with its own default error message.
 
 \begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{python}
