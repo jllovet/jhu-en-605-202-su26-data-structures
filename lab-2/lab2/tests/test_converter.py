@@ -2,7 +2,8 @@ import unittest
 import lab2.convert.converter as converter
 import lab2.convert.errors as errors
 import lab2.internal.parse.cleaner as cleaner
-
+import logging
+logging.getLogger().setLevel(logging.CRITICAL + 1)
 
 class TestPre2Post(unittest.TestCase):
     def test_converter_pre2post_raises_error_on_postfix_expression(self):
