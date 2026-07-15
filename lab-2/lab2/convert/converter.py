@@ -155,6 +155,8 @@ def _pre2post(expression: str, segment: str, node: Node | None, depth: int, oper
         # print(f"AT DEPTH 0: OPERATORS:{operators} OPERANDS:{operands}")
         if not is_last_segment:
             segment = segment[1:]
+            index = len(expression) - len(segment)
+            current_char = expression[index]
             if is_skip_char(current_char):  # silently step past
                 # print(f"AT DEPTH 0: SKIPPING UNNEEDED CHARACTERS")
                 segment, current_char, is_last_segment = skip(

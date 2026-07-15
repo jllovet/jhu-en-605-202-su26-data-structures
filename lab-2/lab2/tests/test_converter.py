@@ -1,6 +1,7 @@
 import unittest
 import lab2.convert.converter as converter
 import lab2.convert.errors as errors
+import lab2.parse.cleaner as cleaner
 
 
 class TestPre2Post(unittest.TestCase):
@@ -66,3 +67,10 @@ class TestPre2Post(unittest.TestCase):
         self.assertEqual("ABC+*CBA-+*", converter.pre2post("**A+BC+C-BA"))
         self.assertEqual("ABC+$CBA-+*", converter.pre2post("*$A+BC+C-BA"))
 
+    def test_converter_pre2post_converts_expressions_identically_with_and_without_whitespace(self):
+        expression = "-+A BC      "
+        clean_expression = cleaner.clean(expression)
+        self.assertEqual(
+            converter.pre2post(expression),
+            converter.pre2post(clean_expression)
+        )
