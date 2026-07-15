@@ -52,7 +52,7 @@ class Node:
         return f"{self.data}\n{'\t'*level}left: {self.left}\n{'\t'*level}right: {self.right}"
 
     def __iter__(self):
-        """Yielf the nodes of the tree in post-order
+        """Yield the nodes of the tree in post-order
 
         Inspired by the strategy described here: https://martinheinz.dev/blog/88
         
