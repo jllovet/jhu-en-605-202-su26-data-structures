@@ -209,6 +209,30 @@ def is_operator(symbol: str) -> bool:
             return True
     return False
 
+def is_operand(symbol: str) -> bool:
+    """Returns a boolean indicating whether the symbol is an operand
+
+    Returns true when symbol.islpha() is True
+
+    Args:
+        symbol: str a single character from an expression
+
+    Returns:
+        A bool indicating whether the symbol is an operand
+
+    Raises:
+        None
+
+    Side Effects:
+        None
+
+    Idempotent:
+        True
+    """
+    if not isinstance(symbol, str):
+        return False
+    return symbol.isalpha()
+
 
 def is_whitespace(symbol: str) -> bool:
     """Returns a boolean indicating whether the symbol is whitespace
