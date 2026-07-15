@@ -62,8 +62,7 @@ In this assignment you will use recursion to convert prefix expressions directly
 
 Write a program that accepts a prefix expression containing single letter operands and the operators \texttt{+, -, *, /,} and \texttt{\$} (representing exponentiation). Output the corresponding postfix expression.  For example, if your input is \texttt{*AB} then output should be \texttt{AB*}. Output of \texttt{BA*} is considered incorrect. In your analysis, be sure to discuss why recursion makes sense. Consider your recursive solution with your iterative solution from Lab 1. Is one better than the other? Do you feel differently than you did when you wrote Lab 1. Tell us what you learned and what you would do differently. Be sure to review the Programming Assignment Guidelines for specific requirements for the Analysis and before submitting this assignment.
 
-Don't forget to do reasonable error checking and try to make your error messages specific and helpful. You may not use library functions. You must write your own code. You must read and write
-from named files.
+Don't forget to do reasonable error checking and try to make your error messages specific and helpful. You may not use library functions. You must write your own code. You must read and write from named files.
 
 \noindent \textbf{Additional guidelines from instructor:}
 
@@ -83,22 +82,22 @@ from named files.
 
 \section{The Problem to Solve}
 
-This lab illustrates the use of stacks in the conversion of prefix expressions to postfix expressions. The prefix expressions will be read in from a file and then output to a file, both of which are provided at the command line. Errors will be printed to stderr for review. The lab is meant to be run as a module. See \texttt{README.md} for running instructions.
+This lab illustrates the use of recursion in the conversion of prefix expressions to postfix expressions. The prefix expressions will be read in from a file and then output to a file, both of which are provided at the command line. Errors will be printed to stderr for review. The lab is meant to be run as a module. See \texttt{README.md} for running instructions.
 We want to convert expressions in this form: \texttt{+AB} to this form \texttt{AB+}. Both of these are equivalent to the probably more familiar infix notation for the same expression \texttt{A+B}. Put another way, we want to convert from Polish notation to Reverse Polish notation \parencite{EnWikipediaorgReversePolishNotation}.
 
 The program should satisfy the following:
 
 \begin{enumerate}
   \item Transform a prefix (Polish) expression to an equivalent postfix (Reverse Polish) expression
-  \item Use an iterative (as opposed to a recursive) implementation of the algorithm for doing so
-  \item Handle expressions with single-letter operands and the operations \verb|+, -, *, /, $|
+  \item Use a recursive (as opposed to an iterative) implementation of the algorithm for doing so
+  \item Handle expressions with single-letter alphabetic operands and the operations \verb|+, -, *, /, $|
   \item Be callable from the command line as a Python module
   \item Read an input file specified at the command line
   \item Output results to an output file specified at the command line
   \item Output errors related to invalid input to the user
   \item Report issues in a helpful way to the user
   \item Have reasonable error handling
-  \item Produce no other side effects
+  \item Produce no other side effects other than writing logs
 \end{enumerate}
 
 \section{Strategy}\label{sec:strategy}
@@ -116,7 +115,7 @@ The mathematical case above notwithstanding, the evaluation step in the validati
 From here, I will describe the core flow of the program. First, the IO portion from the command line and the main portion that drives the program.
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.9\linewidth]{lab1-strategy-io.pdf}
+  \includegraphics[width=0.9\linewidth]{lab2-strategy-io.pdf}
   \caption{Core IO flow}\label{fig:strategy-io}
 \end{figure}
 
@@ -124,7 +123,7 @@ The IO flow above calls into the conversion flow, which is sketched below.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.9\linewidth]{lab1-strategy-conversion.pdf}
+  \includegraphics[width=0.9\linewidth]{lab2-strategy-conversion.pdf}
   \caption{Conversion flow}\label{fig:strategy-conversion}
 \end{figure}
 
@@ -135,7 +134,7 @@ The evaluation flow is similar to the validation flow, and in fact \texttt{evalu
 \begin{landscape}
   \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.9\linewidth]{lab1-strategy-validation.pdf}
+    \includegraphics[width=0.9\linewidth]{lab2-strategy-validation.pdf}
     \caption{Validation flow}\label{fig:strategy-validation}
   \end{figure}
 \end{landscape}
