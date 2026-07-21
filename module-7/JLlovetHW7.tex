@@ -1,0 +1,257 @@
+\documentclass[10pt,letterpaper,final]{report}
+\usepackage[margin=.75in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\renewcommand\qedsymbol{$\blacksquare$}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{forest}
+\usepackage{float}
+\usetikzlibrary{automata,arrows}
+\usetikzlibrary{shapes.multipart, positioning}
+\usepackage{mdframed}
+\usepackage[
+  backend=biber,
+  style=numeric-comp,
+  sorting=none
+]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{minted}
+\usemintedstyle{algol_nu}
+\usepackage{xltabular}
+\usepackage{pdflscape}
+\usepackage{tcolorbox}
+
+
+% Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
+
+\begin{document}
+\begin{center}
+  \fbox{
+    \vbox{
+      \begin{flushleft}
+        Jonathan Llovet \\  % authors' names
+        EN.605.202.81 \\  %class
+        2026-07-21 \\  % date
+        Module 7 - Homework 7 \\ % ID
+      \end{flushleft}
+      \center{\Large{\textbf{Data Structures - More on Trees and Sorting}}}
+      %\end{mdframed}
+    } % end vbox
+  } % end fbox
+  \vline
+\end{center}
+
+\medskip
+
+\noindent\textbf{Problem 1:}
+\medskip
+
+Implement maketree, setleft, and setright for right in-threaded binary trees using the sequential array representation.
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+\begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{Go}
+struct Node {
+    data: T
+    right_thread: int # index of the right thread successor;
+    # no pointers needed because we can calculate them relative to a node's index
+}
+
+function extend_array(array) {
+    array = [] if array == null else array
+    size = 1 if len(array) == 0 else len(array)
+    new_array = []
+    new_array.extend([null]*size*2)
+    for i in range(size) {
+        new_array[i] = array[i]
+    }
+    return new_array
+}
+
+
+function maketree(item: Any, tree_array: List, index: int) -> List {
+    tree_array = [null] if tree_array == null else tree_array
+    index = 0 if index == null else index
+    node = Node(data=item)
+    node.data = item
+    node.right_thread = null
+    if index >= len(tree_array) {
+        tree_array = extend_array(tree_array)
+    }
+    tree_array[index] = node
+    return tree_array
+}
+
+
+function parent_index(index: int) -> int | null {
+    if index == 0 {
+        return null
+    }
+    reduction = 2 if index % 2 == 0 else 1
+    parent = (index - reduction) // 2
+    return parent
+}
+
+
+function left_child_index(tree_array: List, index: int) -> Tuple[List, int | null] {
+    if index >= len(tree_array) {   
+        error("Couldn't find node: the provided position doesn't exist in the tree")
+    }
+    left_child_index = (index * 2) + 1
+    if left_child_index >= len(tree_array) {
+        tree_array = extend_array(tree_array)
+        return tree_array, left_child_index
+    }
+    elif left_child_index < len(tree_array) {
+        return tree_array, left_child_index
+    }
+    else { # something went wrong
+        return tree_array, null
+    }
+}
+
+
+function right_child_index(tree_array: List, index: int) -> Tuple[List, int | null] {
+    if index >= len(tree_array) {
+        return tree_array, null
+    }
+    right_child_index = (index * 2) + 2
+    if right_child_index >= len(tree_array) {
+        tree_array = extend_array(tree_array)
+        return tree_array, right_child_index
+    }
+    elif right_child_index < len(tree_array) {
+        return tree_array, right_child_index
+    }
+    else { # something went wrong
+        return tree_array, null
+    }
+}
+
+
+function setleft(item: Any, tree_array: List, index: int) -> List {
+    if index >= len(tree_array) {
+        error("Couldn't find node: That position doesn't exist in the tree")
+    }
+    if tree_array[index] == null {
+        error("Couldn't find node: That node doesn't exist in the tree")
+    }
+    if not isinstance(tree_array[index], Node){
+        error(f"The tree was corrupted. Can't proceed. {tree_array[index]} is not a Node.")
+    }
+    
+    tree_array, lc_index = left_child_index(tree_array, index)
+    if lc_index == null { # left child index is out of range
+        error("Couldn't find node: the provided position doesn't exist in the tree")
+    }
+    # index is within range, possible that we have a node there
+    if tree_array[lc_index] != null { # found a node alredy exists
+        error("Cant set left child. The selected node already has a left child.")
+    }
+    if tree_array[lc_index] == null{
+        lc_node = Node(item)
+        lc_node.right_thread = index # set the current node's (i.e. the left child's parent) as the right thread
+        tree_array[lc_index] = lc_node
+    }
+    return tree_array
+}
+
+function setright(item: Any, tree_array: List, index: int) -> List {
+    if index >= len(tree_array){
+        error("Couldn't find node: That position doesn't exist in the tree")
+    }
+    if tree_array[index] == null{
+        error("Couldn't find node: That node doesn't exist in the tree")
+    }
+    if not isinstance(tree_array[index], Node){
+        error(f"The tree was corrupted. Can't proceed. {tree_array[index]} is not a Node.")
+    }
+    parent_node = tree_array[index]
+    tree_array, rc_index = right_child_index(tree_array, index)
+    if rc_index == null { # right child index is out of range
+        error("Couldn't find node: the provided position doesn't exist in the tree")
+    }
+    # index is within range, possible that we have a node there
+    if tree_array[rc_index] != null{ # found a node alredy exists
+        error("Cant set right child. The selected node already has a right child.")
+    }
+    if tree_array[rc_index] == null{
+        rc_node = Node(item)
+        rc_node.right_thread = parent_node.right_thread # copy the right thread pointer from the parent
+        # parent is no longer threaded, because it has this new node as an explicit successor
+        parent_node.right_thread = null
+        tree_array[index] = parent_node
+        tree_array[rc_index] = rc_node
+    }
+    return tree_array
+}
+\end{minted}
+
+\medskip
+\noindent\textbf{Problem 2:}
+\medskip
+
+Implement inorder traversal for the right in-thread tree in the previous problem.
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+
+\medskip
+\noindent\textbf{Problem 3:}
+\medskip
+
+Let's sort using a method not discussed in class. Suppose you have $n$ data values in in array \texttt{A}.  Declare an array called \texttt{Count}.  Look at the value in \texttt{A[i]}. Count the number of items in A that are smaller than the value in \texttt{A[i]}.  Assign that result to \texttt{count[i]}. Declare an output array \texttt{Output}. Assign \texttt{Output[count[i]] = A[i]}. Think about what the size of \texttt{Output} needs to be. Is it $n$ or something else? Write a method to sort based on this strategy.
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+
+\medskip
+\noindent\textbf{Problem 4:}
+\medskip
+
+Analyze the cost of the sort you wrote in the previous problem. What is the impact of random, ordered, or reverse ordered data?
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+
+\medskip
+\noindent\textbf{Problem 5:}
+\medskip
+
+How many comparisons are necessary to find the largest and smallest of a set of $n$ distinct elements? Do not assume the answer must involve sorting. It could but does not need to do so. Try to be as efficient as you can.
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+
+\pagebreak
+
+\section*{Source Code}
+The full source code, including LaTeX, tooling, other artifacts, and git history is available on my Github repository for the class here:
+\begin{center}
+  \url{https://github.com/jllovet/jhu-en-605-202-su26-data-structures}
+\end{center}
+
+\printbibliography
+
+\end{document}
