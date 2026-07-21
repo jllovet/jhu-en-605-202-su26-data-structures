@@ -108,7 +108,7 @@ function parent_index(index: int) -> int | null {
 
 function left_child_index(tree_array: List, index: int) -> Tuple[List, int | null] {
     if index >= len(tree_array) {   
-        error("Couldn't find node: the provided position doesn't exist in the tree")
+        return tree_array, null
     }
     left_child_index = (index * 2) + 1
     if left_child_index >= len(tree_array) {
