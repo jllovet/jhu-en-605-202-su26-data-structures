@@ -288,6 +288,33 @@ Let's sort using a method not discussed in class. Suppose you have $n$ data valu
 \noindent\textbf{Answer:}
 \medskip
 
+\begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{Go}
+function mystery_sort(A) {
+    L = len(A)
+    C = []
+    C.extend([null]*L)
+    output = []
+    output.extend([null]*L)
+    for i, n in enumerate(A) {
+        sum = 0
+        for j in A {
+            if j < n {
+                sum += 1
+            }
+            C[i] = sum
+        }
+    }
+    for i in C {
+        output[C[i]] = A[i]
+    }
+    for i, x in enumerate(output) {
+        if x is None {
+            output[i] = output[i-1]
+        }
+    }
+    return output
+}
+\end{minted}
 
 \medskip
 \noindent\textbf{Problem 4:}
