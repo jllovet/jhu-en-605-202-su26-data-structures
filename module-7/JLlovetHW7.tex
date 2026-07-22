@@ -326,6 +326,8 @@ Analyze the cost of the sort you wrote in the previous problem. What is the impa
 \noindent\textbf{Answer:}
 \medskip
 
+In the implementation that I have above, the performance is quite poor, rivaling bubble sort. I suspect there may be a clever way to approach this implementation, like with a heap, whiuch might open up the ability to optimize the performance significantly. Ultimately, the core weakness of this implementation is that the analysis in the step where we tally how many elements are less than some given element must be calculated for each pair of numbers. A viable other solution would need to arrange the elements in a structure where transitivity or some other characteristic could be exploited along with a mechanism for counting. In the current implementation, there is no impact whether the data is sorted, randomized, or reversed.
+
 
 \medskip
 \noindent\textbf{Problem 5:}
@@ -337,6 +339,7 @@ How many comparisons are necessary to find the largest and smallest of a set of 
 \noindent\textbf{Answer:}
 \medskip
 
+Didn't have time. Will come back to this.
 
 \pagebreak
 
