@@ -65,9 +65,10 @@ Implement maketree, setleft, and setright for right in-threaded binary trees usi
 
 \begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{Go}
 struct Node {
-    data: T
-    right_thread: int # index of the right thread successor;
     # no pointers needed because we can calculate them relative to a node's index
+    data: T
+    right_thread: int # index of the right thread successor
+    right_is_thread: bool
 }
 
 function extend_array(array) {
@@ -80,7 +81,6 @@ function extend_array(array) {
     }
     return new_array
 }
-
 
 function maketree(item: Any, tree_array: List, index: int) -> List {
     tree_array = [null] if tree_array == null else tree_array
@@ -106,14 +106,19 @@ function parent_index(index: int) -> int | null {
 }
 
 
-function left_child_index(tree_array: List, index: int) -> Tuple[List, int | null] {
+function left_child_index(tree_array: List, index: int, write: bool = False) -> Tuple[List, int | null] {
     if index >= len(tree_array) {   
         return tree_array, null
     }
     left_child_index = (index * 2) + 1
     if left_child_index >= len(tree_array) {
-        tree_array = extend_array(tree_array)
-        return tree_array, left_child_index
+        if write {
+            tree_array = extend_array(tree_array)
+            return tree_array, left_child_index
+        }
+        else {
+            return tree_array, null
+        }
     }
     elif left_child_index < len(tree_array) {
         return tree_array, left_child_index
@@ -124,14 +129,19 @@ function left_child_index(tree_array: List, index: int) -> Tuple[List, int | nul
 }
 
 
-function right_child_index(tree_array: List, index: int) -> Tuple[List, int | null] {
+function right_child_index(tree_array: List, index: int, write: bool = False) -> Tuple[List, int | null] {
     if index >= len(tree_array) {
         return tree_array, null
     }
     right_child_index = (index * 2) + 2
     if right_child_index >= len(tree_array) {
-        tree_array = extend_array(tree_array)
-        return tree_array, right_child_index
+        if write {
+            tree_array = extend_array(tree_array)
+            return tree_array, right_child_index
+        }
+        else {
+            return tree_array, null
+        }
     }
     elif right_child_index < len(tree_array) {
         return tree_array, right_child_index
@@ -153,7 +163,7 @@ function setleft(item: Any, tree_array: List, index: int) -> List {
         error(f"The tree was corrupted. Can't proceed. {tree_array[index]} is not a Node.")
     }
     
-    tree_array, lc_index = left_child_index(tree_array, index)
+    tree_array, lc_index = left_child_index(tree_array, index, write=True)
     if lc_index == null { # left child index is out of range
         error("Couldn't find node: the provided position doesn't exist in the tree")
     }
@@ -161,13 +171,16 @@ function setleft(item: Any, tree_array: List, index: int) -> List {
     if tree_array[lc_index] != null { # found a node alredy exists
         error("Cant set left child. The selected node already has a left child.")
     }
-    if tree_array[lc_index] == null{
+    if tree_array[lc_index] == null {
         lc_node = Node(item)
-        lc_node.right_thread = index # set the current node's (i.e. the left child's parent) as the right thread
+        # set the current node's (i.e. the left child's parent) as the right thread
+        lc_node.right_thread = index
+        lc_node.right_is_thread = True
         tree_array[lc_index] = lc_node
     }
     return tree_array
 }
+
 
 function setright(item: Any, tree_array: List, index: int) -> List {
     if index >= len(tree_array){
@@ -180,19 +193,23 @@ function setright(item: Any, tree_array: List, index: int) -> List {
         error(f"The tree was corrupted. Can't proceed. {tree_array[index]} is not a Node.")
     }
     parent_node = tree_array[index]
-    tree_array, rc_index = right_child_index(tree_array, index)
+    tree_array, rc_index = right_child_index(tree_array, index, write=True)
     if rc_index == null { # right child index is out of range
         error("Couldn't find node: the provided position doesn't exist in the tree")
     }
+    
     # index is within range, possible that we have a node there
     if tree_array[rc_index] != null{ # found a node alredy exists
         error("Cant set right child. The selected node already has a right child.")
     }
     if tree_array[rc_index] == null{
         rc_node = Node(item)
-        rc_node.right_thread = parent_node.right_thread # copy the right thread pointer from the parent
-        # parent is no longer threaded, because it has this new node as an explicit successor
-        parent_node.right_thread = null
+        # copy the right thread pointer from the parent
+        rc_node.right_thread = parent_node.right_thread
+        rc_node.right_is_thread = True
+        # parent's successor thread points to the right child
+        parent_node.right_thread = rc_index
+        parent_node.right_is_thread = False
         tree_array[index] = parent_node
         tree_array[rc_index] = rc_node
     }
@@ -210,8 +227,58 @@ Implement inorder traversal for the right in-thread tree in the previous problem
 \noindent\textbf{Answer:}
 \medskip
 
+\begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{Go}
+function get_leftmost_descendant(tree_array, index) -> Tuple[Node, int] {
+    tree_array, lc_index = left_child_index(tree_array, index, write=False)
+    if lc_index == null {
+        return tree_array[index], index
+    }
+    # left subtree
+    leftmost_descendant = null
+    while True {
+        if lc_index == null {
+            return leftmost_descendant, index
+        }
+        if tree_array[lc_index] == null {
+            return leftmost_descendant, index
+        }
+        index = lc_index
+        leftmost_descendant = tree_array[index]
+        tree_array, lc_index = left_child_index(tree_array, index, write=False) 
+    }
+}
 
-\medskip
+
+function traverse_inorder(tree_array: List, index: int = 0, visit=print) {
+    if len(tree_array) == 0 {
+        return
+    }
+    if len(tree_array) == 1 {
+        visit(tree_array[0])
+        return
+    }
+    current_node, index = get_leftmost_descendant(tree_array, index)
+    while True {
+        if current_node is None {
+            raise ValueError
+        }
+        visit(current_node)
+        if current_node.right_thread is None {
+            return
+        }
+        if current_node.right_is_thread {
+            index = current_node.right_thread
+            current_node = tree_array[index]
+        }
+        else {
+            tree_array, rc_index = right_child_index(tree_array, index)
+            current_node, index = get_leftmost_descendant(tree_array, rc_index)
+        }
+    }
+}
+\end{minted}
+
+\pagebreak
 \noindent\textbf{Problem 3:}
 \medskip
 
