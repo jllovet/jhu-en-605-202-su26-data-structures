@@ -1,0 +1,80 @@
+\documentclass[10pt,letterpaper,final]{report}
+\usepackage[margin=.75in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\renewcommand\qedsymbol{$\blacksquare$}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{automata,arrows}
+\usepackage{mdframed}
+\usepackage[
+  backend=biber,
+  style=numeric-comp,
+  sorting=none
+]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{minted}
+\usemintedstyle{algol_nu}
+\usepackage{xltabular}
+\usepackage{pdflscape}
+\usepackage{tcolorbox}
+
+
+% Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
+
+\begin{document}
+\begin{center}
+  \fbox{
+    \vbox{
+      \begin{flushleft}
+        Jonathan Llovet \\  % authors' names
+        EN.605.202.81 \\  %class
+        2026-07-01 \\  % date
+        Module 7 \& 8 - Discussion 4 \\ % ID
+      \end{flushleft}
+      \center{\Large{\textbf{Data Structures - Discussion 4 - Sorting}}}
+      %\end{mdframed}
+    } % end vbox
+  } % end fbox
+  \vline
+\end{center}
+
+
+\medskip
+
+\noindent\textbf{Discussion Prompt:}
+
+Pick one of the sorts and comment on how well the sort will solve the following problem At most, two students may select the same sort/implementation combination. Then respond to other students as you would normally.
+
+It's time for a fire drill. Just as you are leaving work, your boss informs you that you need to incorporate a debugged, working sort into the hands-on demo scheduled first thing the day after tomorrow for the firm's most important client. No bells and whistles are expected. Tomorrow evening you are ``expected'' to attend the reception being given for the client, so the work must be finished before then. From your experience with the system, you know the data files tend to run a few hundred items, usually random, but a substantial minority is fairly ordered. The data records are small. Your boss does not know if this will become a permanent feature or not. You may assume that the integration into the system can be done in a couple of hours.
+
+\medskip
+\noindent\textbf{Initial Answer:}
+\medskip
+
+To investigate other options than the ones listed below, I skimmed through my copy of Data Structures and Algorithms in Python \parencite{LaforeEtAl2019DataStructuresAndAlgorithmsInPython}, where I found the discussion of Timsort. This algorithm is especially attractive because it balances the tradeoffs of simple sorting algorithms (Bubble Sort, Insertion Sort) and the worst-case space requirements of algorithms like Quicksort. Timsort runs in $O(n \log n)$, and with a forward or reverse sorted array runs in $O(n)$ time, with storage costs of $\max (O(\frac{n}{2}), O(\log n))$ to handle temporary storage. It would work quite well for the data files that we have, and it would also be a viable option to integrate into our system long term. It handles the ordered sections well, and it has excellent performance otherwise. As a practical note: Knowing how production deployments sometimes go, if we have a last-minute request to add something as fundamental as sorting to a demo the day before, then I'm pessimistic that the engineering management would also allocate separate time for re-implementing correctly later, if we were to go with something like Bubble Sort ``just to get it done''. Hence, I want to go for something good enough to be semi-permanent, rather than use a quite bad algorithm as if this were a throwaway.
+
+Now here's a tricky part to balance. Despite its intelligent handling of many scenarios and very good performance and overhead characteristics, if we have a requirement to also re-write the Timsort algorithm from scratch (e.g. because this is a contrived example), then Timsort risks not being a viable option for us. Why? The algorithm itself is quite complex, and many descriptions of how it works skip over many details. The description of the algorithm by Tim Peters \parencite{GitHubCpythonObjectslistsorttxtAtMain} in Python goes into the details of the implementation used in Python \parencite{GitHubCpythonObjectslistobjectcAtMain} (though worth noting that Python moved to Powersort in 3.11 \parencite{JamesPythonNowUsesPowersort}), and there are several blog posts that describe how Timsort works, such as \parencite{Timsortmd} and \parencite{AWDESH2018Timsort}. It would be possible to re-implement using these descriptions and the source code reference, but it is also likely that this would not be successful within a single day. Some practical workarounds for this: for most contemporary programming languages, there will already be existing implementations of Timsort. If not, then a foreign function interface (FFI) \parencite{EnwikipediaorgForeignFunctionInterface} to C could be used to consume either the Python implementation itself \parencite{GitHubCpythonObjectslistobjectcAtMain} or potentially this implementation that has been formally verified using Isabelle/HOL \parencite{GitHubGitHubLVPGroupTimSort} \parencite{TobiasNipkowLawrencePaulsonMakariusWenzelGerwinKleinFlorianHaftmannTjarkWeberJohannesHlzlOverview}, as discussed in \parencite{ArXivorgVerifiedTimsortC}. I'm particularly attracted to this approach, because the formal verification and programmatic validation by a proof assistant provides us guarantees the correctness of the algorithm. Using a FFI would allow us to consume this validated work without needing to re-implement the entire algorithm ourselves.
+
+All this said, if neither the re-implementation nor the consumption through FFI are viable, then we could implement the much simpler Quicksort, which would handle the ordered subsections of the data well, and would run in $\Omega(n \log n)$ and $O(n^2)$. \parencite{LaforeEtAl2019DataStructuresAndAlgorithmsInPython}
+
+\pagebreak
+
+\section*{Source Code}
+The full source code, including LaTeX, tooling, other artifacts, and git history is available on my Github repository for the class here:
+\begin{center}
+  \url{https://github.com/jllovet/jhu-en-605-202-su26-data-structures}
+\end{center}
+
+\printbibliography
+
+\end{document}
