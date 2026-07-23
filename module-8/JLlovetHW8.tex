@@ -1,0 +1,123 @@
+\documentclass[10pt,letterpaper,final]{report}
+\usepackage[margin=.75in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\renewcommand\qedsymbol{$\blacksquare$}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{forest}
+\usepackage{float}
+\usetikzlibrary{automata,arrows}
+\usetikzlibrary{shapes.multipart, positioning}
+\usepackage{mdframed}
+\usepackage[
+  backend=biber,
+  style=numeric-comp,
+  sorting=none
+]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{minted}
+\usemintedstyle{algol_nu}
+\usepackage{xltabular}
+\usepackage{pdflscape}
+\usepackage{tcolorbox}
+
+
+% Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
+
+\begin{document}
+\begin{center}
+  \fbox{
+    \vbox{
+      \begin{flushleft}
+        Jonathan Llovet \\  % authors' names
+        EN.605.202.81 \\  %class
+        2026-07-28 \\  % date
+        Module 8 - Homework 8 \\ % ID
+      \end{flushleft}
+      \center{\Large{\textbf{Data Structures - Sorting}}}
+      %\end{mdframed}
+    } % end vbox
+  } % end fbox
+  \vline
+\end{center}
+
+\medskip
+
+\noindent\textbf{Problem 1:}
+\medskip
+
+How many comparisons and interchanges (in terms of file size n) are performed by Simple insertion sort for the following files:
+\begin{enumerate}
+  \item A sorted file
+  \item A file that is sorted in reverse order (that is, from largest to smallest)
+  \item A file in which x[0], x[2], x[4]... are the smallest elements in sorted order, and in which x[1], x[3], x[5]... are the largest elements in sorted order, e.g.  [3, 14, 5, 15, 9, 18, 11, 19].
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+\noindent\textbf{Problem 2:}
+\medskip
+
+How many comparisons and interchanges (in terms of file size n) are performed by Shell Sort using increments 2 and 1 for the following files:
+\begin{enumerate}
+  \item A sorted file
+  \item A file that is sorted in reverse order (that is, from largest to smallest)
+  \item A file in which x[0], x[2], x[4]... are the smallest elements in sorted order, and in which x[1], x[3], x[5]... are the largest elements in sorted order, e.g. [3, 14, 5, 15, 9, 18, 11, 19].
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+\noindent\textbf{Problem 3:}
+\medskip
+
+Determine the number of comparisons (as a function of n and m) that are performed in merging two ordered files a and b of sizes n and m, respectively, by the merge method presented in the lecture, on each of the following sets of ordered files (a[i] refers the value in position i of file a, etc.):
+\begin{enumerate}
+  \item m=n and a[i] < b[i] < a[i+1], e.g. a=[6, 9, 12, 15, 29, 37] and b=[8, 10, 14, 25, 33, 45]
+  \item m=n and a[n-1] < b[0], e.g. a=[2, 5, 9] and b=[12, 14, 16]
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+\noindent\textbf{Problem 4:}
+\medskip
+
+Determine the number of comparisons (as a function of n and m) that are performed in merging two ordered files a and b of sizes n and m, respectively, by the merge method presented in the lecture, on each of the following sets of ordered files:
+\begin{enumerate}
+  \item m=n and a[(n/2)-1] < b[0] < b[m-1] < a[(n/2)], e.g. a=[2, 5, 7,  55, 61, 72] and b=[9, 15, 17, 21, 29, 46]
+  \item m=1 and b[0] < a[0]
+  \item m=1 and a[n-1] < b[0], a[i] refers the value in position i of file a, etc.
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+
+\pagebreak
+
+\section*{Source Code}
+The full source code, including LaTeX, tooling, other artifacts, and git history is available on my Github repository for the class here:
+\begin{center}
+  \url{https://github.com/jllovet/jhu-en-605-202-su26-data-structures}
+\end{center}
+
+\printbibliography
+
+\end{document}
