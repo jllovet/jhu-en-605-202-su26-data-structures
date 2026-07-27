@@ -3,7 +3,7 @@
 ## Design
 
 - Define Pipeline
-- Define Packages
+- [x] Define Packages
 
 ## Coding
 

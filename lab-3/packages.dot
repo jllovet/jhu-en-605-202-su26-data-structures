@@ -1,37 +1,37 @@
 digraph G {
-    rankdir="TB"
+    rankdir="LR"
     ratio=auto
-    ranksep=1
+    ranksep=auto
     splines=true
 
     label="Huffman Encoding Dependency Structure"
     labelloc="t"
 
     // Nodes
-    subgraph cluster_packages {
-        label="Packages"
+    subgraph cluster_main {
+        label="main"
         style=rounded
         style=filled
         pencolor="#AEB6BE"
         bgcolor="#E5F5FD"
-        main [label="main"]
-        io [label="io"]
-        tree [label="tree"]
-        encoding [label="encoding"]
+        lab3 [label="lab3"]
+        main [label="__main__.py"]
+        lab3_init [label="__init__.py"]
+        huffman [label="huffman"]
 
-        main -> io
-        main -> encoding
-        encoding -> tree
+        lab3 -> lab3_init
+        main -> lab3
+        lab3 -> huffman
     }
 
-    subgraph cluster_tests {
-        label="tests"
+    subgraph cluster_huffman {
+        label="huffman"
         style=rounded
         style=filled
         pencolor="#AEB6BE"
-        bgcolor="#ECE8F6"
-        tests_encoding [label="encoding"]
-        tests_tree [label="tree"]
+        bgcolor="#EBF3E7"
+        codec [label="codec.py"]
+        errors [label="errors.py"]
     }
 
     subgraph cluster_encoding {
@@ -40,10 +40,11 @@ digraph G {
         style=filled
         pencolor="#AEB6BE"
         bgcolor="#EBF3E7"
-        encode [label="encode"]
-        decode [label="decode"]
-        prioritize [label="prioritize"]
-        normalize [label="normalize"]
+        encode [label="encode.py"]
+        decode [label="decode.py"]
+        prioritize [label="prioritize.py"]
+        normalize [label="normalize.py"]
+        tree [label="tree.py"]
         encode -> normalize
         encode -> prioritize
     }
@@ -69,13 +70,18 @@ digraph G {
         preorder -> Tree
     }
 
-    encoding -> encode
-    encoding -> decode
+    huffman -> codec
+    huffman -> errors
+
+    codec -> encode
+    codec -> decode
+    codec -> prioritize
+    codec -> normalize
+
+    encode -> tree
+    decode -> tree
     
     tree -> preorder
     tree -> build
-
-    encoding -> tests_encoding
-    tree -> tests_tree
 
 }
