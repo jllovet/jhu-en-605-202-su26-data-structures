@@ -1,0 +1,18 @@
+{
+  "version": "0.1.0",
+  "configurations": [
+    {
+      "name": "Debug: Lab3",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "lab3",
+      "args": [
+        "resources/input/ClearText.txt",
+        "resources/input/FreqTable.txt",
+        "resources/input/Encoded.txt",
+        "resources/output/Decoded.txt",
+        "resources/output/Encoded.txt"
+      ]
+    }
+  ]
+}
