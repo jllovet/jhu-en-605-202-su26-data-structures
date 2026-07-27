@@ -2,6 +2,7 @@
 **private**
 
 # LaTeX auxiliary files
+*.tdo
 *.aux
 *.bbl
 *.blg
