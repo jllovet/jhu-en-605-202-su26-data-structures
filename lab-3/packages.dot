@@ -1,0 +1,81 @@
+digraph G {
+    rankdir="TB"
+    ratio=auto
+    ranksep=1
+    splines=true
+
+    label="Huffman Encoding Dependency Structure"
+    labelloc="t"
+
+    // Nodes
+    subgraph cluster_packages {
+        label="Packages"
+        style=rounded
+        style=filled
+        pencolor="#AEB6BE"
+        bgcolor="#E5F5FD"
+        main [label="main"]
+        io [label="io"]
+        tree [label="tree"]
+        encoding [label="encoding"]
+
+        main -> io
+        main -> encoding
+        encoding -> tree
+    }
+
+    subgraph cluster_tests {
+        label="tests"
+        style=rounded
+        style=filled
+        pencolor="#AEB6BE"
+        bgcolor="#ECE8F6"
+        tests_encoding [label="encoding"]
+        tests_tree [label="tree"]
+    }
+
+    subgraph cluster_encoding {
+        label="encoding"
+        style=rounded
+        style=filled
+        pencolor="#AEB6BE"
+        bgcolor="#EBF3E7"
+        encode [label="encode"]
+        decode [label="decode"]
+        prioritize [label="prioritize"]
+        normalize [label="normalize"]
+        encode -> normalize
+        encode -> prioritize
+    }
+    
+    subgraph cluster_tree {
+        label="tree"
+        style=rounded
+        style=filled
+        pencolor="#AEB6BE"
+        bgcolor="#EBF3E7"
+        Tree [label="Tree" shape=rectangle]
+        build [label="build"]
+        preorder [label="preorder"]
+        data [label="data"]
+        left_child [label="left_child"]
+        right_child [label="right_child"]
+        Tree -> {
+            data
+            left_child
+            right_child
+        }
+        build -> Tree
+        preorder -> Tree
+    }
+
+    encoding -> encode
+    encoding -> decode
+    
+    tree -> preorder
+    tree -> build
+
+    encoding -> tests_encoding
+    tree -> tests_tree
+
+}
