@@ -23,8 +23,7 @@ sequenceDiagram
     loop while more characters
         alt
         else ambiguous
-            build ->> prioritize: get prioritization
-            prioritize ->> build: return prioritization
+            build ->> build: compare encoding data
         else
             build ->> build: build subtree
         end

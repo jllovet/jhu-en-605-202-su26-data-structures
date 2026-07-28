@@ -42,11 +42,9 @@ digraph G {
         bgcolor="#EBF3E7"
         encode [label="encode.py"]
         decode [label="decode.py"]
-        prioritize [label="prioritize.py"]
         normalize [label="normalize.py"]
         tree [label="tree.py"]
         encode -> normalize
-        encode -> prioritize
     }
     
     subgraph cluster_tree {
@@ -75,7 +73,6 @@ digraph G {
 
     codec -> encode
     codec -> decode
-    codec -> prioritize
     codec -> normalize
 
     encode -> tree
