@@ -1,5 +1,77 @@
 import unittest
 import lab3.huffman.encoding.tree as tree
+from lab3.huffman.encoding.tree import EncodingData
+
+
+class TestComparison(unittest.TestCase):
+    def test_le_for_same_char_diff_score(self):
+        a = EncodingData(characters="X", score=0)
+        b = EncodingData(characters="X", score=1)
+        self.assertTrue(a <= b)
+        self.assertFalse(a == b)
+        self.assertFalse(a > b)
+
+    def test_le_for_same_char_same_score(self):
+        a = EncodingData(characters="X", score=1)
+        b = EncodingData(characters="X", score=1)
+        self.assertTrue(a <= b)
+        self.assertTrue(a == b)
+        self.assertFalse(a > b)
+
+    def test_lt_for_same_char_diff_score(self):
+        a = EncodingData(characters="X", score=0)
+        b = EncodingData(characters="X", score=1)
+        self.assertTrue(a < b)
+        self.assertFalse(a == b)
+        self.assertFalse(a > b)
+
+    def test_lt_for_same_char_same_score(self):
+        a = EncodingData(characters="X", score=1)
+        b = EncodingData(characters="X", score=1)
+        self.assertFalse(a < b)
+        self.assertTrue(a == b)
+        self.assertFalse(a > b)
+
+    def test_lt_for_diff_char_diff_score(self):
+        a = EncodingData(characters="X", score=0)
+        b = EncodingData(characters="Y", score=1)
+        self.assertTrue(a < b)
+        self.assertFalse(a == b)
+        self.assertFalse(a > b)
+
+    def test_lt_for_diff_char_same_score(self):
+        a = EncodingData(characters="X", score=1)
+        b = EncodingData(characters="Y", score=1)
+        self.assertTrue(a < b)
+        self.assertFalse(a == b)
+        self.assertFalse(a > b)
+
+    def test_lt_for_short_char_to_long_char_same_score(self):
+        a = EncodingData(characters="X", score=1)
+        b = EncodingData(characters="XY", score=1)
+        self.assertTrue(a < b)
+        self.assertFalse(a == b)
+        self.assertFalse(a > b)
+
+    def test_lt_for_short_char_to_long_char_diff_score(self):
+        a = EncodingData(characters="X", score=2)
+        b = EncodingData(characters="XY", score=1)
+        self.assertFalse(a < b)
+        self.assertFalse(a == b)
+        self.assertTrue(a > b)
+
+        a = EncodingData(characters="X", score=1)
+        b = EncodingData(characters="XY", score=2)
+        self.assertTrue(a < b)
+        self.assertFalse(a == b)
+        self.assertFalse(a > b)
+
+    def test_lt_with_alphabetic_tie_breaker(self):
+        a = EncodingData(characters="ABC", score=2)
+        b = EncodingData(characters="XYZ", score=2)
+        self.assertTrue(a < b)
+        self.assertFalse(a == b)
+        self.assertFalse(a > b)
 
 
 class TestIteration(unittest.TestCase):
