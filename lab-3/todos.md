@@ -8,10 +8,14 @@
 ## Coding
 
 - Define IO
-- Define Overall Program Flow
+- [x] Define Overall Program Flow
 
 ## Docs
 
 - Write README
 
 ## Analysis
+
+### Enhancements
+
+- [ ] Custom generator tree iteration by adding parameter to built in __iter__ function, with default of preorder
