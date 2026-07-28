@@ -10,6 +10,7 @@
 - Define IO
 - [x] Define Overall Program Flow
 - [x] Add docstrings to normalize package
+- [x] Remove prioritize package
 
 ## Docs
 
