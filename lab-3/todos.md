@@ -9,6 +9,7 @@
 
 - Define IO
 - [x] Define Overall Program Flow
+- [x] Add docstrings to normalize package
 
 ## Docs
 
