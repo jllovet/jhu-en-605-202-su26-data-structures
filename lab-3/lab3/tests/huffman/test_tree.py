@@ -205,10 +205,10 @@ class TestIterationWithThreeLevels(unittest.TestCase):
         self.tree = root
 
     def test_preorder_three_levels(self):
-        self.assertEqual("ABDECFG", self.tree.preorder_as_str())
+        self.assertEqual("A, B, D, E, C, F, G", self.tree.preorder_as_str())
 
     def test_inorder_three_levels(self):
-        self.assertEqual("DBEAFCG", self.tree.inorder_as_str())
+        self.assertEqual("D, B, E, A, F, C, G", self.tree.inorder_as_str())
 
     def test_postorder_three_levels(self):
-        self.assertEqual("DEBFGCA", self.tree.postorder_as_str())
+        self.assertEqual("D, E, B, F, G, C, A", self.tree.postorder_as_str())

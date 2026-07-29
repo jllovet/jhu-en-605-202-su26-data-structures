@@ -93,15 +93,15 @@ class Node:
 
     def preorder_as_str(self):
         """Forces evaluation of preorder iteration and joins elements into string"""
-        return "".join([str(s) for s in self.preorder()])
+        return ", ".join([str(s) for s in self.preorder()])
 
     def inorder_as_str(self):
         """Forces evaluation of inorder iteration and joins elements into string"""
-        return "".join([str(s) for s in self.inorder()])
+        return ", ".join([str(s) for s in self.inorder()])
 
     def postorder_as_str(self):
         """Forces evaluation of postorder iteration and joins elements into string"""
-        return "".join([str(s) for s in self.postorder()])
+        return ", ".join([str(s) for s in self.postorder()])
 
     def preorder(self):
         """Yield the nodes of the tree in preorder
