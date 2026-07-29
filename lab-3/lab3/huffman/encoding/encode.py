@@ -141,7 +141,6 @@ def build_huffman_encoding_tree(freq_table=DEFAULT_TABLE) -> Node:
         h.enqueue(c)
 
     s = h.dequeue()
-    print(s)
     if s is None:
         return Node()
     else:
