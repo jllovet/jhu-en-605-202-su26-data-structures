@@ -39,14 +39,23 @@ class TestMinHeap(unittest.TestCase):
         h.enqueue(d)
         h.enqueue(e)
         self.assertListEqual([c, b, a, d, e], h.data)
-        h.dequeue()
+
+        current = h.dequeue()
+        self.assertEqual(current, c)
         self.assertListEqual([b, e, a, d], h.data)
-        h.dequeue()
+
+        current = h.dequeue()
+        self.assertEqual(current, b)
         self.assertListEqual([e, d, a], h.data)
-        h.dequeue()
+
+        current = h.dequeue()
+        self.assertEqual(current, e)
         self.assertListEqual([a, d], h.data)
-        h.dequeue()
+
+        current = h.dequeue()
+        self.assertEqual(current, a)
         self.assertListEqual([d], h.data)
+
 
 class TestComparison(unittest.TestCase):
     def test_le_for_same_char_diff_score(self):

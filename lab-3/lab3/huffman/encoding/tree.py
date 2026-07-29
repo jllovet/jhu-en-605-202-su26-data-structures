@@ -225,6 +225,7 @@ class MinHeap:
             return self.data.pop()
         last = self.data.pop()
         index = 0
+        root = self.data[index]
         self.data[index] = last
         # percolate down
         while True:
@@ -258,6 +259,7 @@ class MinHeap:
                     max_child_index)]  # type: ignore
                 self.data[int(max_child_index)] = tmp  # type: ignore
             index = int(max_child_index)  # type: ignore
+        return root
 
     def peek(self):
         return self.data[0]
