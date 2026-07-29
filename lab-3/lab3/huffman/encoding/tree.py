@@ -5,7 +5,7 @@ from lab3.huffman.encoding.encode import EncodingData
 class Node:
     """Implementation of the tree ADT"""
 
-    def __init__(self, data:Any="", left=None, right=None, parent=None):
+    def __init__(self, data: Any = "", left=None, right=None, parent=None):
         """Initializes a node with the parent optionally specified
 
         Args:
