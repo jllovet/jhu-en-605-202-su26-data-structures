@@ -63,7 +63,7 @@ class EncodingData:
     def __le__(self, other):
         # Sorting: score has highest priority, then length, then alphabetic order
         # Score
-        if self.score <= other.score:
+        if self.score < other.score:
             return True
         if self.score > other.score:
             return False
@@ -82,7 +82,7 @@ class EncodingData:
         # Score
         if self.score < other.score:
             return False
-        if self.score >= other.score:
+        if self.score > other.score:
             return True
         # implies that self.score == other.score
         # Length

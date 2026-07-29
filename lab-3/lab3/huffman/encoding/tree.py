@@ -1,5 +1,4 @@
 from typing import Optional, Any
-from lab3.huffman.encoding.encode import EncodingData
 
 
 class Node:
@@ -261,22 +260,22 @@ class MinHeap:
                 right_child = self.data[rc_index] if rc_index <= size else None
 
             if left_child is not None and right_child is not None:
-                max_child = max(left_child, right_child)  # type: ignore
+                min_child = min(left_child, right_child)  # type: ignore
             if right_child is None:
-                max_child = left_child
+                min_child = left_child
             if left_child is None:
                 break
 
-            if max_child == left_child:
-                max_child_index = lc_index
+            if min_child == left_child:
+                min_child_index = lc_index
             else:
-                max_child_index = rc_index
-            if max_child < current:
+                min_child_index = rc_index
+            if min_child < current:
                 tmp = self.data[int(index)]
                 self.data[index] = self.data[int(
-                    max_child_index)]  # type: ignore
-                self.data[int(max_child_index)] = tmp  # type: ignore
-            index = int(max_child_index)  # type: ignore
+                    min_child_index)]  # type: ignore
+                self.data[int(min_child_index)] = tmp  # type: ignore
+            index = int(min_child_index)  # type: ignore
         return root
 
     def peek(self):
