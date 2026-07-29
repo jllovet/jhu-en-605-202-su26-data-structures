@@ -30,16 +30,6 @@ digraph G {
         style=filled
         pencolor="#AEB6BE"
         bgcolor="#EBF3E7"
-        codec [label="codec.py"]
-        errors [label="errors.py"]
-    }
-
-    subgraph cluster_encoding {
-        label="encoding"
-        style=rounded
-        style=filled
-        pencolor="#AEB6BE"
-        bgcolor="#EBF3E7"
         encode [label="encode.py"]
         decode [label="decode.py"]
         normalize [label="normalize.py"]
@@ -56,17 +46,13 @@ digraph G {
         MinHeap [label="MinHeap" shape=rectangle]
     }
 
-    huffman -> codec
-    huffman -> errors
-
-    codec -> encode
-    codec -> decode
-    codec -> normalize
+    huffman -> encode
+    huffman -> decode
+    huffman -> normalize
 
     encode -> MinHeap
     decode -> MinHeap
     
     encode -> Tree
     decode -> Tree
-
 }

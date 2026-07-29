@@ -1,7 +1,7 @@
 import unittest
-import lab3.huffman.encoding.tree as tree
-from lab3.huffman.encoding.encode import EncodingData
-from lab3.huffman.encoding.tree import MinHeap
+import lab3.huffman.tree as tree
+from lab3.huffman.encode import EncodingData
+from lab3.huffman.tree import MinHeap
 
 
 class TestMinHeap(unittest.TestCase):

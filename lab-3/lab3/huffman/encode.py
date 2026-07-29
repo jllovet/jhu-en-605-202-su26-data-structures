@@ -1,6 +1,6 @@
 from typing import List, Dict, Tuple
-from lab3.huffman.encoding.tree import MinHeap, Node
-from lab3.huffman.encoding.normalize import normalize
+from lab3.huffman.tree import MinHeap, Node
+from lab3.huffman.normalize import normalize
 
 DEFAULT_TABLE = ["A - 19", "B - 16", "C - 17", "D - 11", "E - 42", "F - 12", "G - 14", "H - 17", "I - 16", "J - 5", "K - 10", "L - 20",
                  "M - 19", "N - 24", "O - 18", "P - 13", "Q - 1", "R - 25", "S - 35", "T - 25", "U - 15", "V - 5", "W - 21", "X - 2", "Y - 8", "Z - 3"]

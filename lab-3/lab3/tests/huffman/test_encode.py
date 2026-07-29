@@ -1,6 +1,6 @@
 import unittest
-import lab3.huffman.encoding.encode as encode
-from lab3.huffman.encoding.encode import EncodingData
+import lab3.huffman.encode as encode
+from lab3.huffman.encode import EncodingData
 
 
 class TestFrequencyListToEncodingData(unittest.TestCase):

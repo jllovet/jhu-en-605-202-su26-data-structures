@@ -1,4 +1,4 @@
-from lab3.huffman.encoding.encode import build_huffman_encoding_tree
+from lab3.huffman.encode import build_huffman_encoding_tree
 from typing import List
 
 

@@ -1,5 +1,5 @@
 import unittest
-import lab3.huffman.encoding.normalize as normalize
+import lab3.huffman.normalize as normalize
 
 
 class TestIteration(unittest.TestCase):
