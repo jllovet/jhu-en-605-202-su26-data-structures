@@ -1,6 +1,7 @@
 from typing import Optional, List
 from lab3.huffman.encoding.encode import EncodingData
 
+
 class Node:
     """Implementation of the tree ADT"""
 
@@ -174,3 +175,89 @@ class Node:
         yield self.data
         if self.right:
             yield from self.right.__iter__(order="inorder")
+
+
+class MinHeap:
+    def __init__(self):
+        self.data = []
+
+    def length(self):
+        return len(self.data)
+
+    def parent_index(self, index: int) -> int:
+        if index == 0:
+            return 0
+        reduction = 2 if index % 2 == 0 else 1
+        parent = (index - reduction) // 2
+        return parent
+
+    def left_child_index(self, index: int) -> int | None:
+        if index >= self.length():
+            return None
+        left_child_index = (index * 2) + 1
+        return left_child_index
+
+    def right_child_index(self, index: int) -> int | None:
+        if index >= self.length():
+            return None
+        right_child_index = (index * 2) + 2
+        return right_child_index
+
+    def enqueue(self, item):
+        # percolate up
+        self.data.append(item)
+        index = self.length() - 1
+        while index > 0:
+            parent_index = self.parent_index(index)
+            if self.data[parent_index] > self.data[index]:
+                tmp = self.data[parent_index]
+                self.data[parent_index] = self.data[index]
+                self.data[index] = tmp
+            index = parent_index
+
+    def dequeue(self):
+        if not self.data:
+            return None
+        if self.length() == 1:
+            return self.data.pop()
+        last = self.data.pop()
+        index = 0
+        self.data[index] = last
+        # percolate down
+        while True:
+            if index >= self.length() - 1:
+                break
+            current = self.data[index]
+            lc_index = self.left_child_index(index)
+            rc_index = self.right_child_index(index)
+            left_child = None
+            right_child = None
+            size = self.length() - 1
+            if lc_index:
+                left_child = self.data[lc_index] if lc_index <= size else None
+            if rc_index:
+                right_child = self.data[rc_index] if rc_index <= size else None
+
+            if left_child is not None and right_child is not None:
+                max_child = max(left_child, right_child)  # type: ignore
+            if right_child is None:
+                max_child = left_child
+            if left_child is None:
+                break
+
+            if max_child == left_child:
+                max_child_index = lc_index
+            else:
+                max_child_index = rc_index
+            if max_child < current:
+                tmp = self.data[int(index)]
+                self.data[index] = self.data[int(
+                    max_child_index)]  # type: ignore
+                self.data[int(max_child_index)] = tmp  # type: ignore
+            index = int(max_child_index)  # type: ignore
+
+    def peek(self):
+        return self.data[0]
+
+    def is_empty(self):
+        return len(self.data) == 0

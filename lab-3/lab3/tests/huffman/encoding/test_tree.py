@@ -1,7 +1,52 @@
 import unittest
 import lab3.huffman.encoding.tree as tree
-from lab3.huffman.encoding.tree import EncodingData
+from lab3.huffman.encoding.tree import EncodingData, MinHeap
 
+
+class TestMinHeap(unittest.TestCase):
+    def test_enqueue(self):
+        h = MinHeap()
+        a = EncodingData(characters="A", score=1)
+        b = EncodingData(characters="B", score=2)
+        c = EncodingData(characters="C", score=0)
+        d = EncodingData(characters="D", score=3)
+        e = EncodingData(characters="E", score=2)
+        h.enqueue(a)
+        self.assertListEqual([a], h.data)
+
+        h.enqueue(b)
+        self.assertListEqual([a, b], h.data)
+
+        h.enqueue(c)
+        self.assertListEqual([c, b, a], h.data)
+
+        h.enqueue(d)
+        self.assertListEqual([c, b, a, d], h.data)
+
+        h.enqueue(e)
+        self.assertListEqual([c, b, a, d, e], h.data)
+
+    def test_dequeue(self):
+        h = MinHeap()
+        a = EncodingData(characters="A", score=1)
+        b = EncodingData(characters="B", score=2)
+        c = EncodingData(characters="C", score=0)
+        d = EncodingData(characters="D", score=3)
+        e = EncodingData(characters="E", score=2)
+        h.enqueue(a)
+        h.enqueue(b)
+        h.enqueue(c)
+        h.enqueue(d)
+        h.enqueue(e)
+        self.assertListEqual([c, b, a, d, e], h.data)
+        h.dequeue()
+        self.assertListEqual([b, e, a, d], h.data)
+        h.dequeue()
+        self.assertListEqual([e, d, a], h.data)
+        h.dequeue()
+        self.assertListEqual([a, d], h.data)
+        h.dequeue()
+        self.assertListEqual([d], h.data)
 
 class TestComparison(unittest.TestCase):
     def test_le_for_same_char_diff_score(self):
