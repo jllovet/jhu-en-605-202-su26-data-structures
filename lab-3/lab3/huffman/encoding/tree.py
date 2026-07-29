@@ -1,11 +1,11 @@
-from typing import Optional, List
+from typing import Optional, Any
 from lab3.huffman.encoding.encode import EncodingData
 
 
 class Node:
     """Implementation of the tree ADT"""
 
-    def __init__(self, parent=None, data="", left=None, right=None):
+    def __init__(self, data:Any="", left=None, right=None, parent=None):
         """Initializes a node with the parent optionally specified
 
         Args:
@@ -24,7 +24,7 @@ class Node:
             True
         """
         self.parent: Optional[Node] = parent
-        self.data: str = data
+        self.data: Any = data
         self.left: Optional[Node] = left
         self.right: Optional[Node] = right
 
@@ -46,6 +46,24 @@ class Node:
             True
         """
         return f"[{self.data}]{self.left}{self.right}"
+
+    def __repr__(self) -> str:
+        return f"[{self.data}]{self.left}{self.right}"
+
+    def __eq__(self, other: Node) -> bool:
+        return self.data == other.data
+
+    def __lt__(self, other):
+        return self.data < other.data
+
+    def __gt__(self, other: Node) -> bool:
+        return self.data > other.data
+
+    def __le__(self, other):
+        return self.data <= other.data
+
+    def __ge__(self, other: Node) -> bool:
+        return self.data >= other.data
 
     def __iter__(self, order="preorder"):
         """Yield the nodes of the tree in preorder
