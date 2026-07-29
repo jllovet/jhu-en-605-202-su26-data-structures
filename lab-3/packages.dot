@@ -48,14 +48,15 @@ digraph G {
     }
     
     subgraph cluster_tree {
-        label="tree"
+        label="tree.py"
         style=rounded
         style=filled
         pencolor="#AEB6BE"
-        bgcolor="#EBF3E7"
+        bgcolor="#ECE8F6"
         Tree [label="Tree" shape=rectangle]
-        build [label="build"]
         preorder [label="preorder"]
+        postorder [label="postorder"]
+        inorder [label="inorder"]
         data [label="data"]
         left_child [label="left_child"]
         right_child [label="right_child"]
@@ -63,9 +64,29 @@ digraph G {
             data
             left_child
             right_child
+            preorder
+            postorder
+            inorder
         }
-        build -> Tree
-        preorder -> Tree
+        length [label="length"]
+        parent_index [label="parent_index(index)"]
+        left_child_index [label="left_child_index(index)"]
+        right_child_index [label="right_child_index(index)"]
+        enqueue [label="enqueue(item)"]
+        dequeue [label="dequeue"]
+        peek [label="peek"]
+        is_empty [label="is_empty"]
+        MinHeap [label="MinHeap" shape=rectangle]
+        MinHeap -> {
+            right_child_index
+            left_child_index
+            length
+            parent_index
+            enqueue
+            dequeue
+            peek
+            is_empty
+        }
     }
 
     huffman -> codec
@@ -75,10 +96,10 @@ digraph G {
     codec -> decode
     codec -> normalize
 
-    encode -> tree
-    decode -> tree
+    encode -> MinHeap
+    decode -> MinHeap
     
-    tree -> preorder
-    tree -> build
+    encode -> Tree
+    decode -> Tree
 
 }
