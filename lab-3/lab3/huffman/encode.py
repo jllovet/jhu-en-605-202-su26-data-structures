@@ -16,10 +16,10 @@ class EncodingData:
         self.score = score
 
     def __repr__(self) -> str:
-        return f"{self.characters} {self.score}"
+        return f"[{self.characters} {self.score}]"
 
     def __str__(self) -> str:
-        return f"{self.characters} {self.score}"
+        return f"[{self.characters} {self.score}]"
 
     def __eq__(self, other: EncodingData) -> bool:
         same_score = self.score == other.score
