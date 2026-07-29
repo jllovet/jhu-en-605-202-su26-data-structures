@@ -11,13 +11,13 @@
 - [x] Define Overall Program Flow
 - [x] Add docstrings to normalize package
 - [x] Remove prioritize package
-- [ ] Priority queue
-  - [ ] Percolate
-  - [ ] Enqueue
-  - [ ] Dequeue
-- [ ] Huffman Encoding Tree
-  - [ ] Adapt implementation from ZyBook
-  - [ ] Adpat compress implementation
+- [x] Priority queue -> use array-based min-heap
+  - [x] Percolate
+  - [x] Enqueue
+  - [x] Dequeue
+- [x] Huffman Encoding Tree
+  - [x] Adapt implementation from ZyBook
+  - [x] Adpat compress implementation
 
 
 ```java
