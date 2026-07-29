@@ -181,6 +181,9 @@ class MinHeap:
     def __init__(self):
         self.data = []
 
+    def __str__(self) -> str:
+        return f"{self.data}"
+
     def length(self):
         return len(self.data)
 
