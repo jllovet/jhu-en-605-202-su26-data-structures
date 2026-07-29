@@ -43,7 +43,6 @@ digraph G {
         encode [label="encode.py"]
         decode [label="decode.py"]
         normalize [label="normalize.py"]
-        tree [label="tree.py"]
         encode -> normalize
     }
     
@@ -54,39 +53,7 @@ digraph G {
         pencolor="#AEB6BE"
         bgcolor="#ECE8F6"
         Tree [label="Tree" shape=rectangle]
-        preorder [label="preorder"]
-        postorder [label="postorder"]
-        inorder [label="inorder"]
-        data [label="data"]
-        left_child [label="left_child"]
-        right_child [label="right_child"]
-        Tree -> {
-            data
-            left_child
-            right_child
-            preorder
-            postorder
-            inorder
-        }
-        length [label="length"]
-        parent_index [label="parent_index(index)"]
-        left_child_index [label="left_child_index(index)"]
-        right_child_index [label="right_child_index(index)"]
-        enqueue [label="enqueue(item)"]
-        dequeue [label="dequeue"]
-        peek [label="peek"]
-        is_empty [label="is_empty"]
         MinHeap [label="MinHeap" shape=rectangle]
-        MinHeap -> {
-            right_child_index
-            left_child_index
-            length
-            parent_index
-            enqueue
-            dequeue
-            peek
-            is_empty
-        }
     }
 
     huffman -> codec
