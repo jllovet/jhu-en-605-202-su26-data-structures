@@ -1,5 +1,7 @@
 from typing import List
+from lab3.huffman.encoding.tree import EncodingData, MinHeap, Node
 
+DEFAULT_TABLE = ["A - 19", "B - 16", "C - 17", "D - 11", "E - 42", "F - 12", "G - 14", "H - 17", "I - 16", "J - 5", "K - 10", "L - 20", "M - 19", "N - 24", "O - 18", "P - 13", "Q - 1", "R - 25", "S - 35", "T - 25", "U - 15", "V - 5", "W - 21", "X - 2", "Y - 8", "Z - 3"]
 
 class EncodingData:
     """Representation of data for encoding. Contains characters and score.
@@ -108,3 +110,30 @@ def frequency_to_encoding_data(frequency_table: List[str]) -> List[EncodingData]
                 f"The frequency table is invalid in row {i}: In '{freq}' could not parse int. Should be in the form 'A - 1'")
         encoding_data.append(EncodingData(characters=char, score=score))
     return encoding_data
+
+
+def huffman_encoding_tree(freq_table=DEFAULT_TABLE):
+    # Description of algorithm quoted from ZyBook
+    # A Huffman tree can be built from a character frequency table.
+    # First, each (character, frequency) pair from the table becomes a leaf node.
+    # Next, all leaf nodes are inserted into a priority queue.
+    # Then a loop does the following while the priority queue's length is at least two:
+        # Dequeue the two nodes with the two lowest frequencies
+        # Make an internal parent node with the two dequeued nodes as children
+        # Insert the parent node into the priority queue
+    freqs = frequency_to_encoding_data(freq_table)
+    h = MinHeap()
+    for f in freqs:
+        h.enqueue(Node(data=f, left=None, right=None, parent=None))
+
+    while h.length() >= 2:
+        a = h.dequeue() # type: ignore
+        b = h.dequeue() # type: ignore
+        characters = a.data.characters + b.data.characters # type: ignore
+        score = a.data.score + b.data.score # type: ignore
+        c = Node(data=EncodingData(characters=characters, score=score), left=a, right=b)
+        h.enqueue(c)
+
+    s = h.dequeue()
+    return s
+
