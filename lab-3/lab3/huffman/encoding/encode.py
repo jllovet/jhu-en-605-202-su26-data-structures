@@ -13,6 +13,9 @@ class EncodingData:
     def __repr__(self) -> str:
         return f"{self.characters} {self.score}"
 
+    def __str__(self) -> str:
+        return f"{self.characters} {self.score}"
+
     def __eq__(self, other: EncodingData) -> bool:
         same_score = self.score == other.score
         same_characters = self.characters == other.characters
