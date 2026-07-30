@@ -202,9 +202,11 @@ class MinHeap:
         return f"{self.data}"
 
     def length(self):
+        """Returns the number of elements that are in the heap"""
         return len(self.data)
 
     def parent_index(self, index: int) -> int:
+        """Returns the parent index of the node at position provided"""
         if index == 0:
             return 0
         reduction = 2 if index % 2 == 0 else 1
@@ -212,18 +214,37 @@ class MinHeap:
         return parent
 
     def left_child_index(self, index: int) -> int | None:
+        """Returns the left child index of the node at position provided"""
         if index >= self.length():
             return None
         left_child_index = (index * 2) + 1
         return left_child_index
 
     def right_child_index(self, index: int) -> int | None:
+        """Returns the right child index of the node at position provided"""
         if index >= self.length():
             return None
         right_child_index = (index * 2) + 2
         return right_child_index
 
     def enqueue(self, item):
+        """Enqueues an item onto the heap by placing in the last position and then percolating up
+
+        Args:
+            item: Any
+
+        Returns:
+            None
+
+        Raises:
+            None
+
+        Side Effects:
+            Modifies state of the MinHeap
+
+        Idempotent:
+            False
+        """
         # percolate up
         self.data.append(item)
         index = self.length() - 1
@@ -236,6 +257,23 @@ class MinHeap:
             index = parent_index
 
     def dequeue(self):
+        """Dequeues the min item on heap, switches the last node to the root, and then percolates down
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        Raises:
+            None
+
+        Side Effects:
+            Modifies state of the MinHeap
+
+        Idempotent:
+            False
+        """
         if not self.data:
             return None
         if self.length() == 1:
@@ -278,8 +316,42 @@ class MinHeap:
             index = int(min_child_index)  # type: ignore
         return root
 
-    def peek(self):
+    def peek(self) -> Any:
+        """Returns the value of the min element of the heap without modification
+
+        Args:
+            None
+
+        Returns:
+            Any that is the min element of the MinHeap
+
+        Raises:
+            None
+
+        Side Effects:
+            None
+
+        Idempotent:
+            True
+        """
         return self.data[0]
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
+        """Returns a bool indicating whether the MinHeap has any elements
+
+        Args:
+            None
+
+        Returns:
+            bool indicating whether the MinHeap has any elements
+
+        Raises:
+            None
+
+        Side Effects:
+            None
+
+        Idempotent:
+            True
+        """
         return len(self.data) == 0
