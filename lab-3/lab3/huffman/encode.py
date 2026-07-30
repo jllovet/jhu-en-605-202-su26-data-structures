@@ -97,11 +97,29 @@ class EncodingData:
         return self.characters >= other.characters
 
 
-def frequency_to_encoding_data(frequency_table: List[str]) -> List[EncodingData]:
+def frequency_to_encoding_data(freq_table: List[str]) -> List[EncodingData]:
+    """Converts a list of str representations of frequencies to list of EncodingData
+
+    Args:
+        freq_table: List[str]
+
+    Returns:
+        List of EncodingData that represents the frequency table
+
+    Raises:
+        ValueError if the frequency table has values in an improper format
+
+    Side Effects:
+        Raises ValueError
+        Writes logs
+
+    Idempotent:
+        True
+    """
     logging.debug(f"Converting frequency table to encoding data")
-    logging.debug(f"frequency_table: {frequency_table}")
+    logging.debug(f"freq_table: {freq_table}")
     encoding_data = []
-    for i, freq in enumerate(frequency_table):
+    for i, freq in enumerate(freq_table):
         stripped_line = freq.strip()
         if stripped_line == "":
             continue
@@ -121,15 +139,33 @@ def frequency_to_encoding_data(frequency_table: List[str]) -> List[EncodingData]
     return encoding_data
 
 
-def build_huffman_encoding_tree(freq_table=DEFAULT_TABLE) -> Node:
-    # Description of algorithm quoted from ZyBook
-    # A Huffman tree can be built from a character frequency table.
-    # First, each (character, frequency) pair from the table becomes a leaf node.
-    # Next, all leaf nodes are inserted into a priority queue.
-    # Then a loop does the following while the priority queue's length is at least two:
-    # Dequeue the two nodes with the two lowest frequencies
-    # Make an internal parent node with the two dequeued nodes as children
-    # Insert the parent node into the priority queue
+def build_huffman_encoding_tree(freq_table: List[str] = DEFAULT_TABLE) -> Node:
+    """Compresses a string with a Huffman Encoding tree based on frequency table
+
+    Description of algorithm quoted from ZyBook:
+    A Huffman tree can be built from a character frequency table.
+    First, each (character, frequency) pair from the table becomes a leaf node.
+    Next, all leaf nodes are inserted into a priority queue.
+    Then a loop does the following while the priority queue's length is at least two:
+    Dequeue the two nodes with the two lowest frequencies
+    Make an internal parent node with the two dequeued nodes as children
+    Insert the parent node into the priority queue
+
+    Args:
+        freq_table: List[str]
+
+    Returns:
+        Node that is the root of the Huffman Encoding tree
+
+    Raises:
+        None
+
+    Side Effects:
+        Writes logs
+
+    Idempotent:
+        True
+    """
     logging.debug(f"Building Huffman Encoding Tree")
     freqs = frequency_to_encoding_data(freq_table)
     h = MinHeap()
@@ -154,7 +190,27 @@ def build_huffman_encoding_tree(freq_table=DEFAULT_TABLE) -> Node:
         return s
 
 
-def get_huffman_codes_from_tree(node: Node, prefix="", codes=dict()) -> Dict:
+def get_huffman_codes_from_tree(node: Node, prefix: str = "", codes=dict()) -> Dict:
+    """Recursively creates a dictionary of Huffman Codes from a Huffman Encoding Tree
+
+        Args:
+            node: Node containing the root of a subtree of the Huffman Encoding Tree
+            prefix: str recursively generated prefix that builds up to the code
+            codes: dict that is recursively built up with the codes found by traversing
+                the tree
+
+        Returns:
+            dict containing mapping from character to encoding
+
+        Raises:
+            None
+
+        Side Effects:
+            Writes logs
+
+        Idempotent:
+            True
+        """
     # Implementation adapted from ZyBook
     logging.debug(
         f"Creating dict of Huffman Codes from encoding tree. node: {node.data}, prefix: {prefix}, codes: {codes}")
@@ -168,11 +224,34 @@ def get_huffman_codes_from_tree(node: Node, prefix="", codes=dict()) -> Dict:
     return codes
 
 
-def compress(s: str, frequency_table: List | Node) -> str:
+def compress(s: str, frequency_table: List[EncodingData] | Node) -> str:
+    """Compresses a string with a Huffman Encoding tree based on frequency table
+
+    Args:
+        s: str to be compressed
+        frequency_table: List[EncodingData] | Node containing the frequency table data
+            The type options are to allow for ease of the caller to provide the format
+            that they have available at calltime. The function will generate a tree
+            from the list if needed
+
+    Returns:
+        str that is the result of the compression
+
+    Raises:
+        ValueError if the frequency table is not able to be processed
+
+    Side Effects:
+        Raises ValueError
+        Writes logs
+
+    Idempotent:
+        True
+    """
     # Implementation adapted from ZyBook
     logger.debug(f"Compressing: {s.strip()}")
     if isinstance(frequency_table, list):
-        h = build_huffman_encoding_tree(freq_table=frequency_table)
+        h = build_huffman_encoding_tree(
+            freq_table=frequency_table)  # type:ignore
     elif isinstance(frequency_table, Node):
         h = frequency_table
     else:
