@@ -172,7 +172,27 @@ Program execution proceeds as follows:
 \section{Structure}\label{sec:structure}
 
 \begin{verbatim}
-tree output here
+lab3
+|-- __init__.py
+|-- __main__.py
+|-- huffman
+|   |-- __init__.py
+|   |-- decode.py
+|   |-- encode.py
+|   |-- normalize.py
+|   `-- tree.py
+|-- lab3.py
+|-- launch.json
+`-- tests
+    `-- huffman
+        |-- __init__.py
+        |-- test_decode.py
+        |-- test_encode.py
+        |-- test_normalize.py
+        `-- test_tree.py
+
+4 directories, 14 files
+
 \end{verbatim}
 
 \section{Design Decisions}
@@ -243,11 +263,11 @@ For the following, I assume that I start in the root of the Github repository. F
 \noindent From here, the python module can be run as follows.
 
 \todo{Update info here}
-  {\small
-    \begin{verbatim}
+{\small
+  \begin{verbatim}
   python3 -m lab3 
 \end{verbatim}
-  }
+}
 
 \noindent If the program is run with the incorrect number of arguments, then an error message similar to the one shown below will be printed to the user.
 
