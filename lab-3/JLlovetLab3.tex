@@ -200,7 +200,13 @@ lab3
 \begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{7pt}{8pt}\selectfont}]{python}
 \end{minted}
 
-\section{Algorithms and ADTs}
+A few notable decisions: I used two different tree implementation strategies here. In the \texttt{Tree} class, the implementation uses a linked structure, because I wanted to have easy extensibility and navigation through the tree, and because I wanted to be able to repurpose the generator patterns I learned in the last lab to very simply implement the tree traversal. This ended up being a core data structure I used for my Huffman Encoding Tree, and it was used in direct conjunction with the priority queue that I implemented with a MinHeap that used an array implementation. There, I wanted to use the array implementation to simplify the enqueue and dequeue operations, which require random access to perform efficiently. I had considered using a linked list for the priority queue, but I decided that the implementation would be too slow, because of the linear time required to traverse the linked list. With the MinHeap implementation of the priority queue, the queue and enqueue operations have $O(\log n)$ time, rather than linear time, which is a huge improvement!
+
+\section{Algorithms, Compression}
+
+While the string encoding of the compressed data does not appear to be smaller than the plaintext data provided as input, this is really a misleading consequence of the presentation and that we're outputting our compressed values themselves as strings. If we were to store the compressed versions in binary directly and compare the length of the binary data of the plaintext and the ciphertext, we could see more plainly that the compression results in a large amount of saving. Without getting into the minutiae of typical encodings, it's worthwhile to say that Unicode encodings are represented usually with multi-bye encodings, and with encoding schemes like UTF-8, can have variable-length encodings. \cite{JoelonSoftware2003AbsoluteMinimumEvery} For ASCII characters that are representable within the space of one byte, the compression we achieve here is at most of five bits, but if the frequency table we used included characters from other alphabets that have longer representations in the two to six byte range, the compression could be much more pronounced. If a four-byte character were compressed to three bits, then that represents a saving twenty-one bits per instance of that character. A question that I'm wondering about and would like to research some more is how this kind of compression compares to mathematical representations and ideas of compressibility such as Kalmogorov complexity. I suspect that there might be other representations that could be used that would result in more compact versions of the same data, but they might use other techniques. A related set of questions arise for me out of interest in cryptography and cybersecurity. Because this encoding is based on a frequency table that can be computed from a corpus or arbitrarily chosen document, this could be used to encrypt data. I wonder how this compares to encryption methods used in industry otherwise and whether this could be subject to successful attacks based on frequency analysis or some other method. Prima facie, I am skeptical that it could be.
+
+On the question of alternative methods for tie breaking: I don't think that ordering alphabetically first and then by score/frequency would work. The indexing is done in principle based on the frequency of the occurrence of the characters in the reference document that is the source for the frequency table, and the effect of this is to produce a method for generating short codes for characters that appear frequently, longer codes for ones that occur infrequently, so that the compression can save as much space as possible. While it might be possible to get \emph{some} encoding, I suspect that the tie breaking would not actually work, nor make sense, and that furthermore the encoding would not produce an effective compression.
 
 \pagebreak
 
@@ -433,6 +439,7 @@ While developing this lab, I referenced the following resources:
   \item \textcite{StackOverflowHowToUseDunderMethodsForObjectComparison}
   \item \textcite{EnwikipediaorgTreeTraversal}
   \item \textcite{PythonEnhancementProposalsPEP0636}
+  \item \textcite{JoelonSoftware2003AbsoluteMinimumEvery}
 \end{enumerate}
 
 \pagebreak
