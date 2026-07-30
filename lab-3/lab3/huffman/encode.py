@@ -107,7 +107,7 @@ def frequency_to_encoding_data(frequency_table: List[str]) -> List[EncodingData]
             continue
         parts = stripped_line.split(" - ")
         if len(parts) != 2:
-            m =f"The frequency table is invalid in row {i}: '{freq}' should be in the form 'A - 1'"
+            m = f"The frequency table is invalid in row {i}: '{freq}' should be in the form 'A - 1'"
             logging.error(m)
             raise ValueError(m)
         char = parts[0]
@@ -156,7 +156,8 @@ def build_huffman_encoding_tree(freq_table=DEFAULT_TABLE) -> Node:
 
 def get_huffman_codes_from_tree(node: Node, prefix="", codes=dict()) -> Dict:
     # Implementation adapted from ZyBook
-    logging.debug(f"Creating dict of Huffman Codes from encoding tree")
+    logging.debug(
+        f"Creating dict of Huffman Codes from encoding tree. node: {node.data}, prefix: {prefix}, codes: {codes}")
     if node.left is None and node.right is None:
         codes[node.data.characters] = prefix
     else:
@@ -169,7 +170,7 @@ def get_huffman_codes_from_tree(node: Node, prefix="", codes=dict()) -> Dict:
 
 def compress(s: str, frequency_table: List | Node) -> str:
     # Implementation adapted from ZyBook
-    logger.debug(f"Compressing: {s}")
+    logger.debug(f"Compressing: {s.strip()}")
     if isinstance(frequency_table, list):
         h = build_huffman_encoding_tree(freq_table=frequency_table)
     elif isinstance(frequency_table, Node):

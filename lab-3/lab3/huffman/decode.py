@@ -5,9 +5,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def decompress(s: str, frequency_table: List|Node) -> str:
+def decompress(s: str, frequency_table: List | Node) -> str:
     # Implementation adapted from ZyBook
-    logger.debug(f"Decompressing: {s}")
+    logger.debug(f"Decompressing: {s.strip()}")
     if isinstance(frequency_table, list):
         root = build_huffman_encoding_tree(freq_table=frequency_table)
     elif isinstance(frequency_table, Node):

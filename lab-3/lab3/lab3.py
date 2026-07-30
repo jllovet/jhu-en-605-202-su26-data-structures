@@ -89,7 +89,7 @@ def process_files(frequency_table_file: TextIO,
         try:
             res = e.compress(s, encoding_tree)
             compression_results.append(res)
-            logger.debug(f"Compressed {s}")
+            logger.debug(f"Compressed {s.strip()}")
         except ValueError as err:
             logger.error(f"Error in line {index+1} of plaintext input. Could not compress {s}: {err}")
             raised_errors.append(
@@ -108,6 +108,7 @@ def process_files(frequency_table_file: TextIO,
         try:
             res = d.decompress(s, encoding_tree)
             decompression_results.append(res)
+            logger.debug(f"Decompressed {s.strip()}")
         except ValueError as err:
             logger.error(f"ERROR: line {index+1} of compressed input. Could not decompress {s}: {err}")
             raised_errors.append(
