@@ -271,7 +271,6 @@ For the following, I assume that I start in the root of the Github repository. F
 
 \noindent From here, the python module can be run as follows.
 
-\todo{Update info here}
 {\small
   \begin{verbatim}
   python -m lab3 \
@@ -380,18 +379,61 @@ Here the encoded data from the previous run is shown decoded. Note that here too
 \pagebreak
 \section{Enhancements and What I Learned}\label{sec:enhancements-and-what-I-learned}
 
+\noindent \textbf{What I Leanred: Implementation of MinHeap}
+
+I used a \texttt{MinHeap} to build a priority queue to use in the building of the Huffman Encoding Tree. While doing so I found myself constrained by my previous decision to create an \texttt{EncodingData} type. How could I do the comparisons in the \texttt{MinHeap} between nodes if I needed to compare the \texttt{EncodingData}? I solved this by writing comparison operators in dunder methods in the \texttt{EncodingData} class. By defining the methods directly into the class, I was able to provide comparisons with tie breakers, per our requirements. Importantly, these comparison methods allow the objects of this type to be compared with the built-in comparison operators like \texttt{<}, which made the implementation of the priority queue with a \texttt{MaxHeap} much easier.
+
+\begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{python}
+def __lt__(self, other):
+    # Sorting: score has highest priority, then length, then alphabetic order
+    # Score
+    if self.score < other.score:
+        return True
+    if self.score > other.score:
+        return False
+    # implies that self.score == other.score
+    # Length
+    if len(self.characters) < len(other.characters):
+        return True
+    if len(self.characters) > len(other.characters):
+        return False
+    # implies len(self.characters) == len(other.characters)
+    # Alphabetic order
+    return self.characters < other.characters
+\end{minted}
+
 \noindent \textbf{Enhancement: Unit Testing}
 \medskip
 
-For details of the unit testing that I did as an enhancement, please see \ref{sec:testing}.
+During this lab I learned a valuable lesson about problem specification and how it can bite you. When writing the comparison operators for the minheap, I had misread my notes and the ZyBook about the implementation, so that I was swapping a node with its largest child while percolating down, rather than with its smallest child. This caused the program to run incorrectly, but my tests were passing with a specification I had entered that was incorrect. It took until later on in my development to realize this mistake, and I had to update my tests and manually walk back through many of my test cases for dequeueing operations. The conventional wisdom is to measure twice and cut once. An additional layer to this should be that we must also think twice about what we are measuring! This was valuable to re-encounter as a potential problem to run into, because one of my research interests is in formal verification and using proof assistants. They represent in some ways tools that are similar to tests of the kind here, but with much stronger guarantees. It's all the more important, therefore, to validate that whatever models we make with them we also double check. Put otherwise, a test may validate that something does not have an error according to a given specification, but it cannot validate that the specification is the right thing in the first place. Similarly with a proof, it can validate that a solution is valid up to the model, but what it cannot do is validate that that is in fact the right thing to have modeled for a given problem or use case. That takes additional human judgement.
+
+For more details of the unit testing that I did as an enhancement, please see \ref{sec:testing}.
 
 \medskip
 \noindent \textbf{Enhancement: Logging}
 \medskip
 
+Here, as in my previous lab, I added logging that allows one to see the program execution information at varying levels of detail. There is a flag on the CLI for the module to specify a logging level, and the user can additionally specify a logfile that they would like to write to. One of the things that I learned from this round of development is that in addition to my tests, I would have liked to have had logging built in from earlier on in the project. When I added it in, I realized that I missed the easy visibility that it provides while working on building features. Something I still want to explore, however, is the use of monads and types to have my functions be pure, rather than having out of band side effects like writing to a logger.
+
+Some example logs from a successful run are below:
+
+\pagebreak
+
+\inputminted[breaklines, breakanywhere, fontsize=\footnotesize, frame=single]{text}{demo.lab3.log}
+
 \pagebreak
 
 \section{Resouces Referenced While Coding}
+
+While developing this lab, I referenced the following resources:
+
+\begin{enumerate}
+  \item \textcite{zybooks-ds2026}
+  \item \textcite{PythondocumentationOperatorStandard}
+  \item \textcite{StackOverflowHowToUseDunderMethodsForObjectComparison}
+  \item \textcite{EnwikipediaorgTreeTraversal}
+  \item \textcite{PythonEnhancementProposalsPEP0636}
+\end{enumerate}
 
 \pagebreak
 
