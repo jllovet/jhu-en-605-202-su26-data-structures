@@ -6,6 +6,28 @@ logger = logging.getLogger(__name__)
 
 
 def decompress(s: str, frequency_table: List | Node) -> str:
+    """Decompresses a string with a Huffman Encoding tree based on frequency table
+
+    Args:
+        s: str to be decompressed
+        frequency_table: List[EncodingData] | Node containing the frequency table data
+            The type options are to allow for ease of the caller to provide the format
+            that they have available at calltime. The function will generate a tree
+            from the list if needed
+
+    Returns:
+        str that is the plaintext result of the decompression
+
+    Raises:
+        ValueError if the frequency table is not able to be processed
+
+    Side Effects:
+        Raises ValueError
+        Writes logs
+
+    Idempotent:
+        True
+    """
     # Implementation adapted from ZyBook
     logger.debug(f"Decompressing: {s.strip()}")
     if isinstance(frequency_table, list):
