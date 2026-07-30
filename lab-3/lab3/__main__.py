@@ -12,7 +12,7 @@ import logging
 
 try:
     arg_parser = argparse.ArgumentParser(exit_on_error=False)
-    arg_parser.description = f"Convert prefix -> postfix expressions from in_file and write them to out_file"
+    arg_parser.description = f"Use Huffman Encoding to compress and decompress data"
     arg_parser.add_argument("--frequency_table_file", type=str,
                             help="Pathname for the file containing the mapping from characters to frequencies")
     arg_parser.add_argument("--plaintext_file", type=str,
@@ -72,5 +72,4 @@ try:
             decompression_results_file=decompression_results_file)
 
 except Exception as e:
-    print(e)
     arg_parser.print_help()
