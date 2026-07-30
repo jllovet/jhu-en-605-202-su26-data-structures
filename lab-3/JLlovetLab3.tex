@@ -274,7 +274,14 @@ For the following, I assume that I start in the root of the Github repository. F
 \todo{Update info here}
 {\small
   \begin{verbatim}
-  python3 -m lab3 
+  python -m lab3 \
+  --level DEBUG \
+  --logfile demo.lab3.log \
+  --frequency_table_file ./resources/input/FreqTable.txt \
+  --plaintext_file ./resources/input/ClearText.txt \
+  --compression_results_file ./resources/output/EncodingResults.txt \
+  --compressed_file ./resources/input/Encoded.txt \
+  --decompression_results_file ./resources/output/DecodingResults.txt
 \end{verbatim}
 }
 
