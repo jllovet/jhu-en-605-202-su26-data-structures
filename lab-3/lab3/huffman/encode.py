@@ -159,12 +159,17 @@ def get_huffman_codes_from_tree(node: Node, prefix="", codes=dict()) -> Dict:
     return codes
 
 
-def compress(s: str, frequency_table: List) -> Tuple[str, Node, Dict]:
+def compress(s: str, frequency_table: List|Node) -> str:
     # Implementation adapted from ZyBook
-    h = build_huffman_encoding_tree(freq_table=frequency_table)
+    if isinstance(frequency_table, list):
+        h = build_huffman_encoding_tree(freq_table=frequency_table)
+    elif isinstance(frequency_table, Node):
+        h = frequency_table
+    else:
+        raise ValueError("Was not able to process the frequency table during compression")
     codes = get_huffman_codes_from_tree(node=h, prefix="", codes=dict())
     normal = normalize(s)
     buf = [codes[c] for c in normal]
     res = "".join(buf)
-    return res, h, codes
+    return res
 
