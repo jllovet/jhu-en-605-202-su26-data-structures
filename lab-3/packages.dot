@@ -17,11 +17,9 @@ digraph G {
         lab3 [label="lab3"]
         main [label="__main__.py"]
         lab3_init [label="__init__.py"]
-        huffman [label="huffman"]
 
         lab3 -> lab3_init
         main -> lab3
-        lab3 -> huffman
     }
 
     subgraph cluster_huffman {
@@ -46,12 +44,10 @@ digraph G {
         MinHeap [label="MinHeap" shape=rectangle]
     }
 
-    huffman -> encode
-    huffman -> decode
-    huffman -> normalize
+    lab3 -> encode
+    lab3 -> decode
 
     encode -> MinHeap
-    decode -> MinHeap
     
     encode -> Tree
     decode -> Tree
