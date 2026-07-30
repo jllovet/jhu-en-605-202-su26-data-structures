@@ -138,6 +138,35 @@ The program should satisfy the following:
 
 \section{Strategy}\label{sec:strategy}
 
+The structure of this lab is fairly straightforward. When called as a module, \texttt{__main__.py} calls into \texttt{lab.py}, which in turn makes use of the \texttt{encode} and \texttt{decode} packages. The \texttt{encode} package makes use of a normalize package for cleaning whitespace and punctuation from input strings, and it returns the strings fully capitalized. Both \texttt{encode} and \texttt{decode} use the \texttt{tree} package, where there are a \texttt{Tree} class and a \texttt{MinHeap} class.
+
+Program execution proceeds as follows:
+
+\begin{enumerate}
+  \item Read arguments from command line
+  \item Initialize logging
+  \item Open and read file contents
+  \item Process the files:
+        \begin{enumerate}
+          \item Build a Huffman Encoding Tree from the input frequency table
+          \item Extract the codes from the tree to a dictionary for easy lookup
+          \item Echo the input plaintext
+          \item Compress each of the lines from the plaintext file by looking up each character from the plaintext in the codes dictionary in turn
+          \item Write the compressed versions to the encoded output file
+          \item Echo the input ciphertext
+          \item Decompress each of the lines from the encoded file by reading each bit of the line to inform traversing through Huffman Encoding tree until we reach leaf nodes, then reading the character into a buffer and returning to the root of the tree, repeating until the line is exhausted
+          \item Write the decompressed versions to the decoded output file
+          \item Print errors
+        \end{enumerate}
+\end{enumerate}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.9\linewidth]{packages.pdf}
+  \caption{Package Dependencies}\label{fig:package-dependencies}
+\end{figure}
+
+
 \clearpage\pagebreak
 
 \section{Structure}\label{sec:structure}
