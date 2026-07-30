@@ -312,20 +312,70 @@ options:
                         Sets the filename where logs are written
 \end{minted}
 
-\noindent The input and resulting output of an example successful run are shown below:
+\noindent A demo of multiple successive runs are shown below:
 
-% \begin{center}
-%   \begin{minipage}[t]{0.2\textwidth}
-%     \centering
-%     \textbf{\texttt{resources/input/in.txt}}\\
-%     \inputminted[frame=single,fontsize=\footnotesize]{text}{resources/input/in.txt}
-%   \end{minipage}\hfill
-%   \begin{minipage}[t]{0.76\textwidth}
-%     \centering
-%     \textbf{\texttt{resources/output/output.txt}}\\
-%     \inputminted[breaklines, breakanywhere, fontsize=\footnotesize, frame=single, fontsize=\footnotesize]{text}{resources/output/output.txt}
-%   \end{minipage}
-% \end{center}
+\inputminted[breaklines, breakanywhere, fontsize=\footnotesize, frame=single, fontsize=\footnotesize]{text}{resources/demo.txt}
+
+\begin{landscape}
+\begin{center}
+  \begin{minipage}[t]{0.6\textwidth}
+    \centering
+    \textbf{\texttt{resources/input/ClearText.txt}}\\
+    \inputminted[linenos, breaklines, breakanywhere, frame=single,fontsize=\footnotesize]{text}{resources/input/ClearText.txt}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.6\textwidth}
+    \centering
+    \textbf{\texttt{resources/output/EncodingResults.txt}}\\
+    \inputminted[linenos, breaklines, breakanywhere, fontsize=\footnotesize, frame=single, fontsize=\footnotesize]{text}{resources/output/EncodingResults.txt}
+  \end{minipage}
+\end{center}
+
+Here the encoded data from the previous run is shown decoded. Note that the text is still in a normalized form.
+
+\begin{center}
+  \begin{minipage}[t]{0.6\textwidth}
+    \centering
+    \textbf{\texttt{resources/input/Encoded.txt}}\\
+    \inputminted[linenos, breaklines, breakanywhere, frame=single,fontsize=\footnotesize]{text}{resources/input/Encoded.txt}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.6\textwidth}
+    \centering
+    \textbf{\texttt{resources/output/DecodingResults.txt}}\\
+    \inputminted[linenos, breaklines, breakanywhere, fontsize=\footnotesize, frame=single, fontsize=\footnotesize]{text}{resources/output/DecodingResults.txt}
+  \end{minipage}
+\end{center}
+
+\pagebreak
+
+\begin{center}
+  \begin{minipage}[t]{0.6\textwidth}
+    \centering
+    \textbf{\texttt{resources/input/ClearText_00.txt}}\\
+    \inputminted[linenos, breaklines, breakanywhere, frame=single,fontsize=\footnotesize]{text}{resources/input/ClearText_00.txt}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.6\textwidth}
+    \centering
+    \textbf{\texttt{resources/output/EncodingResults_00.txt}}\\
+    \inputminted[linenos, breaklines, breakanywhere, fontsize=\footnotesize, frame=single, fontsize=\footnotesize]{text}{resources/output/EncodingResults_00.txt}
+  \end{minipage}
+\end{center}
+
+\medskip
+
+Here the encoded data from the previous run is shown decoded. Note that here too the text is still in a normalized form.
+\begin{center}
+  \begin{minipage}[t]{0.6\textwidth}
+    \centering
+    \textbf{\texttt{resources/output/EncodingResults_00.txt}}\\
+    \inputminted[linenos, breaklines, breakanywhere, frame=single,fontsize=\footnotesize]{text}{resources/output/EncodingResults_00.txt}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.6\textwidth}
+    \centering
+    \textbf{\texttt{resources/output/ReversedDecodingResults.txt}}\\
+    \inputminted[linenos, breaklines, breakanywhere, fontsize=\footnotesize, frame=single, fontsize=\footnotesize]{text}{resources/output/ReversedDecodingResults.txt}
+  \end{minipage}
+\end{center}
+\end{landscape}
 
 \pagebreak
 \section{Enhancements and What I Learned}\label{sec:enhancements-and-what-I-learned}
