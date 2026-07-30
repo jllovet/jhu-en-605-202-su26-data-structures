@@ -1,0 +1,35 @@
+python -m lab3 \
+--frequency_table_file ./resources/input/FreqTable.txt \
+--plaintext_file ./resources/input/ClearText.txt \
+--compression_results_file ./resources/output/EncodingResults.txt \
+--compressed_file ./resources/input/Encoded.txt \
+--decompression_results_file ./resources/output/DecodingResults.txt
+
+********************************************************************************
+
+STAGE 1: COMPRESSION
+
+********************************************************************************
+
+Sally sells seashells by the seashore.
+Peter Piper picked a peck of pickled peppers a peck of pickled peppers Peter Piper picked.
+Houston, the Eagle has landed.
+Is that your final answer?
+
+********************************************************************************
+
+STAGE 2: DECOMPRESSION
+
+********************************************************************************
+
+01011001010110011111011011
+10110000101010011011101101100010110010101100010111000110111
+11111110001000111111101011111011001111111000100011111000001010000001110010111
+
+********************************************************************************
+
+The tree in preorder is: [MLKJVWEDFNRTPGZQXYUBICHSOA 413], [MLKJVWEDFN 169], [MLKJVW 80], [ML 39], [M 19], [L 20], [KJVW 41], [KJV 20], [K 10], [JV 10], [J 5], [V 5], [W 21], [EDFN 89], [E 42], [DFN 47], [DF 23], [D 11], [F 12], [N 24], [RTPGZQXYUBICHSOA 244], [RTPGZQXYU 106], [RT 50], [R 25], [T 25], [PGZQXYU 56], [PG 27], [P 13], [G 14], [ZQXYU 29], [ZQXY 14], [ZQX 6], [Z 3], [QX 3], [Q 1], [X 2], [Y 8], [U 15], [BICHSOA 138], [BICH 66], [BI 32], [B 16], [I 16], [CH 34], [C 17], [H 17], [SOA 72], [S 35], [OA 37], [O 18], [A 19]
+
+********************************************************************************
+
+The code is: A: 11111; B: 11000; C: 11010; D: 01100; E: 010; F: 01101; G: 10101; H: 11011; I: 11001; J: 001010; K: 00100; L: 0001; M: 0000; N: 0111; O: 11110; P: 10100; Q: 10110010; R: 1000; S: 1110; T: 1001; U: 10111; V: 001011; W: 0011; X: 10110011; Y: 101101; Z: 1011000
