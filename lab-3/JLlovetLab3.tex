@@ -313,6 +313,17 @@ options:
                         Sets the filename where logs are written
 \end{minted}
 
+
+\noindent If the program is run with a frequency table that has invalid lines, then an error message similar to the one shown below will be printed to the user.
+
+\begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{text}
+WARNING: 1 errors found during run!
+--------------------------------------------------------------------------------
+ERROR: The frequency table has invalid entries. Validate that the entries are of the form 'A - 1'
+
+\end{minted}
+
+
 \noindent A demo of multiple successive runs are shown below:
 
 \inputminted[breaklines, breakanywhere, fontsize=\footnotesize, frame=single, fontsize=\footnotesize]{text}{resources/demo.txt}

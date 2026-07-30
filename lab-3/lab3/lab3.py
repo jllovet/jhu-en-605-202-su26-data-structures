@@ -74,9 +74,16 @@ def process_files(frequency_table_file: TextIO,
     """
 
     raised_errors = []
-    frequency_table_lines = frequency_table_file.read().splitlines()
-    encoding_tree = e.build_huffman_encoding_tree(
-        freq_table=frequency_table_lines)
+    try:
+        frequency_table_lines = frequency_table_file.read().splitlines()
+        encoding_tree = e.build_huffman_encoding_tree(
+            freq_table=frequency_table_lines)
+    except ValueError as err:
+        logger.warning("Errors raised")
+        m = f"ERROR: The frequency table has invalid entries. Validate that the entries are of the form 'A - 1'"
+        print_errors([m])
+        raise ValueError(m)
+
     codes = e.get_huffman_codes_from_tree(encoding_tree)
 
     msg(f"STAGE 1: COMPRESSION", before=True, after=True)
@@ -91,9 +98,9 @@ def process_files(frequency_table_file: TextIO,
             compression_results.append(res)
             logger.debug(f"Compressed {s.strip()}")
         except ValueError as err:
-            logger.error(f"Error in line {index+1} of plaintext input. Could not compress {s}: {err}")
+            logger.error(f"ERROR: line {index+1} of plaintext input. Could not compress {s}: {err}")
             raised_errors.append(
-                f"Error in line {index+1} of plaintext input. Could not compress {s}")
+                f"ERROR: line {index+1} of plaintext input. Could not compress {s}")
     for line in compression_results:
         compression_results_file.write(line)
         compression_results_file.write("\n")
