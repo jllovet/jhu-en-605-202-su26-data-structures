@@ -288,7 +288,28 @@ For the following, I assume that I start in the root of the Github repository. F
 \noindent If the program is run with the incorrect number of arguments, then an error message similar to the one shown below will be printed to the user.
 
 \begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{text}
-PROGRAM DEMO HERE
+usage: python3.14 -m lab3 [-h] [--frequency_table_file FREQUENCY_TABLE_FILE] [--plaintext_file PLAINTEXT_FILE]
+                          [--compression_results_file COMPRESSION_RESULTS_FILE] [--compressed_file COMPRESSED_FILE]
+                          [--decompression_results_file DECOMPRESSION_RESULTS_FILE] [-l {INFO,WARNING,ERROR,DEBUG,CRITICAL,FATAL}] [-f LOGFILE]
+
+Use Huffman Encoding to compress and decompress data
+
+options:
+  -h, --help            show this help message and exit
+  --frequency_table_file FREQUENCY_TABLE_FILE
+                        Pathname for the file containing the mapping from characters to frequencies
+  --plaintext_file PLAINTEXT_FILE
+                        Pathname for the plain text that is to be compressed
+  --compression_results_file COMPRESSION_RESULTS_FILE
+                        Pathname for the filename for the ciphertext resulting from compression
+  --compressed_file COMPRESSED_FILE
+                        Pathname for input ciphertext that is to be decompressed
+  --decompression_results_file DECOMPRESSION_RESULTS_FILE
+                        Pathname for the filename for the plaintext resulting from decompression
+  -l, --level {INFO,WARNING,ERROR,DEBUG,CRITICAL,FATAL}
+                        Sets the level of the logger. Default INFO
+  -f, --logfile LOGFILE
+                        Sets the filename where logs are written
 \end{minted}
 
 \noindent The input and resulting output of an example successful run are shown below:
