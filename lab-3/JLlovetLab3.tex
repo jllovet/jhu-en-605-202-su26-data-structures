@@ -206,6 +206,10 @@ lab3
 
 \section{Testing}\label{sec:testing}
 
+As in my previous labs, I used test-driven development to build the program overall. The place where this gave me the most benefit was in building the foundational data structures for the program. I was not able to implement tests as completely as I had in previous labs, but they still provided me a much needed safety net while refactoring and iterating on my design. Over the course of the lab, I stripped out several of the layers of package design, once I realized that they were overcomplicating the code. Having tests here, as before, helped me make those structural changes.
+
+My workflow is approximately described below. In practice, I occasionally deviated from this workflow, and at times this caused me issues. For the tree package I used this workflow in a purer form. There the tests were easier to formulate, and the bugs were (relatively) straightforward to identify. At higher levels in the stack, I was less disciplined about this, to my chagrin.
+
 \noindent The idealized workflow for adding features is:
 
 \begin{enumerate}
