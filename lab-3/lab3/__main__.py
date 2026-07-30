@@ -1,7 +1,7 @@
 # Adapted from example lab
 
 # This file is the entry point into this program when the module is executed
-# as a standalone program. IE 'python -m lab2'. This file is NOT run during
+# as a standalone program. IE 'python -m lab3'. This file is NOT run during
 # imports. This whole file is basically the java equivalent of:
 # public static void main(string args[]), or c's int main();
 
