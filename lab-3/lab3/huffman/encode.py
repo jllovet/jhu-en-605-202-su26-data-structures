@@ -1,6 +1,8 @@
 from typing import List, Dict, Tuple
 from lab3.huffman.tree import MinHeap, Node
 from lab3.huffman.normalize import normalize
+import logging
+logger = logging.getLogger(__name__)
 
 DEFAULT_TABLE = ["A - 19", "B - 16", "C - 17", "D - 11", "E - 42", "F - 12", "G - 14", "H - 17", "I - 16", "J - 5", "K - 10", "L - 20",
                  "M - 19", "N - 24", "O - 18", "P - 13", "Q - 1", "R - 25", "S - 35", "T - 25", "U - 15", "V - 5", "W - 21", "X - 2", "Y - 8", "Z - 3"]
@@ -96,6 +98,8 @@ class EncodingData:
 
 
 def frequency_to_encoding_data(frequency_table: List[str]) -> List[EncodingData]:
+    logging.debug(f"Converting frequency table to encoding data")
+    logging.debug(f"frequency_table: {frequency_table}")
     encoding_data = []
     for i, freq in enumerate(frequency_table):
         stripped_line = freq.strip()
@@ -103,14 +107,16 @@ def frequency_to_encoding_data(frequency_table: List[str]) -> List[EncodingData]
             continue
         parts = stripped_line.split(" - ")
         if len(parts) != 2:
-            raise ValueError(
-                f"The frequency table is invalid in row {i}: '{freq}' should be in the form 'A - 1'")
+            m =f"The frequency table is invalid in row {i}: '{freq}' should be in the form 'A - 1'"
+            logging.error(m)
+            raise ValueError(m)
         char = parts[0]
         try:
             score = int(parts[1])
         except TypeError:
-            raise ValueError(
-                f"The frequency table is invalid in row {i}: In '{freq}' could not parse int. Should be in the form 'A - 1'")
+            m = f"The frequency table is invalid in row {i}: In '{freq}' could not parse int. Should be in the form 'A - 1'"
+            logging.error(m)
+            raise ValueError(m)
         encoding_data.append(EncodingData(characters=char, score=score))
     return encoding_data
 
@@ -124,6 +130,7 @@ def build_huffman_encoding_tree(freq_table=DEFAULT_TABLE) -> Node:
     # Dequeue the two nodes with the two lowest frequencies
     # Make an internal parent node with the two dequeued nodes as children
     # Insert the parent node into the priority queue
+    logging.debug(f"Building Huffman Encoding Tree")
     freqs = frequency_to_encoding_data(freq_table)
     h = MinHeap()
     for f in freqs:
@@ -149,6 +156,7 @@ def build_huffman_encoding_tree(freq_table=DEFAULT_TABLE) -> Node:
 
 def get_huffman_codes_from_tree(node: Node, prefix="", codes=dict()) -> Dict:
     # Implementation adapted from ZyBook
+    logging.debug(f"Creating dict of Huffman Codes from encoding tree")
     if node.left is None and node.right is None:
         codes[node.data.characters] = prefix
     else:
@@ -159,17 +167,19 @@ def get_huffman_codes_from_tree(node: Node, prefix="", codes=dict()) -> Dict:
     return codes
 
 
-def compress(s: str, frequency_table: List|Node) -> str:
+def compress(s: str, frequency_table: List | Node) -> str:
     # Implementation adapted from ZyBook
+    logger.debug(f"Compressing: {s}")
     if isinstance(frequency_table, list):
         h = build_huffman_encoding_tree(freq_table=frequency_table)
     elif isinstance(frequency_table, Node):
         h = frequency_table
     else:
-        raise ValueError("Was not able to process the frequency table during compression")
+        m = "Was not able to process the frequency table during compression"
+        logger.error(m)
+        raise ValueError(m)
     codes = get_huffman_codes_from_tree(node=h, prefix="", codes=dict())
     normal = normalize(s)
     buf = [codes[c] for c in normal]
     res = "".join(buf)
     return res
-

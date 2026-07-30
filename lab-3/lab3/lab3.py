@@ -80,6 +80,7 @@ def process_files(frequency_table_file: TextIO,
     codes = e.get_huffman_codes_from_tree(encoding_tree)
 
     msg(f"STAGE 1: COMPRESSION", before=True, after=True)
+    logger.info("Reading lines from plaintext input file")
     plaintext_lines = plaintext_file.readlines()
     echo(plaintext_lines)
 
@@ -88,7 +89,9 @@ def process_files(frequency_table_file: TextIO,
         try:
             res = e.compress(s, encoding_tree)
             compression_results.append(res)
-        except ValueError:
+            logger.debug(f"Compressed {s}")
+        except ValueError as err:
+            logger.error(f"Error in line {index+1} of plaintext input. Could not compress {s}: {err}")
             raised_errors.append(
                 f"Error in line {index+1} of plaintext input. Could not compress {s}")
     for line in compression_results:
@@ -105,7 +108,8 @@ def process_files(frequency_table_file: TextIO,
         try:
             res = d.decompress(s, encoding_tree)
             decompression_results.append(res)
-        except ValueError:
+        except ValueError as err:
+            logger.error(f"ERROR: line {index+1} of compressed input. Could not decompress {s}: {err}")
             raised_errors.append(
                 f"ERROR: line {index+1} of compressed input. Could not decompress {s}")
     for line in decompression_results:
@@ -147,5 +151,4 @@ def print_errors(errors: list[str]) -> None:
         print(s, file=stderr)
 
     for error in errors:
-        logger.error(error)
         print(error, file=stderr)
