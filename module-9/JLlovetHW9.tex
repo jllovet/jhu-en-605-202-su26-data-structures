@@ -31,6 +31,7 @@
 \usepackage{xltabular}
 \usepackage{pdflscape}
 \usepackage{tcolorbox}
+\usepackage{enumitem}
 
 
 % Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
@@ -54,12 +55,85 @@
 
 \medskip
 
-Write pseudo-code not Java for problems requiring code. You are responsible for the appropriate level of detail. For all the questions in this set, assume you are working in arrays.
+Write pseudo-code not Java for problems requiring code. You are responsible for the appropriate level of detail.
 
+For questions 1 - 2, compare the efficiency of using sequential search on an ordered table of size n and an unordered table of the same size for the key target:
 \medskip
 
 \noindent\textbf{Problem 1:}
 \medskip
+
+\begin{enumerate}[label=\alph*)]
+  \item If no record with the key target is present.
+  \item If one record with the key target is present and only one is sought.
+\end{enumerate}
+
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+\noindent\textbf{Problem 2:}
+\medskip
+
+\begin{enumerate}[label=\alph*)]
+  \item If more than one record with the key target is present and it is desired to find only the first one.
+  \item If more than one record with the key target is present and it is desired to find them all.
+\end{enumerate}
+
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+\noindent\textbf{Problem 3:}
+\medskip
+
+Write a method \texttt{delete(key1, key2)} to delete all records with keys between \texttt{key1} and \texttt{key2} (inclusive) from a binary search tree whose nodes look like this:
+
+\medskip
+
+\begin{tikzpicture}
+  \node[rectangle split, rectangle split horizontal, rectangle split parts=3,
+    draw, minimum height=8mm,
+    every rectangle split part/.style={minimum width=8mm, align=center}] (root)
+  {
+    left
+    \nodepart{two}   key$_i$
+    \nodepart{three} right
+  };
+\end{tikzpicture}
+
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+\noindent\textbf{Problem 4:}
+\medskip
+
+Write a method to delete a record from a B-tree of order \texttt{n}.
+
+\medskip
+
+\begin{tikzpicture}
+  \node[rectangle split, rectangle split horizontal, rectangle split parts=10,
+    draw, minimum height=8mm,
+    every rectangle split part/.style={minimum width=8mm, align=center}] (root)
+  {
+    p$_0$
+    \nodepart{two}   r$_1$
+    \nodepart{three} p$_1$
+    \nodepart{four}  r$_2$
+    \nodepart{five}  p$_2$
+    \nodepart{six}   r$_3$
+    \nodepart{seven} $\cdots$
+    \nodepart{eight} p$_{n-1}$
+    \nodepart{nine}  r$_n$
+    \nodepart{ten}   p$_n$
+  };
+\end{tikzpicture}
+
 
 \medskip
 \noindent\textbf{Answer:}
