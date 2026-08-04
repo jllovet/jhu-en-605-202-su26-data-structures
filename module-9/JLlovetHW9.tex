@@ -63,9 +63,9 @@ For questions 1 - 2, compare the efficiency of using sequential search on an ord
 \noindent\textbf{Problem 1:}
 \medskip
 
-\begin{enumerate}[label=\alph*)]
-  \item If no record with the key target is present.
-  \item If one record with the key target is present and only one is sought.
+\begin{enumerate}
+  \item If no record with the key \texttt{target} is present.
+  \item If one record with the key \texttt{target} is present and only one is sought.
 \end{enumerate}
 
 
@@ -73,12 +73,32 @@ For questions 1 - 2, compare the efficiency of using sequential search on an ord
 \noindent\textbf{Answer:}
 \medskip
 
+\begin{enumerate}
+  \item If no record with the key \texttt{target} is present.
+        \begin{enumerate}
+          \item Unsorted: If the table is unsorted, then it will be necessary to check all \texttt{n} items of the table to determine that no object has the key \texttt{target}. This means that we will have \texttt{n} comparisons to perform.
+          \item Sorted: If the table is sorted, then we have a structural characteristic we can take advantage of. Let there be a value $k$ such that $k < n$ and $k \in \mathbb{N}$. If the first \texttt{k} keys are less than \texttt{target}, but there is a key $k+1 > \texttt{target}$, then it is only necessary to search the first $k$ items of the table. Essentially, we are partitioning the search space (the table) into values that are less than \texttt{target} and values that are greater than \texttt{target}. There will not be a value equal to \texttt{target} by hypothesis. If that partitioning results in two non-empty partitions, then we will save $n-(k+1)$ steps. Why $k+1$ and not $k$? Because we still have to do a comparison for the element immediately following $k$. For example, if we have a table \texttt{t} where $n = 8$, and if the element at index k=5 is less than target while values at indices $> 6$ greater than \texttt{target}, then we will examine the first 5 elements in indices $0,1,2,3,4$, but they we will have to do one more comparison to find that $\texttt{target} < \texttt{t[6]}$. Hence, we have to do 6 comparisons, and we will save $n-(k+1) = 8 - (5+1) = 2$ comparisons. In the best case, this means that we can short circuit comparisons after the first comparison. In the worst case, this means that we have to examine the entire table, as we did in th case where it was unsorted.
+        \end{enumerate}
+  \item If one record with the key \texttt{target} is present and only one is sought.
+        \begin{enumerate}
+          \item Unsorted: In the best case the key \texttt{target} will be in the first position, and in the worst case the key \texttt{target} will be in the last position. Considering each of the possible cases in order (namely that the key \texttt{target} is at position $k$), the cases will be orderable, which in turn means that we can create an enumeration of the cases with the natural numbers less than or equal to $n$. This enumeration corresponds to how many comparisons we have to perform to find \texttt{target} at the index one less than the value in the enumeration ($1$ comparison to find the element at index $0$, $2$ for finding it at index $1$, and so on). To take the average case, we can divide the sum of the first $n$ integers by the $n$ cases we have examined. Consider the sum of the first $n$ integers below.
+                \begin{align*}
+                  \sum_{i=1}^{n}i & = \frac{n(n+1)}{2}
+                \end{align*}
+                Dividing this by the $n$ comparisons, we obtain the average number of comparisons required:
+                \begin{align*}
+                  \frac{n(n+1)}{2} * \frac{1}{n} & = \frac{n+1}{2}
+                \end{align*}
+          \item Sorted: If the table is sorted, then we will unfortunately have the same average performance with sequential search as when it is unsorted. It still might be the case that the key \texttt{target} is at the final position or the first, and because by hypothesis the key is present, we cannot take advantage of short-circuiting in this analysis. We must compare each element in the table to \texttt{target} in turn, resulting in the same average performance of $\frac{n+1}{2}$ comparisons.
+        \end{enumerate}
+\end{enumerate}
+
 \noindent\textbf{Problem 2:}
 \medskip
 
-\begin{enumerate}[label=\alph*)]
-  \item If more than one record with the key target is present and it is desired to find only the first one.
-  \item If more than one record with the key target is present and it is desired to find them all.
+\begin{enumerate}
+  \item If more than one record with the key \texttt{target} is present and it is desired to find only the first one.
+  \item If more than one record with the key \texttt{target} is present and it is desired to find them all.
 \end{enumerate}
 
 
