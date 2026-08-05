@@ -93,6 +93,7 @@ For questions 1 - 2, compare the efficiency of using sequential search on an ord
         \end{enumerate}
 \end{enumerate}
 
+\pagebreak
 \noindent\textbf{Problem 2:}
 \medskip
 
@@ -126,11 +127,12 @@ For questions 1 - 2, compare the efficiency of using sequential search on an ord
         \begin{enumerate}
           \item Unsorted: In this case, all of the elements of the table must be scanned every time, since there is no way to know whether we have encountered all of the instances of the key \texttt{target} otherwise. Therefore, we have to make $n$ comparisons every time.
           \item Sorted: In this case, we have a more nuanced situation. We can short circuit once we have reached the end of the sequence of elements that have the key \texttt{target}. There can be $0 \le m \le n - k$ elements preceding the first instance in the sequence of $k \ge 2$ repetitions of the key \texttt{target}, and there are $s = n - m - k$ elements following the $k$ sequence of the $k$ instances of the key \texttt{target}. We will either hit the end of the table after the sequence of \texttt{target} keys, or we will have additional elements following them. In the second case, we only have to perform one comparison to find that we have left the target sequence, and then we can return. Consequently, we save $s-1$ comparisons in the sorted case.
-          
-          To give an example, let $t$ represent \texttt{target}. If we have a sequence $0,0,1,2,2,2,t,t,t,4,5,6,6,7$, then $n = 14$ because there are $14$ elements, $k = 3$ because there are $3$ repetitions of $t$, $m = 6$ because there are $6$ elements before the first instance of $t$, and $s=5$ because there are $5$ characters after the sequence of $t$'s. In this instance, we save $s-1 = 4$ comparisons, because we only have to compare against the element $4$ but not against the elements $5,6,6,7$.
+
+                To give an example, let $t$ represent \texttt{target}. If we have a sequence $0,0,1,2,2,2,t,t,t,4,5,6,6,7$, then $n = 14$ because there are $14$ elements, $k = 3$ because there are $3$ repetitions of $t$, $m = 6$ because there are $6$ elements before the first instance of $t$, and $s=5$ because there are $5$ characters after the sequence of $t$'s. In this instance, we save $s-1 = 4$ comparisons, because we only have to compare against the element $4$ but not against the elements $5,6,6,7$.
         \end{enumerate}
 \end{enumerate}
 
+\pagebreak
 \noindent\textbf{Problem 3:}
 \medskip
 
@@ -154,6 +156,124 @@ Write a method \texttt{delete(key1, key2)} to delete all records with keys betwe
 \noindent\textbf{Answer:}
 \medskip
 
+I am opting for a simple solution that is easy to reason about rather than a solution that uses clever manipulations of the tree. Perform an inorder traversal of the tree, and place elements from \texttt{key1} to \texttt{key2} in a queue. Then dequeue each node and delete it from the tree. It is likely that this is not an optimal solution, but its straightforward approach is attractive, because it could be used in other contexts as well, for instance to perform other operations on nodes with keys between two bounds.
+
+\begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{Go}
+function inorder(node) {
+  // traverse the tree using the inorder traversal ordering
+  // adapted from my lab3 python implementation that uses generators
+  if node.left != null {
+    yield from node.left
+  }
+  yield node.key
+  if node.right != null {
+    yield from node.right
+  }
+}
+
+function delete(tree, key1, key2) {
+  q = Queue()
+  current = tree.root
+  while current.key != key1 {
+      current = inorder(current) // yields the inorder successor using the generator
+  }
+  while current.key != key2 {
+      q.enqueue(current)
+      current = inorder(current) // yields the inorder successor using the generator
+  }
+  q.enqueue(current) // handle the node with n.key == key2
+  while !q.isEmpty() {
+    toRemove = q.dequeue()
+    tree, _ = remove(tree, toRemove.key)
+  }
+}
+\end{minted}
+
+For the function \texttt{remove(tree, node)}, we can use a function like the one below, adapted directly from \parencite{zybooks-ds2026}:
+
+\begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{Go}
+function remove(tree, key) {
+   parent = null
+   current = tree.root
+   while (current != null) {
+      // Check if current has an equal key
+      if (current.key == key) {
+         if (current.left == null && current.right == null) {
+            // Remove leaf
+
+            if (parent == null) { // Node is root
+               tree.root = null
+            }
+            else if (parent.left == current) {
+               parent.left = null
+            }
+            else {
+               parent.right = null
+            }
+            return tree, true // Node found and removed
+         }
+         else if (current.right == null) {
+            // Remove node with only left child
+            
+            if (parent == null) { // Node is root
+               tree.root = current.left
+            }
+            else if (parent.left == current) {
+               parent.left = current.left
+            }
+            else {
+               parent.right = current.left
+            }
+            return tree, true // Node found and removed
+         }
+         else if (current.left == null) {
+            // Remove node with only right child
+            
+            if (parent == null) { // Node is root
+               tree.root = current.right
+            }
+            else if (parent.left == current) {
+               parent.left = current.right
+            }
+            else {
+               parent.right = current.right
+            }
+            return tree, true // Node found and removed
+         }
+         else {
+            // Remove node with two children
+            
+            // Find successor (leftmost child of right subtree)
+            successor = current.right
+            while (successor.left is not null) {
+               successor = successor.left
+            }
+
+            // Copy successor's key to current node
+            current.key = successor.key
+            parent = current
+
+            // Reassign current and key so that loop continues with new key
+            current = current.right
+            key = successor.key
+         }
+      }
+      else if (current.key < key) {
+         // Search right
+         parent = current
+         current = current.right
+      }
+      else {
+         // Search left
+         parent = current
+         current = current.left
+      }
+   }
+   return tree, false // Node not found
+}
+\end{minted}
+
+\pagebreak
 \noindent\textbf{Problem 4:}
 \medskip
 
