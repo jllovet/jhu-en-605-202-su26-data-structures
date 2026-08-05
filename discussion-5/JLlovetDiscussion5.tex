@@ -1,0 +1,93 @@
+\documentclass[10pt,letterpaper,final]{report}
+\usepackage[margin=.75in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\renewcommand\qedsymbol{$\blacksquare$}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{automata,arrows}
+\usepackage{mdframed}
+\usepackage[
+  backend=biber,
+  style=numeric-comp,
+  sorting=none
+]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{minted}
+\usemintedstyle{algol_nu}
+\usepackage{xltabular}
+\usepackage{pdflscape}
+\usepackage{tcolorbox}
+
+
+% Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
+
+\begin{document}
+\begin{center}
+  \fbox{
+    \vbox{
+      \begin{flushleft}
+        Jonathan Llovet \\  % authors' names
+        EN.605.202.81 \\  %class
+        2026-08-05 \\  % date
+        Module 9 \& 10 - Discussion 5 \\ % ID
+      \end{flushleft}
+      \center{\Large{\textbf{Data Structures - Discussion 5 - Searching Sorted Data}}}
+      %\end{mdframed}
+    } % end vbox
+  } % end fbox
+  \vline
+\end{center}
+
+
+\medskip
+
+\noindent\textbf{Discussion Prompt:}
+
+You need to design a data storage scheme for Hayseed Heaven library data system. There are several hundred thousand large data records. You expect frequent insertions/deletions as well as frequent queries, involving multiple attributes. There is no requirement for printing the file in order. You may assume the initial file is available sorted. The queries are in real time and primarily occur on the ISBN number, title, and author fields. There are occasional queries on the publisher and subject fields of the record. You may make reasonable assumptions about hardware availability. The entire system is archived monthly. What do you propose and why?
+
+\medskip
+\noindent\textbf{Initial Answer:}
+\medskip
+
+I'd propose a few structures used in concert. The design below provides indexes on the main search fields that return a small amount of metadata, with the actual location of the full record to retrieve as needed. The structure containing metadata in each node element would be:
+
+\begin{verbatim}
+  type metadata {
+    key: uuid | ksuid | int
+    title: str
+    author: str
+    isbn: int
+    publisher: str
+    subject: str
+    location: int
+  }
+\end{verbatim}
+
+The core structure is a B-Tree of order 32. Loading nodes of 32 elements at a time takes advantage of machine-level caching, since 32 elements will almost certainly fit within cache for a contemporary system, and having the branching factor of 32 is large enough that we will easily provide index coverage of the dataset of a few hundred thousand items with a tree of merely depth 3 ($31\text{ keys per node} * 32^3 \text{ children} = 1,015,808$ elements, which can be searched with at most $31 + 32*3 = 127$ comparisons).
+
+Because duplication of a few text records in datasets of this size is not cost prohibitive and could be updated across multiple indices without too much work, I propose that there be a separate B-Tree of order 32 for each of the fields: ISBN, title, author. Each item will need to have a unique key associated with it, which can be a randomly generated number, a uuid, a ksuid. (On the problem of unique identifiers, see \parencite{JonathanLlovet2025WhatsInAName}, \parencite{TwilioBriefHistoryOfTheUUID}, and \parencite{GitHubGitHubSegmentioksuid}.) When searching for, updating, or removing items in the database, entries that have the same author, title, and so forth can be disambiguated by the unique id that is found across all of the trees. If the metadata is sufficient, then no additional information needs to be retrieved, but otherwise the pointer that each element contains to the full data record can be used to fetch the full record from disk. This is inspired by Python's approach to lists, which are contiguous arrays of references to objects \parencite{PythonDocumentationDesignAndHistoryHowAreListsImplemented}. This design is a combination of that pointer and a small amount of metadata.
+
+Because the publisher and subject fields are much more likely to have multiple entries with the same values, and because these are less frequently performed queries, I will let these be implemented as scans over the dataset. Not having these indexed means that we can perform insertions and deletions more efficiently, since the database already has three indexes, which will slow down updates, since the updates have to update all of the trees atomically on each insertion and deletion. The dataset is small enough that retrieving the metadata entries for $n$ results with the same publisher or subject will not take much time even with a full scan. If the assumption that those queries are infrequent no longer held, it might be worth creating an index on one or both of these fields as well, but doing so would increase the overhead of insertions and deletions. So, ultimately the tradeoffs between reading and writing would need to be considered over time. In such a scenario, depending on other needs not specified here, it would be worth considering whether a cache might be needed, and if so, how the consumers of the system (technical and human) would deal with eventual consistency \parencite{EricBrewer2000TowardsRobustDistributedSystems}.
+
+
+\pagebreak
+
+\section*{Source Code}
+The full source code, including LaTeX, tooling, other artifacts, and git history is available on my Github repository for the class here:
+\begin{center}
+  \url{https://github.com/jllovet/jhu-en-605-202-su26-data-structures}
+\end{center}
+
+\printbibliography
+
+\end{document}
