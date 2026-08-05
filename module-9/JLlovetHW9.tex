@@ -106,6 +106,31 @@ For questions 1 - 2, compare the efficiency of using sequential search on an ord
 \noindent\textbf{Answer:}
 \medskip
 
+\begin{enumerate}
+  \item If more than one record with the key \texttt{target} is present and it is desired to find only the first one.
+        \begin{enumerate}
+          \item Unsorted: In the worst case, there are two instances of the key \texttt{target}, and they are in the final two positions. In that case, we have to compare against $n-1$ elements to find the first instance of the key \texttt{target}. In the best case, the first element is the key \texttt{target}, and we are done. A similar analysis to the case above holds here too. Let $k$ represent the number of instances of the key \texttt{target}. Generalizing on the worst case, where all instances of the key \texttt{target} are at the end of the table, we save $k-1$ comparisons, compared to scanning the entire table. In general, we will have to check elements in positions $0 \le i \le n-(k+1)$. The average number of comparisons is derived in the same way as above, but now we will change the sum to be for the first $n - k - 1$ integers, and then derive the average number of comparisons from that. Specifically,
+                \begin{align*}
+                  \sum_{i=1}^{n - k - 1}i & = \frac{(n - k - 1)((n - k - 1)+1)}{2} \\
+                                          & = \frac{(n - k - 1)(n - k - 1 + 1)}{2} \\
+                                          & = \frac{(n - k - 1)(n - k)}{2}         \\
+                \end{align*}
+                To derive an average from this sum, we now have to divide by $n - k - 1$,
+                \begin{align*}
+                  \frac{(n - k - 1)(n - k)}{2} * \frac{1}{(n - k - 1)} & = \frac{n - k}{2}
+                \end{align*}
+                On average, if there are $k$ repetitions of the key \texttt{target}, we will have to perform $\frac{n - k}{2}$ comparisons.
+          \item Sorted: In this case, the analysis is the same. It is possible in the worst case for the $k$ instances of the key \texttt{target} to be at the end of the table, requiring us to scan all of the elements up to the first instance, saving us $k-1$ comparisons, and it is possible for the first instance of the key \texttt{target} to be in the first position of the table, requiring only $1$ comparison. Intermediate cases are subsumed under the analysis above. This scenario overall similarly requires $\frac{n - k}{2}$ comparisons on average.
+        \end{enumerate}
+  \item If more than one record with the key \texttt{target} is present and it is desired to find them all.
+        \begin{enumerate}
+          \item Unsorted: In this case, all of the elements of the table must be scanned every time, since there is no way to know whether we have encountered all of the instances of the key \texttt{target} otherwise. Therefore, we have to make $n$ comparisons every time.
+          \item Sorted: In this case, we have a more nuanced situation. We can short circuit once we have reached the end of the sequence of elements that have the key \texttt{target}. There can be $0 \le m \le n - k$ elements preceding the first instance in the sequence of $k \ge 2$ repetitions of the key \texttt{target}, and there are $s = n - m - k$ elements following the $k$ sequence of the $k$ instances of the key \texttt{target}. We will either hit the end of the table after the sequence of \texttt{target} keys, or we will have additional elements following them. In the second case, we only have to perform one comparison to find that we have left the target sequence, and then we can return. Consequently, we save $s-1$ comparisons in the sorted case.
+          
+          To give an example, let $t$ represent \texttt{target}. If we have a sequence $0,0,1,2,2,2,t,t,t,4,5,6,6,7$, then $n = 14$ because there are $14$ elements, $k = 3$ because there are $3$ repetitions of $t$, $m = 6$ because there are $6$ elements before the first instance of $t$, and $s=5$ because there are $5$ characters after the sequence of $t$'s. In this instance, we save $s-1 = 4$ comparisons, because we only have to compare against the element $4$ but not against the elements $5,6,6,7$.
+        \end{enumerate}
+\end{enumerate}
+
 \noindent\textbf{Problem 3:}
 \medskip
 
