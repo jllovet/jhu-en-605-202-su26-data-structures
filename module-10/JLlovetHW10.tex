@@ -1,0 +1,100 @@
+\documentclass[10pt,letterpaper,final]{report}
+\usepackage[margin=.75in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\renewcommand\qedsymbol{$\blacksquare$}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{forest}
+\usepackage{float}
+\usetikzlibrary{automata,arrows}
+\usetikzlibrary{shapes.multipart, positioning}
+\usepackage{mdframed}
+\usepackage[
+  backend=biber,
+  style=numeric-comp,
+  sorting=none
+]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{minted}
+\usemintedstyle{algol_nu}
+\usepackage{xltabular}
+\usepackage{pdflscape}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+
+
+% Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
+
+\begin{document}
+\begin{center}
+  \fbox{
+    \vbox{
+      \begin{flushleft}
+        Jonathan Llovet \\  % authors' names
+        EN.605.202.81 \\  %class
+        2026-08-11 \\  % date
+        Module 10 - Homework 10 \\ % ID
+      \end{flushleft}
+      \center{\Large{\textbf{Hashing}}}
+      %\end{mdframed}
+    } % end vbox
+  } % end fbox
+  \vline
+\end{center}
+
+\medskip
+
+For the following problem sets, you will perform hashing using different collision mechanisms.  The hashtable has a size of 13 and will use the following hashing algorithm that returns an integer:
+
+\begin{minted}[breaklines,breakanywhere=true,fontsize={\fontsize{8pt}{9pt}\selectfont}]{python}
+def get_hashed_value(key) -> int:
+    return key * 2 + 3
+\end{minted}
+
+For each of the problem sets, you will keep track of the number of collisions and show your work for each step after inserting the following values:
+
+\texttt{5, 4, 25, 8, 10, 34, 18, 51, 17, 21}
+
+\medskip
+\noindent\textbf{Problem 1:}
+\medskip
+
+Linear Probing - For this example, use ``simple'' linear probing in order to insert the values into the hash table.
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+\pagebreak
+\noindent\textbf{Problem 2:}
+\medskip
+
+Re-hashing - For this question, use the re-hashing approach to handle collisions. The re-hash algorithm is simply \texttt{get\_hashed\_value(current\_index)}, where \texttt{current\_index} is the index of the current collision.
+
+\medskip
+\noindent\textbf{Answer:}
+\medskip
+
+
+\pagebreak
+
+\section*{Source Code}
+The full source code, including LaTeX, tooling, other artifacts, and git history is available on my Github repository for the class here:
+\begin{center}
+  \url{https://github.com/jllovet/jhu-en-605-202-su26-data-structures}
+\end{center}
+
+\printbibliography
+
+\end{document}
