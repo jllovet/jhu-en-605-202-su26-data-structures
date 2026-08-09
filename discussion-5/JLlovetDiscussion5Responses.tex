@@ -1,0 +1,79 @@
+\documentclass[10pt,letterpaper,final]{report}
+\usepackage[margin=.75in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A,T1]{fontenc}
+\usepackage[russian,english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\renewcommand\qedsymbol{$\blacksquare$}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{automata,arrows}
+\usepackage{mdframed}
+\usepackage[
+  backend=biber,
+  style=numeric-comp,
+  sorting=none,
+  autolang=other
+]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{minted}
+\usemintedstyle{algol_nu}
+\usepackage{xltabular}
+\usepackage{pdflscape}
+\usepackage{tcolorbox}
+
+
+% Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
+
+\begin{document}
+\begin{center}
+  \fbox{
+    \vbox{
+      \begin{flushleft}
+        Jonathan Llovet \\  % authors' names
+        EN.605.202.81 \\  %class
+        2026-08-05 \\  % date
+        Module 9 \& 10 - Discussion 5 \\ % ID
+      \end{flushleft}
+      \center{\Large{\textbf{Data Structures - Discussion 5 - Searching Sorted Data}}}
+      %\end{mdframed}
+    } % end vbox
+  } % end fbox
+  \vline
+\end{center}
+
+\medskip
+\noindent\textbf{Response to Classmate Who Suggested Tries:}
+\medskip
+
+Interesting option to use tries here! This brought a couple of questions to mind, one theoretical, one a possible implementation idea (though, granted, I would need to experiment a bit to see what would be a way to implement this). I suspect that a trie might take up a large amount of space, and searching for a given key would be linear in the length of the key (because each character would need to be searched for in the children of its predecessor). So, there are some likely downsides to a trie compared to a B tree or a B+ tree. However! I think that an interesting use case that a trie might help is for fuzzy matching, like when a user does not exactly enter the right key for a given index (plausibly, someone might misremember an ISBN or might put in an author's name wrong). You could run multiple queries in parallel, based on the edit distance from the string the user entered to a plausible set of answers, so that the user could be presented with multiple options, rather than just the bare result of a single query, which would often likely be wrong or empty if the user entered incorrect information. An interesting question that arises from this idea is whether it would be more efficient to run several queries against a B or B+ tree vs a trie for this use case. I suspect that the logarithmic performance of the B/B+ trees would give you an advantage over a trie in many cases, especially as the size of the search term grows. So, an experiment to model this would be to have a configurable threshold n for additional results to return to a user per query. If there is an exact match, that match gets returned first. Whether there is an exact match or not, you can perform n additional queries, where the query term has some small edit distance from the original query. Then the results can be returned to the user in order of edit distances of the query terms from the original query term. The experiment would measure this operation across tries, B trees, and B+ trees, looking to see how many operations and how much clock time on average the searches took. I think that the ordering of the results in this kind of setup would also be worth thinking about more. I'm reminded of Google's page rank, and it might be worth building something like that in - namely, just some kind of additional metadata that could be used to give weight to potential answers to queries (How many times has this result been returned? How many times has the author of the book been returned? and such questions could be tracked and added into the metadata associated with each key or stored in a separate structure).
+
+Some sources I found while looking for information on tries and edit distance.
+
+\begin{enumerate}
+  \item \fullcite{Levenshtein1966TranslationBinaryCodes}
+  \item \fullcite{Levenshtein1965OriginalBinaryCodes}
+  \item \fullcite{EnwikipediaorgBTree}
+  \item \fullcite{KaleImprovingTimeAndSpaceOfTrie}
+\end{enumerate}
+
+\pagebreak
+
+\section*{Source Code}
+The full source code, including LaTeX, tooling, other artifacts, and git history is available on my Github repository for the class here:
+\begin{center}
+  \url{https://github.com/jllovet/jhu-en-605-202-su26-data-structures}
+\end{center}
+
+\printbibliography
+
+\end{document}
