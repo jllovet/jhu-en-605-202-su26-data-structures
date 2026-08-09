@@ -76,6 +76,102 @@ Linear Probing - For this example, use ``simple'' linear probing in order to ins
 \noindent\textbf{Answer:}
 \medskip
 
+A hash table with linear probing handles a collision by starting at the key's mapped bucket, and then linearly searches subsequent buckets until an empty bucket is found. \parencite{zybooks-ds2026}
+
+\begin{verbatim}
+Inserting 5 into ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
+get_hashed_value(5) -> 13 -> x mod 13 -> 0
+Attempting to insert 5 at index 0
+Inserted 5 at index 0
+0 collisions while inserting 5
+Current value of hash table: [5, '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
+
+Inserting 4 into [5, '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
+get_hashed_value(4) -> 11 -> x mod 13 -> 11
+Attempting to insert 4 at index 11
+Inserted 4 at index 11
+0 collisions while inserting 4
+Current value of hash table: [5, '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', 4, '_']
+
+Inserting 25 into [5, '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', 4, '_']
+get_hashed_value(25) -> 53 -> x mod 13 -> 1
+Attempting to insert 25 at index 1
+Inserted 25 at index 1
+0 collisions while inserting 25
+Current value of hash table: [5, 25, '_', '_', '_', '_', '_', '_', '_', '_', '_', 4, '_']
+
+Inserting 8 into [5, 25, '_', '_', '_', '_', '_', '_', '_', '_', '_', 4, '_']
+get_hashed_value(8) -> 19 -> x mod 13 -> 6
+Attempting to insert 8 at index 6
+Inserted 8 at index 6
+0 collisions while inserting 8
+Current value of hash table: [5, 25, '_', '_', '_', '_', 8, '_', '_', '_', '_', 4, '_']
+
+Inserting 10 into [5, 25, '_', '_', '_', '_', 8, '_', '_', '_', '_', 4, '_']
+get_hashed_value(10) -> 23 -> x mod 13 -> 10
+Attempting to insert 10 at index 10
+Inserted 10 at index 10
+0 collisions while inserting 10
+Current value of hash table: [5, 25, '_', '_', '_', '_', 8, '_', '_', '_', 10, 4, '_']
+
+Inserting 34 into [5, 25, '_', '_', '_', '_', 8, '_', '_', '_', 10, 4, '_']
+get_hashed_value(34) -> 71 -> x mod 13 -> 6
+Attempting to insert 34 at index 6
+Collision at 6, which contains the value: 8
+Attempting to insert 34 at index 7
+Inserted 34 at index 7
+1 collisions while inserting 34
+Current value of hash table: [5, 25, '_', '_', '_', '_', 8, 34, '_', '_', 10, 4, '_']
+
+Inserting 18 into [5, 25, '_', '_', '_', '_', 8, 34, '_', '_', 10, 4, '_']
+get_hashed_value(18) -> 39 -> x mod 13 -> 0
+Attempting to insert 18 at index 0
+Collision at 0, which contains the value: 5
+Attempting to insert 18 at index 1
+Collision at 1, which contains the value: 25
+Attempting to insert 18 at index 2
+Inserted 18 at index 2
+2 collisions while inserting 18
+Current value of hash table: [5, 25, 18, '_', '_', '_', 8, 34, '_', '_', 10, 4, '_']
+
+Inserting 51 into [5, 25, 18, '_', '_', '_', 8, 34, '_', '_', 10, 4, '_']
+get_hashed_value(51) -> 105 -> x mod 13 -> 1
+Attempting to insert 51 at index 1
+Collision at 1, which contains the value: 25
+Attempting to insert 51 at index 2
+Collision at 2, which contains the value: 18
+Attempting to insert 51 at index 3
+Inserted 51 at index 3
+2 collisions while inserting 51
+Current value of hash table: [5, 25, 18, 51, '_', '_', 8, 34, '_', '_', 10, 4, '_']
+
+Inserting 17 into [5, 25, 18, 51, '_', '_', 8, 34, '_', '_', 10, 4, '_']
+get_hashed_value(17) -> 37 -> x mod 13 -> 11
+Attempting to insert 17 at index 11
+Collision at 11, which contains the value: 4
+Attempting to insert 17 at index 12
+Inserted 17 at index 12
+1 collisions while inserting 17
+Current value of hash table: [5, 25, 18, 51, '_', '_', 8, 34, '_', '_', 10, 4, 17]
+
+Inserting 21 into [5, 25, 18, 51, '_', '_', 8, 34, '_', '_', 10, 4, 17]
+get_hashed_value(21) -> 45 -> x mod 13 -> 6
+Attempting to insert 21 at index 6
+Collision at 6, which contains the value: 8
+Attempting to insert 21 at index 7
+Collision at 7, which contains the value: 34
+Attempting to insert 21 at index 8
+Inserted 21 at index 8
+2 collisions while inserting 21
+Current value of hash table: [5, 25, 18, 51, '_', '_', 8, 34, 21, '_', 10, 4, 17]
+\end{verbatim}
+
+\pagebreak
+
+I wrote the following script to generate the trace above.
+
+\inputminted[breaklines, breakanywhere, fontsize=\footnotesize, frame=single, fontsize=\footnotesize]{python}{problem1-hashing.py}
+
 \pagebreak
 \noindent\textbf{Problem 2:}
 \medskip
