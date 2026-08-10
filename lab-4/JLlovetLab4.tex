@@ -1,0 +1,289 @@
+\documentclass[10pt,letterpaper,final]{report}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\renewcommand\qedsymbol{$\blacksquare$}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{forest}
+\usetikzlibrary{automata,arrows}
+\usepackage{mdframed}
+\usepackage[
+  backend=biber,
+  style=numeric-comp,
+  sorting=none
+]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{minted}
+\usemintedstyle{algol_nu}
+\usepackage{xltabular}
+\usepackage{pdflscape}
+\usepackage{multicol}
+\usepackage{underscore}
+\usepackage{changepage}
+\usepackage{todonotes}
+
+\NewDocumentCommand{\sourcefile}{m v}{
+  \subsection{\texttt{#2}}\label{sec:#2}
+  \inputminted[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{6pt}{7pt}\selectfont}]{#1}{#2}
+}
+
+% Based on template from COSC-417 at Towson University, originally authored by Marius Zimand
+
+\renewcommand{\thesection}{\arabic{section}}
+
+\begin{document}
+\begin{center}
+  \fbox{
+    \vbox{
+      \begin{flushleft}
+        Jonathan Llovet \\  % authors' names
+        EN.605.202.81 \\  %class
+        2026-08-11 \\  % date
+        Lab 4 \\ % ID
+      \end{flushleft}
+      \center{\Large{\textbf{Sorting Algorithms - Comparing Quicksort and Merge Sort}}}
+      %\end{mdframed}
+    } % end vbox
+  } % end fbox
+  \vline
+\end{center}
+
+\nopagebreak\listoftodos[Outstanding TODOs]
+
+\pagebreak
+\noindent\textbf{Prompt:}
+
+This lab assignment requires you to compare the performance of two distinct sorting algorithms to obtain some appreciation for the parameters to be considered in selecting an appropriate sort. Write a Quicksort and a Natural Merge Sort. They should both be recursive or both be iterative, so that the overhead of recursion will not be a factor in your comparisons.
+
+A Quicksort (or Partition Exchange Sort) divides the data into 2 partitions separated by a pivot. The first partition contains all the items which are smaller than the pivot. The remaining items are in the other partition. You will write four versions of Quicksort:
+\begin{enumerate}
+  \item Select the first item of the partition as the pivot. Treat partitions of size one and two as stopping cases.
+  \item Same pivot selection. For a partition of size 100 or less, use an insertion sort to finish.
+  \item Same pivot selection. For a partition of size 50 or less, use an insertion sort to finish.
+  \item Select the median-of-three as the pivot. Treat partitions of size one and two as stopping cases.
+\end{enumerate}
+
+As time permits consider examining additional, alternate methods of selecting the pivot for Quicksort.
+
+Merge Sort is a useful sort to know if you are doing External Sorting. The need for this will increase as data sizes increase. The traditional Merge Sort requires double space. To eliminate this issue, you are to implement Natural Merge using a linked implementation. In your analysis be sure to compare to the effect of using a straight Merge Sort instead.
+
+Create input files of four sizes: 50, 1000, 2000, 5000 and 10000 integers. For each size file make 3 versions. On the first use a randomly ordered data set. On the second use the integers in reverse order. On the third use the integers in normal ascending order. (You may use a random number generator to create the randomly ordered file, but it is important to limit the duplicates to <1\%. Alternatively, you may write a shuffle function to randomize one of your ordered files.) This means you have an input set of 15 files plus whatever you deem necessary and reasonable. Files are available in the Blackboard shell, if you want to copy them. Your data should be formatted so that each number is on a separate line with no leading blanks. There should be no blank lines in the file. Even though you are limiting the occurrence of duplicates, your sorts must be able to handle duplicate data.
+
+Each sort must be run against all the input files. With five sorts and 15 input sets, you will have 75 required runs. The size 50 files are for the purpose of showing the sorting is correct. Your code needs to print out the comparisons and exchanges (see below) and the sorted values. You must submit the input and output files for all orders of size 50, for all sorts. There should be 15 output files here.
+
+The larger sizes of input are used to demonstrate the asymptotic cost. To demonstrate the asymptotic cost you will need to count comparisons and exchanges for each sort. For these files at the end of each run you need to print the number of comparisons and the number of exchanges but not the sorted data. It is to your advantage to add larger files or additional random files to the input - perhaps with 15-20\% duplicates. You may find it interesting to time the runs, but this should be in addition to counting comparisons and exchanges.
+
+Turn in an analysis comparing the two sorts and their performance. Be sure to comment on the relative numbers of exchanges and comparison in the various runs, the effect of the order of the data, the effect of different size files, the effectof different partition sizes and pivot selection methods for Quicksort, and the effect of using a Natural Merge Sort. Which factor has the most effect on the efficiency? Be sure to consider both time and space efficiency. Be sure to justify your data structures. Your analysis must include a table of the comparisons and exchanges observed and a graph of the asymptotic costs that you observed compared to the theoretical cost. Be sure to justify your choice of iteration versus recursion. Consider how your code would have differed if you had made the other choice.
+
+\tableofcontents
+
+\pagebreak
+
+\section{The Problem to Solve}
+
+The program should satisfy the following:
+
+\todo{Reformulate lab requirements}
+\begin{enumerate}
+  \item Lorem Ipsum
+\end{enumerate}
+
+\section{Strategy}\label{sec:strategy}
+
+
+What follows is a description of the core flow of the program. First, the IO portion from the command line and the main portion that drives the program.
+
+% \begin{figure}[ht]
+%   \centering
+%   \includegraphics[width=0.9\linewidth]{lab4-strategy-io.pdf}
+%   \caption{Core IO flow}\label{fig:strategy-io}
+% \end{figure}
+
+\todo{Design flow of the program overall}
+
+\clearpage\pagebreak
+
+\section{Structure}\label{sec:structure}
+
+\begin{verbatim}
+\todo{Add output of tree --charset=ascii}
+\end{verbatim}
+
+\section{Design Decisions}
+
+
+\todo{Add algorithmic complexity analysis}
+% \begin{minted}[linenos,breaklines,breakanywhere=true,fontsize={\fontsize{7pt}{8pt}\selectfont}]{python}
+% \end{minted}
+
+\section{Algorithms and ADTs}
+
+\pagebreak
+
+\section{Testing}\label{sec:testing}
+
+I predominantly used test-driven development with unit tests written in \texttt{unittest} to help with the development of my code and to ensure that I did not break portions of the codebase as I built new features, performed refactors, and did other chores.
+
+\noindent The idealized workflow for adding features is:
+
+\begin{enumerate}
+  \item Write a test that reflects an atomic aspect of the expected behavior.
+  \item Validate that the test fails without the implementation in place.
+  \item Write a minimal implementation that makes the test pass.
+  \item Iterate with new tests.
+\end{enumerate}
+
+\noindent The complementary idealized workflow for making changes, including deletions is:
+
+\begin{enumerate}
+  \item Run all the tests and validate they all pass.
+  \item Make a targeted change.
+  \item Re-run all the tests and validate they all pass.
+  \item If a test fails, fix the issue while preserving the desired change.
+  \item Iterate.
+\end{enumerate}
+
+\noindent The third kind of workflow, for changing specifications, is:
+
+\begin{enumerate}
+  \item Run all the tests and validate they all pass.
+  \item Make a targeted change to the specification.
+  \item Re-run all the tests.
+  \item If a test fails, fix the issue while preserving the desired change to the specification.
+  \item Iterate.
+\end{enumerate}
+
+To run the tests, I used the built-in \texttt{unittest} module's \texttt{discover} command. As I proceeded, I ran tests by calling the following from \texttt{jhu-en-605-202-su26-data-structures/lab-4}: \texttt{python -m unittest discover -s lab4/tests}. This printed test results like the following:
+
+{\small
+\todo{Add output of passing tests}
+  \begin{verbatim}
+python -m unittest discover -s lab4/tests
+\end{verbatim}
+}
+
+\pagebreak
+\section{Demo}\label{sec:demo}
+
+For the following, I assume that I start in the root of the Github repository. From some appropriate location on your filesystem, clone the repository and move into the root of the repo.
+  {\small
+    \begin{verbatim}
+  git clone https://github.com/jllovet/jhu-en-605-202-su26-data-structures.git
+  cd jhu-en-605-202-su26-data-structures
+\end{verbatim}
+  }
+
+\noindent From there, move into the folder for this lab.
+
+  {\small
+    \begin{verbatim}
+  cd lab-4
+\end{verbatim}
+  }
+
+\noindent From here, the python module can be run as follows.
+
+\todo{Add running instructions}
+%   {\small
+%     \begin{verbatim}
+%   python3 -m lab4
+% \end{verbatim}
+%   }
+
+\todo{Add error cases to demo}
+
+\todo{Show feedback to user through CLI}
+\begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{text}
+\end{minted}
+
+\noindent The input and resulting output of an example successful run are shown below:
+
+\todo{Add demo of example successful run}
+% \begin{center}
+%   \begin{minipage}[t]{0.2\textwidth}
+%     \centering
+%     \textbf{\texttt{resources/input/in.txt}}\\
+%     \inputminted[frame=single,fontsize=\footnotesize]{text}{resources/input/in.txt}
+%   \end{minipage}\hfill
+%   \begin{minipage}[t]{0.76\textwidth}
+%     \centering
+%     \textbf{\texttt{resources/output/output.txt}}\\
+%     \inputminted[breaklines, breakanywhere, fontsize=\footnotesize, frame=single, fontsize=\footnotesize]{text}{resources/output/output.txt}
+%   \end{minipage}
+% \end{center}
+
+\noindent When the program is executed as below, the message on the following page will be written to \texttt{stderr}:
+
+\pagebreak
+
+\todo{Add illustration of program execution output that is sent to stderr}
+\begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{text}
+  \todo{Add illustration of program execution output that is sent to stderr}
+\end{minted}
+
+\pagebreak
+\section{Enhancements and What I Learned}\label{sec:enhancements-and-what-I-learned}
+
+\noindent \textbf{Enhancement: Unit Testing - Validations on Single Passes}
+\medskip
+
+For details of the unit testing that I did as an enhancement, please see \ref{sec:testing}.
+
+\medskip
+\noindent \textbf{Enhancement: Logging}
+\medskip
+
+\todo{Add description of logging with interface configurations}
+% \begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{text}
+
+% \end{minted}
+
+\todo{Add particular configuration example}
+To set the log level to DEBUG, for example, the user could run a command like the following:
+
+\begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{text}
+\end{minted}
+
+Similarly, the user can set the name of the logfile.
+
+\todo{Add logfile specification}
+\begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{text}
+\end{minted}
+
+This will produce a logfile called \texttt{mylab4.log} with the contents below:
+
+\todo{Add example log file}
+\begin{minted}[breaklines, breakanywhere, fontsize=\footnotesize]{text}
+\end{minted}
+
+\pagebreak
+
+\section{Resouces Referenced While Coding}
+
+In addition to the resources I mentioned above, I reviewed multiple resources for information about generators and iterators in python. In particular:
+
+\begin{enumerate}
+  \item Citation 1
+\end{enumerate}
+
+\pagebreak
+
+\section{Source Code}
+The full source code, including LaTeX, tooling, other artifacts, and git history is available on my Github repository for the class here:
+\begin{center}
+  \url{https://github.com/jllovet/jhu-en-605-202-su26-data-structures}
+\end{center}
+
+\printbibliography[heading=bibintoc]
+
+\end{document}
