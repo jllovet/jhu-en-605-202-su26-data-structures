@@ -15,7 +15,7 @@ FirstItemPivot: Algorithm = "FirstItemPivot"
 MedianOfThreePivot: Algorithm = "MedianOfThreePivot"
 
 
-def partition(xs: List[int], strategy: PivotStrategy) -> int:
+def get_pivot(xs: List[int], strategy: PivotStrategy) -> int:
     if strategy == FirstItemPivot:
         if len(xs) == 0:
             raise ValueError(
@@ -39,9 +39,8 @@ def partition(xs: List[int], strategy: PivotStrategy) -> int:
             "Could not determine pivot because the strategy provided was not valid")
 
 
-def qs_first_item_pivot_to_small_partitions(xs, ):
+def qs_first_item_pivot_to_small_partitions():
     pass
-
 
 def qs_first_item_pivot_insertion_sort_for_partitions_le_100():
     pass

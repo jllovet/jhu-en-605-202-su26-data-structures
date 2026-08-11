@@ -16,20 +16,20 @@ class TestSortsProperly(unittest.TestCase):
 class TestPartition(unittest.TestCase):
     def test_partition_on_first_item(self):
         xs = [1, 2, 3]
-        self.assertEqual(1, quick.partition(
+        self.assertEqual(1, quick.get_pivot(
             xs, strategy=quick.FirstItemPivot))
         xs = []
         with self.assertRaises(ValueError):
-            quick.partition(xs, quick.FirstItemPivot)
+            quick.get_pivot(xs, quick.FirstItemPivot)
 
     def test_partition_on_median_of_three(self):
         xs = [1, 2, 3]
-        self.assertEqual(2, quick.partition(
+        self.assertEqual(2, quick.get_pivot(
             xs, strategy=quick.MedianOfThreePivot))
         xss = [[1, 2], [1], []]
         for xs in xss:
             with self.assertRaises(ValueError):
-                quick.partition(xs, strategy=quick.MedianOfThreePivot)
+                quick.get_pivot(xs, strategy=quick.MedianOfThreePivot)
 
 
 class TestMedianOfThree(unittest.TestCase):
