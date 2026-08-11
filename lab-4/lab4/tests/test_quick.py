@@ -8,9 +8,28 @@ class TestSortsProperly(unittest.TestCase):
         self.assertListEqual(s, [])
 
     def test_single_element_list(self):
-            single_element_list = [1]
-            s = quick.sort(single_element_list)
-            self.assertListEqual(s, single_element_list)
+        single_element_list = [1]
+        s = quick.sort(single_element_list)
+        self.assertListEqual(s, single_element_list)
+
+
+class TestPartition(unittest.TestCase):
+    def test_partition_on_first_item(self):
+        xs = [1, 2, 3]
+        self.assertEqual(1, quick.partition(
+            xs, strategy=quick.FirstItemPivot))
+        xs = []
+        with self.assertRaises(ValueError):
+            quick.partition(xs, quick.FirstItemPivot)
+
+    def test_partition_on_median_of_three(self):
+        xs = [1, 2, 3]
+        self.assertEqual(2, quick.partition(
+            xs, strategy=quick.MedianOfThreePivot))
+        xss = [[1, 2], [1], []]
+        for xs in xss:
+            with self.assertRaises(ValueError):
+                quick.partition(xs, strategy=quick.MedianOfThreePivot)
 
 
 class TestMedianOfThree(unittest.TestCase):
