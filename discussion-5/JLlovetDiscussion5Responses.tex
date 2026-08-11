@@ -68,6 +68,16 @@ Some sources I found while looking for information on tries and edit distance.
 
 \pagebreak
 
+Responding to another thread:
+
+As has happened several times over the course, your discussion have brought up some really interesting new ideas and elements of the problem that I neglected. The B+ tree's linking of nodes together to support range queries seems quite nice. Taylor's post about using tries got me to start thinking a bit more about the related problem of imprecise or fuzzy search. In that thread, the approach I was suggesting was to use parallel queries and variations of the search string that had a small edit distance, where the queries took advantage of the quick search performance to return multiple individual items. This characteristic of the B+ tree that allows you to traverse through the items linearly is attractive, because it would mean that we would not have to implement a bespoke in-order traversal algorithm that could perform in-order traversal from arbitrary positions in the tree (which might require adding additional pointers anyway.)
+
+I'm reminded too of the post you made in one of the previous discussions about sparse matrix representations, where the additional pointers made a data structure equivalent to a torus. Here the B+ tree is doing a similarly clever bit of wiring to take essentially a linked list and provide us with extraordinary performance characteristics by adding some additional pointers and structure to navigate around the list efficiently. When I was preparing for the class before the term, I listened to a discussion of how many of the data structures we would talk about are just variations on graphs, with different invariants or constraints involved in each particular structure, which provide distinctive characteristics. The structure provided by the constraints determines whether a graph is just a graph or a tree or a linked list or one of these hybrid structures like B and B+ trees that are taking advantage of the desirable properties of multiple structures at once. A graph without any constraints is harder to define operations on and reason about than a graph that is constrained to having the structure of a linked list, a doubly linked list, or a tree.
+
+I'm reminded here of the situation at the end of Neon Genesis Evangelion \parencite{Anno1995NeonGenesisEvangelion}, where the protagonist Shinji is presented with an existential problem where he is given complete, unbounded freedom. (Essentially the same problem presented with pure Being at the opening of Hegel's Science of Logic \parencite{Miller2013HegelsScienceOfLogic}.) With so many degrees of freedom, he essentially has no characteristics. It's only when he re-introduces meaningful constraints to existence that he regains the contingency and particularity that make his life real, which he realizes is what he truly wants. Analogously, it's in providing constraints strategically and intentionally to the data structures that we use that we can produce characteristics for our programs and systems that we want.
+
+\pagebreak
+
 \section*{Source Code}
 The full source code, including LaTeX, tooling, other artifacts, and git history is available on my Github repository for the class here:
 \begin{center}
