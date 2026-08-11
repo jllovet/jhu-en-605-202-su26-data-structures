@@ -1,5 +1,6 @@
 import unittest
 import lab4.sort.quick as quick
+import random
 
 
 class TestSortsProperly(unittest.TestCase):
@@ -30,6 +31,38 @@ class TestPartition(unittest.TestCase):
         for xs in xss:
             with self.assertRaises(ValueError):
                 quick.get_pivot(xs, strategy=quick.MedianOfThreePivot)
+
+
+class TestQuickSortCorrectness(unittest.TestCase):
+    def test_qs_first_item_pivot_to_small_partitions(self):
+        xs = [random.randrange(0, 1000, 1) for _ in range(50)]
+        self.assertListEqual(
+            sorted(xs),
+            quick.sort(xs, algorithm=quick.FirstItemPivotToSmallPartitions)
+        )
+
+    def test_qs_first_item_pivot_insertion_sort_for_partitions_le_100(self):
+        xs = [random.randrange(0, 1000, 1) for _ in range(50)]
+        self.assertListEqual(
+            sorted(xs),
+            quick.sort(
+                xs, algorithm=quick.FirstItemPivotInsertionSortForPartitionsLE100)
+        )
+
+    def test_qs_first_item_pivot_insertion_sort_for_partitions_le_50(self):
+        xs = [random.randrange(0, 1000, 1) for _ in range(50)]
+        self.assertListEqual(
+            sorted(xs),
+            quick.sort(
+                xs, algorithm=quick.FirstItemPivotInsertionSortForPartitionsLE50)
+        )
+
+    def test_qs_median_of_three_pivot_to_small_partitions(self):
+        xs = [random.randrange(0, 1000, 1) for _ in range(50)]
+        self.assertListEqual(
+            sorted(xs),
+            quick.sort(xs, algorithm=quick.MedianOfThreePivotToSmallPartitions)
+        )
 
 
 class TestMedianOfThree(unittest.TestCase):

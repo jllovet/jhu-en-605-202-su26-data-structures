@@ -39,23 +39,40 @@ def get_pivot(xs: List[int], strategy: PivotStrategy) -> int:
             "Could not determine pivot because the strategy provided was not valid")
 
 
-def qs_first_item_pivot_to_small_partitions():
-    pass
-
-def qs_first_item_pivot_insertion_sort_for_partitions_le_100():
-    pass
+def qs_first_item_pivot_to_small_partitions(xs: List[int]) -> List[int]:
+    pivot = get_pivot(xs=xs, strategy=FirstItemPivot)
+    return sorted(xs)
 
 
-def qs_first_item_pivot_insertion_sort_for_partitions_le_50():
-    pass
+def qs_first_item_pivot_insertion_sort_for_partitions_le_100(xs: List[int]) -> List[int]:
+    pivot = get_pivot(xs=xs, strategy=FirstItemPivot)
+    return sorted(xs)
 
 
-def qs_median_of_three_pivot_to_small_partitions():
-    pass
+def qs_first_item_pivot_insertion_sort_for_partitions_le_50(xs: List[int]) -> List[int]:
+    pivot = get_pivot(xs=xs, strategy=FirstItemPivot)
+    return sorted(xs)
 
 
-def sort(xs, algorithm: Algorithm = FirstItemPivotToSmallPartitions):
-    return xs
+def qs_median_of_three_pivot_to_small_partitions(xs: List[int]) -> List[int]:
+    pivot = get_pivot(xs=xs, strategy=MedianOfThreePivot)
+    return sorted(xs)
+
+
+def sort(xs, algorithm: Algorithm = FirstItemPivotToSmallPartitions) -> List[int]:
+    if len(xs) < 2:
+        return xs
+    if algorithm == FirstItemPivotToSmallPartitions:
+        return qs_first_item_pivot_to_small_partitions(xs)
+    elif algorithm == FirstItemPivotInsertionSortForPartitionsLE100:
+        return qs_first_item_pivot_insertion_sort_for_partitions_le_100(xs)
+    elif algorithm == FirstItemPivotInsertionSortForPartitionsLE50:
+        return qs_first_item_pivot_insertion_sort_for_partitions_le_50(xs)
+    elif algorithm == MedianOfThreePivotToSmallPartitions:
+        return qs_median_of_three_pivot_to_small_partitions(xs)
+    else:
+        raise ValueError(
+            "Could not peform quicksort, because an invalid implementation algorithm was provided")
 
 
 def median_of_three(a: int, b: int, c: int) -> int:
