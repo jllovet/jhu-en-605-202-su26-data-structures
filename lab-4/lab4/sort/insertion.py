@@ -6,7 +6,24 @@ logger = logging.getLogger(__name__)
 
 
 def sort(context: Context, xs: List) -> Tuple[Context, List[int]]:
-    # Adapted from ZyBook implementation
+    """Performs insertion sort (adapted from ZyBook implementation)
+    
+    Args:
+        context: Context containing runtime metadata about the sorting algorithms 
+        xs: List[int] the list to sort
+    
+    Returns:
+        Tuple[Context, List[int]] containing the sorting runtime context and the sorted list
+
+    Raises:
+        None
+
+    Side Effects:
+        Writes to logs
+
+    Idempotent:
+        True
+    """
     logger.debug("in insertion.sort")
     for i in range(1, len(xs)):
         j = i

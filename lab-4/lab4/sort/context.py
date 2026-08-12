@@ -13,7 +13,40 @@ MedianOfThreePivot: PivotStrategy = "MedianOfThreePivot"
 
 
 class Context:
+    """Context tracks sorting runtime data
+
+    Args:
+        algorithm: one of the algorithms that are under examination, defined in context.py
+            - FirstItemPivotToSmallPartitions
+            - FirstItemPivotInsertionSortForPartitionsLE100
+            - FirstItemPivotInsertionSortForPartitionsLE50
+            - MedianOfThreePivotToSmallPartitions
+            - NaturalMergeSort
+        xs: List[int] the list to sort
+    """
     def __init__(self, algorithm: Algorithm, xs: List):
+        """Context tracks sorting runtime data
+        Args:
+            algorithm: one of the algorithms that are under examination, defined in context.py
+                - FirstItemPivotToSmallPartitions
+                - FirstItemPivotInsertionSortForPartitionsLE100
+                - FirstItemPivotInsertionSortForPartitionsLE50
+                - MedianOfThreePivotToSmallPartitions
+                - NaturalMergeSort
+            xs: List[int] the list to sort
+        
+        Returns:
+            None
+
+        Raises:
+            None
+
+        Side Effects:
+            Initializes the Context object
+
+        Idempotent:
+            False
+        """
         self.algorithm: Algorithm = algorithm
         if algorithm in [
             FirstItemPivotToSmallPartitions,

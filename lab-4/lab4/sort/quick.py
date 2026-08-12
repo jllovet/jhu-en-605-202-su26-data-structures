@@ -10,6 +10,28 @@ logger = logging.getLogger(__name__)
 
 
 def get_pivot(context: Context, xs: List[int], low_index: int, high_index: int) -> Tuple[Context, int]:
+    """Returns the pivot value for Quicksort with context containing runtime metadata about the sorting
+
+    Args:
+        context: Context containing runtime metadata about the sorting algorithms
+            - Should contain a pivot strategy determined by the algorithm in use. May be one of
+                - FirstItemPivot
+                - MedianOfThreePivot
+
+        xs: List[int] the list to sort
+
+    Returns:
+        Tuple[Context, int] containing the sorting runtime context and the pivot value for Quicksort
+
+    Raises:
+        ValueError if the pivot from the provided list was empty
+
+    Side Effects:
+        Writes to logs
+
+    Idempotent:
+        True
+    """
     if context.pivot_strategy == FirstItemPivot:
         if len(xs) == 0:
             raise ValueError(
@@ -35,7 +57,29 @@ def get_pivot(context: Context, xs: List[int], low_index: int, high_index: int) 
             "Could not determine pivot because the strategy provided was not valid")
 
 
-def partition(context: Context, xs: List[int], low_index: int, high_index: int):
+def partition(context: Context, xs: List[int], low_index: int, high_index: int) -> Tuple[Context, List[int], int]:
+    """Performs the partitioning step of Quicksort and returns the context, the sorted partition,
+    and the index of the upper end of the partition within the list
+
+    Args:
+        context: Context containing runtime metadata about the sorting algorithms
+        xs: List[int] the list to sort
+        low_index: int
+        high_index: int
+
+    Returns:
+        Tuple[Context, List[int], int] containing the sorting runtime context, the sorted partition,
+        and index for the upper end of the partition
+
+    Raises:
+        None
+
+    Side Effects:
+        Writes to logs
+
+    Idempotent:
+        True
+    """
     logger.debug(f"low_index: {low_index}")
     logger.debug(f"high_index: {high_index}")
 
@@ -75,6 +119,26 @@ def partition(context: Context, xs: List[int], low_index: int, high_index: int):
 
 
 def qs_first_item_pivot_to_small_partitions(context: Context, xs: List[int], low_index: int, high_index: int) -> Tuple[Context, List[int]]:
+    """Sorts a list according to the FirstItemPivotToSmallPartitions algorithm
+
+    Args:
+        context: Context containing runtime metadata about the sorting algorithms
+        xs: List[int] the list to sort
+        low_index: int lower end of the partition to be sorted
+        high_index: int upper end of the partition to be sorted
+
+    Returns:
+        Tuple[Context, List[int]] containing the sorting runtime context and the sorted list
+
+    Raises:
+        None
+
+    Side Effects:
+        Writes to logs
+
+    Idempotent:
+        True
+    """
     if not context.algorithm:
         context.algorithm = FirstItemPivotToSmallPartitions
     if high_index <= low_index:
@@ -96,6 +160,26 @@ def qs_first_item_pivot_to_small_partitions(context: Context, xs: List[int], low
 
 
 def qs_first_item_pivot_insertion_sort_for_partitions_le_100(context: Context, xs: List[int], low_index: int, high_index: int) -> Tuple[Context, List[int]]:
+    """Sorts a list according to the FirstItemPivotInsertionSortForPartitionsLE100 algorithm
+
+    Args:
+        context: Context containing runtime metadata about the sorting algorithms
+        xs: List[int] the list to sort
+        low_index: int lower end of the partition to be sorted
+        high_index: int upper end of the partition to be sorted
+
+    Returns:
+        Tuple[Context, List[int]] containing the sorting runtime context and the sorted list
+
+    Raises:
+        None
+
+    Side Effects:
+        Writes to logs
+
+    Idempotent:
+        True
+    """
     if not context.algorithm:
         context.algorithm = FirstItemPivotInsertionSortForPartitionsLE100
     if high_index <= low_index:
@@ -132,6 +216,26 @@ def qs_first_item_pivot_insertion_sort_for_partitions_le_100(context: Context, x
 
 
 def qs_first_item_pivot_insertion_sort_for_partitions_le_50(context: Context, xs: List[int], low_index: int, high_index: int) -> Tuple[Context, List[int]]:
+    """Sorts a list according to the FirstItemPivotInsertionSortForPartitionsLE50 algorithm
+
+    Args:
+        context: Context containing runtime metadata about the sorting algorithms
+        xs: List[int] the list to sort
+        low_index: int lower end of the partition to be sorted
+        high_index: int upper end of the partition to be sorted
+
+    Returns:
+        Tuple[Context, List[int]] containing the sorting runtime context and the sorted list
+
+    Raises:
+        None
+
+    Side Effects:
+        Writes to logs
+
+    Idempotent:
+        True
+    """
     if not context.algorithm:
         context.algorithm = FirstItemPivotInsertionSortForPartitionsLE50
     if high_index <= low_index:
@@ -168,6 +272,26 @@ def qs_first_item_pivot_insertion_sort_for_partitions_le_50(context: Context, xs
 
 
 def qs_median_of_three_pivot_to_small_partitions(context: Context, xs: List[int], low_index: int, high_index: int) -> Tuple[Context, List[int]]:
+    """Sorts a list according to the MedianOfThreePivotToSmallPartitions algorithm
+
+    Args:
+        context: Context containing runtime metadata about the sorting algorithms
+        xs: List[int] the list to sort
+        low_index: int lower end of the partition to be sorted
+        high_index: int upper end of the partition to be sorted
+
+    Returns:
+        Tuple[Context, List[int]] containing the sorting runtime context and the sorted list
+
+    Raises:
+        None
+
+    Side Effects:
+        Writes to logs
+
+    Idempotent:
+        True
+    """
     context.algorithm = MedianOfThreePivotToSmallPartitions
     if high_index <= low_index:
         return context, xs
@@ -188,6 +312,28 @@ def qs_median_of_three_pivot_to_small_partitions(context: Context, xs: List[int]
 
 
 def sort(xs: List[int], algorithm: Algorithm = FirstItemPivotToSmallPartitions) -> Tuple[Context, List[int]]:
+    """Sorts a list using a user-specified variation of QuickSort
+
+    Args:
+        xs: List[int] the list to sort
+        algorithm: one of the algorithms that are under examination, defined in context.py
+            - FirstItemPivotToSmallPartitions
+            - FirstItemPivotInsertionSortForPartitionsLE100
+            - FirstItemPivotInsertionSortForPartitionsLE50
+            - MedianOfThreePivotToSmallPartitions
+
+    Returns:
+        Tuple[Context, List[int]] containing the sorting runtime context and the sorted list
+
+    Raises:
+        None
+
+    Side Effects:
+        Writes to logs
+
+    Idempotent:
+        True
+    """
     context = Context(algorithm=algorithm, xs=xs)
     if len(xs) < 2:
         return context, xs
@@ -226,6 +372,7 @@ def sort(xs: List[int], algorithm: Algorithm = FirstItemPivotToSmallPartitions) 
 
 
 def median_of_three(a: int, b: int, c: int) -> int:
+    """Returns an int that is the median of a, b, and c"""
     items = [a, b, c]
     items.remove(min(items))
     items.remove(max(items))

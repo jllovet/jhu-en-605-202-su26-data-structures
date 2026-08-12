@@ -7,32 +7,59 @@ logger = logging.getLogger(__name__)
 
 class Node:
     def __init__(self, data: int, pos: int, prev: Node | None = None, next: Node | None = None):
+        """Initializes a Node object
+
+        Args:
+            data: int the information stored in the Node
+            pos: int position in the list, to be used for inspection
+            prev: Node | None a pointer to a previous Node
+            next: Node | None a pointer to a subsequent Node
+
+        Returns:
+            None
+
+        Raises:
+            None
+
+        Side Effects:
+            Initializes a Node object
+
+        Idempotent:
+            True
+        """
         self.data = data
         self.pos = pos
         self.prev = prev
         self.next = next
 
     def __repr__(self):
+        """Returns a str representation of the node"""
         return f"{self.data}, pos: {self.pos}, next: {self.next}"
 
     def __le__(self, other):
+        """Returns a boolean indicating whether the data of one node is less than or equal to the data of another"""
         return self.data <= other.data
 
     def __lt__(self, other):
+        """Returns a boolean indicating whether the data of one node is less than the data of another"""
         return self.data < other.data
 
     def __ge__(self, other):
+        """Returns a boolean indicating whether the data of one node is greater than or equal to the data of another"""
         return self.data >= other.data
 
     def __gt__(self, other):
+        """Returns a boolean indicating whether the data of one node is greater than the data of another"""
         return self.data > other.data
 
 
 class LinkedList:
     def __init__(self):
+        """Initializes a Linked List by setting the head to None"""
         self.head: Node | None = None
 
     def as_list(self):
+        """Returns a list/array representation of the linked list"""
         xs = []
         if self.head is None:
             return []
@@ -46,6 +73,7 @@ class LinkedList:
 
 
 def get_sorted_segment(context: Context, xsLLNode: Node) -> Tuple[Context, int, Node]:
+    """Returns the context, the length of the sorted segment of nodes, and the last node of the segment"""
     current = xsLLNode
     length_of_segment = 1
     next = current.next
@@ -63,6 +91,7 @@ def get_sorted_segment(context: Context, xsLLNode: Node) -> Tuple[Context, int, 
 
 
 def linked_natural_merge_sort(context: Context, xs: List[int]) -> Tuple[Context, List[int]]:
+    """Sorts a list using natural merge sort"""
     xsLL = LinkedList()
     xsLL.head = Node(xs[0], 0)
     prev = xsLL.head
@@ -108,6 +137,7 @@ def linked_natural_merge_sort(context: Context, xs: List[int]) -> Tuple[Context,
 
 
 def merge_segments(context: Context, head_a: Node, end_of_segment_a: Node, head_b: Node, end_of_segment_b: Node) -> Tuple[Context, Node]:
+    """Merges two linked segments into a sorted linked list"""
     # This is currently not working. Will need to think more about how to wire the pointers together
     a_current = head_a
     b_current = head_b
@@ -123,9 +153,9 @@ def merge_segments(context: Context, head_a: Node, end_of_segment_a: Node, head_
         next = a_current if a_current is not None and a_current <= b_current else b_current
         context.comparisons += 1
         if current is a_current:
-            a_current = a_current.next # type: ignore
+            a_current = a_current.next  # type: ignore
         elif current is b_current:
-            b_current = b_current.next # type: ignore
+            b_current = b_current.next  # type: ignore
         current.next = next
     logger.debug(
         f"attempted to merge segments A and B! head_a: {head_a.data}")
@@ -133,6 +163,7 @@ def merge_segments(context: Context, head_a: Node, end_of_segment_a: Node, head_
 
 
 def sort(xs: List[int], algorithm: Algorithm = NaturalMergeSort) -> Tuple[Context, List[int]]:
+    """Performs a linked natural merge sort on a list"""
     context = Context(algorithm=algorithm, xs=xs)
     if len(xs) < 2:
         return context, xs
