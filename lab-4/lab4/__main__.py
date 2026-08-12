@@ -7,14 +7,25 @@
 
 from lab4.lab4 import process_files
 from pathlib import Path
+from sys import stderr
+import os
 import argparse
 import logging
+
+from lab4.sort.context import FirstItemPivotToSmallPartitions, \
+    FirstItemPivotInsertionSortForPartitionsLE100, \
+    FirstItemPivotInsertionSortForPartitionsLE50, \
+    MedianOfThreePivotToSmallPartitions
 
 try:
     arg_parser = argparse.ArgumentParser(exit_on_error=False)
     arg_parser.description = f"Run sorting experiments to generate performance metrics for different algorithms"
-    arg_parser.add_argument("in_dir", type=str, help="Path to dir containing input files")
-    arg_parser.add_argument("out_dir", type=str, help="Path to dir containing output files")
+    arg_parser.add_argument(
+        "in_dir", type=str, help="Path to dir containing input files")
+    arg_parser.add_argument("out_dir", type=str,
+                            help="Path to dir containing output files")
+    arg_parser.add_argument(
+        "stats", type=str, help="Path to statistics file summarizing the behavior of the algorithms")
     arg_parser.add_argument("-l", "--level", type=str, default="INFO",
                             choices=["INFO", "WARNING", "ERROR",
                                      "DEBUG", "CRITICAL", "FATAL"],
@@ -27,6 +38,7 @@ try:
 
     in_dir = Path(args.in_dir)
     out_dir = Path(args.out_dir)
+    stats_path = Path(args.stats)
 
     level = args.level
     logfilename = args.logfile
@@ -43,11 +55,20 @@ try:
     # successful results to the output file. The input and output files are
     # read from the command line input above.
 
-    # TODO: Rewrite to handle all files and route performance metrics
-    with in_dir.open('r') as input_file, out_dir.open('w') as output_file:
-        logger.info(
-            f"processing input file {in_dir} and writing to {out_dir}")
-        process_files(input_file, output_file)
+    input_files = [Path(os.path.join(in_dir, f)) for f in os.listdir(
+        in_dir) if os.path.isfile(os.path.join(in_dir, f))]
+    for infile in input_files:
+        for algorithm in [FirstItemPivotToSmallPartitions,
+                          FirstItemPivotInsertionSortForPartitionsLE100,
+                          FirstItemPivotInsertionSortForPartitionsLE50,
+                          MedianOfThreePivotToSmallPartitions]:
+
+            outfile_path = Path.joinpath(Path(out_dir), algorithm + infile.name)
+            with infile.open('r') as input_file, outfile_path.open('w') as output_file, stats_path.open("w") as stats_file:
+                logger.info(
+                    f"processing input file {input_file} and writing to {outfile_path}")
+                process_files(input_file, output_file, stats_file, algorithm)
 
 except Exception as e:
+    print(e)
     arg_parser.print_help()

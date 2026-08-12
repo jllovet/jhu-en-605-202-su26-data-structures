@@ -1,24 +1,24 @@
 from sys import stderr
-from typing import TextIO
-import lab2.convert.converter as converter
-import lab2.convert.errors as errors
+from typing import TextIO, IO, Any
+import json
+
+from lab4.sort.context import Algorithm
+import lab4.sort.quick as quick
 import logging
 logger = logging.getLogger(__name__)
 
 
-def process_files(input_file: TextIO, output_file: TextIO) -> None:
-    """Reads -> converts -> writes prefix expressions
-
-    Reads prefix expressions from an input file, converts them into
-    postfix expressions directly, and writes them to an output file.
-    This is the logical entrypoint to the program when called as a module,
-    where __main__ will call it with files passed from the command line.
+def process_files(input_file: TextIO, output_file: TextIO, stats_file: IO[Any], algorithm: Algorithm) -> None:
+    """Reads -> sorts -> writes sorted files and a stats file
 
     Args:
         input_file: TextIO is an opened text file set to read mode, and it
-        contains prefix expressions to convert
+        contains lists of numbers to sort
         output_file: TextIO is an opened text file set to write mode, and it
-        is the file the postfix expressions are written to
+        is the file the sorted lists are written to
+        stats_file: TextIO is an opened text file set to append mode, and it
+        is the file where statistics about the sorting algorithms are written
+        algorithm: The algorithm that is used for quicksort
 
     Returns:
         None
@@ -29,38 +29,28 @@ def process_files(input_file: TextIO, output_file: TextIO) -> None:
     Side Effects:
         Reads from input_file
         Writes to output_file
+        Writes to stats_file
         Prints errors to stderr
         Writes to logs
 
     Idempotent:
         True
     """
-    lines = input_file.read().splitlines()
+    xs = [int(x) for x in input_file.read().splitlines()]
     raised_errors = []
-    print("Processing expressions below:", file=stderr)
-    logger.info("Beginning to process expressions")
-    for line_number, line in enumerate(lines):
-        if line is not None and line != "":
-            try:
-                postfix = converter.pre2post(line)
-                logger.debug(f"Converted '{line}' -> '{postfix}'")
-                if postfix == "":  # skip blank lines silently
-                    continue
-                else:
-                    print(line, file=stderr)
-            except (ValueError,
-                    errors.InvalidExpressionError,
-                    errors.TooManyOperandsError,
-                    errors.TooManyOperatorsError) as e:
-                print(line, file=stderr)
-                raised_errors.append(
-                    f"ERROR: {input_file.name} - line {line_number + 1}: {e}")
-                output_file.write(
-                    f"ERROR: {input_file.name} - line {line_number + 1}: {e}")
-                output_file.write("\n")
-                continue
-            output_file.write(f"{line} -> {postfix}")
-            output_file.write("\n")
+    logger.info("Beginning sorting")
+
+    try:
+        running_stats = json.load(stats_file)
+        if not isinstance(running_stats, list):
+            running_stats = []
+        running_stats.append(context.__dict__)
+        json.dump(running_stats, stats_file)
+        output_file.write(str(xs))
+
+    except (ValueError, IOError) as err:
+        raised_errors.append(
+            f"ERROR: {input_file.name}: {err}")
     if raised_errors:
         logger.warning("Errors raised")
         print_errors(raised_errors)
@@ -89,13 +79,7 @@ def print_errors(errors: list[str]) -> None:
         True
     """
     error_preamble = [
-        f"""\nWARNING: {len(errors)} errors found during conversion!
-Check expressions are well-formed prefix expressions and only use allowed symbols.\n
-Allowed symbols are alphabetical characters and any of: +-*/$()\n
-Example valid expressions:
-\t(base case):\t'A'\t-> '{converter.pre2post('A')}'
-\t(single op):\t'+AB'\t-> '{converter.pre2post('+AB')}'
-\t(more ops):\t'-+ABC'\t-> '{converter.pre2post('-+ABC')}'""",
+        f"""\nWARNING: {len(errors)} errors found during sorting!""",
         "-"*80,
     ]
     for msg in error_preamble:
