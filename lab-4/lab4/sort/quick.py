@@ -15,7 +15,8 @@ def get_pivot(context: Context, xs: List[int], low_index: int, high_index: int) 
             raise ValueError(
                 f"Could not determine pivot because the provided list {xs} was empty")
         else:
-            logger.debug(f"selecting pivot from index {low_index}: {xs[low_index]}")
+            logger.debug(
+                f"selecting pivot from index {low_index}: {xs[low_index]}")
             return context, xs[low_index]
     elif context.pivot_strategy == MedianOfThreePivot:
         if len(xs) < 3:
