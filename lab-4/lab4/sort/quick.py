@@ -63,6 +63,7 @@ def partition(context: Context, xs: List[int], low_index: int, high_index: int):
             break
         else:
             logger.debug(f"Swap {xs[low_index]} and {xs[high_index]}")
+            context.exchanges += 1
             temp = xs[low_index]
             xs[low_index] = xs[high_index]
             xs[high_index] = temp
@@ -176,11 +177,11 @@ def qs_median_of_three_pivot_to_small_partitions(context: Context, xs: List[int]
 
     logger.debug(f"New Low End Index: {low_end_index}")
     # Low partition
-    context, xs = qs_first_item_pivot_to_small_partitions(
+    context, xs = qs_median_of_three_pivot_to_small_partitions(
         context=context, xs=xs, low_index=low_index, high_index=low_end_index)
 
     # High partition
-    context, xs = qs_first_item_pivot_to_small_partitions(
+    context, xs = qs_median_of_three_pivot_to_small_partitions(
         context=context, xs=xs, low_index=low_end_index+1, high_index=high_index)
 
     return context, xs

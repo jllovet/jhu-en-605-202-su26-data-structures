@@ -26,6 +26,7 @@ class Context:
         else:
             self.pivot_strategy: PivotStrategy = FirstItemPivot
         self.comparisons: int = 0
+        self.exchanges: int = 0
         self.list_size: int = len(xs)
         self.xs: List[int] = xs
 

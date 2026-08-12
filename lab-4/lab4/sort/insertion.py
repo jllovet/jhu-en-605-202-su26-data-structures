@@ -16,6 +16,7 @@ def sort(context: Context, xs: List) -> Tuple[Context, List[int]]:
             logger.debug(
                 f"swapping xs[{j}] and xs[{j} - 1]: {xs[j]} and {xs[j - 1]}")
             context.comparisons += 1
+            context.exchanges += 1
             tmp = xs[j]
             xs[j] = xs[j - 1]
             xs[j - 1] = tmp
