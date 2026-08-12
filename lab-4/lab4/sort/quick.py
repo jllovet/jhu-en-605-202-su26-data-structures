@@ -94,16 +94,76 @@ def qs_first_item_pivot_to_small_partitions(context: Context, xs: List[int], low
     return context, xs
 
 
-def qs_first_item_pivot_insertion_sort_for_partitions_le_100(context: Context, xs: List[int]) -> Tuple[Context, List[int]]:
-    context.algorithm = FirstItemPivotInsertionSortForPartitionsLE100
-    # context, pivot = get_pivot(context=context, xs=xs, strategy=FirstItemPivot)
-    return context, sorted(xs)
+def qs_first_item_pivot_insertion_sort_for_partitions_le_100(context: Context, xs: List[int], low_index: int, high_index: int) -> Tuple[Context, List[int]]:
+    if not context.algorithm:
+        context.algorithm = FirstItemPivotInsertionSortForPartitionsLE100
+    if high_index <= low_index:
+        return context, xs
+
+    context, xs, low_end_index = partition(
+        context=context, xs=xs, low_index=low_index, high_index=high_index)
+
+    logger.debug(f"New Low End Index: {low_end_index}")
+
+    # Low partition
+    if low_end_index - low_index <= 100:
+        logger.debug(
+            f"switching to insertion sort for low partition, because low_end_index - low_index = {low_end_index - low_index} <= 100")
+        to_sort = xs[low_index:low_end_index+1]
+        context, sorted_range = insertion.sort(context, to_sort)
+        xs[low_index:low_end_index+1] = sorted_range
+    else:
+        context, xs = qs_first_item_pivot_to_small_partitions(
+            context=context, xs=xs, low_index=low_index, high_index=low_end_index)
+
+    # High partition
+    if high_index - low_end_index+1 <= 100:
+        logger.debug(
+            f"switching to insertion sort for high partition, because high_index - low_end_index+1 = {high_index - low_end_index+1} <= 100")
+        to_sort = xs[low_end_index+1:high_index+1]
+        context, sorted_range = insertion.sort(context, to_sort)
+        xs[low_end_index+1:high_index+1] = sorted_range
+    else:
+        context, xs = qs_first_item_pivot_to_small_partitions(
+            context=context, xs=xs, low_index=low_end_index+1, high_index=high_index)
+
+    return context, xs
 
 
-def qs_first_item_pivot_insertion_sort_for_partitions_le_50(context: Context, xs: List[int]) -> Tuple[Context, List[int]]:
-    context.algorithm = FirstItemPivotInsertionSortForPartitionsLE50
-    # context, pivot = get_pivot(context=context, xs=xs, strategy=FirstItemPivot)
-    return context, sorted(xs)
+def qs_first_item_pivot_insertion_sort_for_partitions_le_50(context: Context, xs: List[int], low_index: int, high_index: int) -> Tuple[Context, List[int]]:
+    if not context.algorithm:
+        context.algorithm = FirstItemPivotInsertionSortForPartitionsLE50
+    if high_index <= low_index:
+        return context, xs
+
+    context, xs, low_end_index = partition(
+        context=context, xs=xs, low_index=low_index, high_index=high_index)
+
+    logger.debug(f"New Low End Index: {low_end_index}")
+
+    # Low partition
+    if low_end_index - low_index <= 50:
+        logger.debug(
+            f"switching to insertion sort for low partition, because low_end_index - low_index = {low_end_index - low_index} <= 50")
+        to_sort = xs[low_index:low_end_index+1]
+        context, sorted_range = insertion.sort(context, to_sort)
+        xs[low_index:low_end_index+1] = sorted_range
+    else:
+        context, xs = qs_first_item_pivot_to_small_partitions(
+            context=context, xs=xs, low_index=low_index, high_index=low_end_index)
+
+    # High partition
+    if high_index - low_end_index+1 <= 50:
+        logger.debug(
+            f"switching to insertion sort for high partition, because high_index - low_end_index+1 = {high_index - low_end_index+1} <= 50")
+        to_sort = xs[low_end_index+1:high_index+1]
+        context, sorted_range = insertion.sort(context, to_sort)
+        xs[low_end_index+1:high_index+1] = sorted_range
+    else:
+        context, xs = qs_first_item_pivot_to_small_partitions(
+            context=context, xs=xs, low_index=low_end_index+1, high_index=high_index)
+
+    return context, xs
 
 
 def qs_median_of_three_pivot_to_small_partitions(context: Context, xs: List[int], low_index: int, high_index: int) -> Tuple[Context, List[int]]:
@@ -141,7 +201,7 @@ def sort(xs: List[int], algorithm: Algorithm = FirstItemPivotToSmallPartitions) 
         logger.info(
             "entering: qs_first_item_pivot_insertion_sort_for_partitions_le_100")
         context, xs = qs_first_item_pivot_insertion_sort_for_partitions_le_100(
-            context, xs)
+            context, xs, low_index=0, high_index=len(xs) - 1)
         logger.info(f"finished quicksort - context: {context}")
         return context, xs
 
@@ -149,7 +209,7 @@ def sort(xs: List[int], algorithm: Algorithm = FirstItemPivotToSmallPartitions) 
         logger.info(
             "entering: qs_first_item_pivot_insertion_sort_for_partitions_le_50")
         context, xs = qs_first_item_pivot_insertion_sort_for_partitions_le_50(
-            context, xs)
+            context, xs, low_index=0, high_index=len(xs) - 1)
         logger.info(f"finished quicksort - context: {context}")
         return context, xs
 

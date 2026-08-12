@@ -75,6 +75,7 @@ class TestQuickSortCorrectness(unittest.TestCase):
         )
 
     def test_qs_first_item_pivot_insertion_sort_for_partitions_le_100(self):
+        self.maxDiff = None
         logger.debug("in test_qs_first_item_pivot_insertion_sort_for_partitions_le_100")
         xs = [random.randrange(0, 1000, 1) for _ in range(200)]
         _, res = quick.sort(
@@ -85,6 +86,7 @@ class TestQuickSortCorrectness(unittest.TestCase):
         )
 
     def test_qs_first_item_pivot_insertion_sort_for_partitions_le_50(self):
+        self.maxDiff = None
         logger.debug("in test_qs_first_item_pivot_insertion_sort_for_partitions_le_50")
         xs = [random.randrange(0, 1000, 1) for _ in range(200)]
         _, res = quick.sort(
