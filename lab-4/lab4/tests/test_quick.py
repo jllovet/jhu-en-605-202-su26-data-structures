@@ -65,6 +65,7 @@ class TestPartition(unittest.TestCase):
 
 class TestQuickSortCorrectness(unittest.TestCase):
     def test_qs_first_item_pivot_to_small_partitions(self):
+        logger.debug("in test_qs_first_item_pivot_to_small_partitions")
         xs = [random.randrange(0, 1000, 1) for _ in range(50)]
         _, res = quick.sort(
             xs, algorithm=quick.FirstItemPivotToSmallPartitions)
@@ -74,7 +75,8 @@ class TestQuickSortCorrectness(unittest.TestCase):
         )
 
     def test_qs_first_item_pivot_insertion_sort_for_partitions_le_100(self):
-        xs = [random.randrange(0, 1000, 1) for _ in range(50)]
+        logger.debug("in test_qs_first_item_pivot_insertion_sort_for_partitions_le_100")
+        xs = [random.randrange(0, 1000, 1) for _ in range(200)]
         _, res = quick.sort(
             xs, algorithm=quick.FirstItemPivotInsertionSortForPartitionsLE100)
         self.assertListEqual(
@@ -83,7 +85,8 @@ class TestQuickSortCorrectness(unittest.TestCase):
         )
 
     def test_qs_first_item_pivot_insertion_sort_for_partitions_le_50(self):
-        xs = [random.randrange(0, 1000, 1) for _ in range(50)]
+        logger.debug("in test_qs_first_item_pivot_insertion_sort_for_partitions_le_50")
+        xs = [random.randrange(0, 1000, 1) for _ in range(200)]
         _, res = quick.sort(
             xs, algorithm=quick.FirstItemPivotInsertionSortForPartitionsLE50)
         self.assertListEqual(
@@ -92,6 +95,7 @@ class TestQuickSortCorrectness(unittest.TestCase):
         )
 
     def test_qs_median_of_three_pivot_to_small_partitions(self):
+        logger.debug("in test_qs_median_of_three_pivot_to_small_partitions")
         xs = [random.randrange(0, 1000, 1) for _ in range(50)]
         _, res = quick.sort(
             xs, algorithm=MedianOfThreePivotToSmallPartitions)
