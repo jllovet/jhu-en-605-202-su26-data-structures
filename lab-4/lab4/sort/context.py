@@ -6,6 +6,7 @@ FirstItemPivotToSmallPartitions: Algorithm = "FirstItemPivotToSmallPartitions"
 FirstItemPivotInsertionSortForPartitionsLE100: Algorithm = "FirstItemPivotInsertionSortForPartitionsLE100"
 FirstItemPivotInsertionSortForPartitionsLE50: Algorithm = "FirstItemPivotInsertionSortForPartitionsLE50"
 MedianOfThreePivotToSmallPartitions: Algorithm = "MedianOfThreePivotToSmallPartitions"
+NaturalMergeSort: Algorithm = "MergeSort"
 
 FirstItemPivot: PivotStrategy = "FirstItemPivot"
 MedianOfThreePivot: PivotStrategy = "MedianOfThreePivot"
