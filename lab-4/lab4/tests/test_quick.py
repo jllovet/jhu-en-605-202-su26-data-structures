@@ -1,25 +1,23 @@
 import unittest
 import lab4.sort.quick as quick
-from lab4.sort.context import Context
+from lab4.sort.context import Context, FirstItemPivotToSmallPartitions, MedianOfThreePivotToSmallPartitions
 import random
 import logging
 logging.basicConfig(filename="lab4_quick_tests.log",
-                        level="INFO",
-                        format="%(asctime)s - [%(filename)s:%(funcName)s:%(lineno)d] - %(levelname)s - %(message)s",
-                        datefmt="%Y-%m-%dT%H:%M:%S%z")
+                    level="DEBUG",
+                    format="%(asctime)s - [%(filename)s:%(funcName)s:%(lineno)d] - %(levelname)s - %(message)s",
+                    datefmt="%Y-%m-%dT%H:%M:%S%z")
 
 logger = logging.getLogger(__name__)
 
 
 class TestSortsProperly(unittest.TestCase):
     def test_empty(self):
-        context = Context(algorithm="", xs=[])
         _, s = quick.sort(xs=[])
         self.assertListEqual(s, [])
 
     def test_single_element_list(self):
         single_element_list = [1]
-        context = Context(algorithm="", xs=single_element_list)
         _, s = quick.sort(xs=single_element_list)
         self.assertListEqual(s, single_element_list)
 
@@ -28,11 +26,10 @@ class TestPartition(unittest.TestCase):
     def test_partition_on_first_item(self):
         xs = [1, 2, 3]
         _, pivot = quick.get_pivot(
-            context=Context(algorithm="", xs=xs),
+            context=Context(algorithm=FirstItemPivotToSmallPartitions, xs=xs),
             xs=xs,
             low_index=0,
-            high_index=len(xs)-1,
-            strategy=quick.FirstItemPivot)
+            high_index=len(xs)-1)
         self.assertEqual(
             1,
             pivot
@@ -40,20 +37,18 @@ class TestPartition(unittest.TestCase):
         xs = []
         with self.assertRaises(ValueError):
             quick.get_pivot(
-                context=Context(algorithm="", xs=xs),
+                context=Context(algorithm=FirstItemPivotToSmallPartitions, xs=xs),
                 xs=xs,
                 low_index=0,
-                high_index=len(xs)-1,
-                strategy=quick.FirstItemPivot)
+                high_index=len(xs)-1)
 
     def test_partition_on_median_of_three(self):
         xs = [1, 2, 3]
         _, pivot = quick.get_pivot(
-            context=Context(algorithm="", xs=xs),
+            context=Context(algorithm=MedianOfThreePivotToSmallPartitions, xs=xs),
             xs=xs,
             low_index=0,
-            high_index=len(xs)-1,
-            strategy=quick.MedianOfThreePivot)
+            high_index=len(xs)-1)
         self.assertEqual(
             2,
             pivot)
@@ -62,11 +57,10 @@ class TestPartition(unittest.TestCase):
         for xs in xss:
             with self.assertRaises(ValueError):
                 quick.get_pivot(
-                    context=Context("", xs=xs),
+                    context=Context(algorithm=MedianOfThreePivotToSmallPartitions, xs=xs),
                     xs=xs,
                     low_index=0,
-                    high_index=len(xs)-1,
-                    strategy=quick.MedianOfThreePivot)
+                    high_index=len(xs)-1)
 
 
 class TestQuickSortCorrectness(unittest.TestCase):
@@ -100,7 +94,7 @@ class TestQuickSortCorrectness(unittest.TestCase):
     def test_qs_median_of_three_pivot_to_small_partitions(self):
         xs = [random.randrange(0, 1000, 1) for _ in range(50)]
         _, res = quick.sort(
-            xs, algorithm=quick.MedianOfThreePivotToSmallPartitions)
+            xs, algorithm=MedianOfThreePivotToSmallPartitions)
         self.assertListEqual(
             sorted(xs),
             res
