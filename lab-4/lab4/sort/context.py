@@ -15,11 +15,11 @@ class Context:
     def __init__(self, algorithm: Algorithm, xs: List):
         self.algorithm: Algorithm = algorithm
         if algorithm in [
-                FirstItemPivotToSmallPartitions,
-                FirstItemPivotInsertionSortForPartitionsLE100,
-                FirstItemPivotInsertionSortForPartitionsLE50
-            ]:
-            self.pivot_strategy : PivotStrategy = FirstItemPivot
+            FirstItemPivotToSmallPartitions,
+            FirstItemPivotInsertionSortForPartitionsLE100,
+            FirstItemPivotInsertionSortForPartitionsLE50
+        ]:
+            self.pivot_strategy: PivotStrategy = FirstItemPivot
         elif algorithm == MedianOfThreePivotToSmallPartitions:
             self.pivot_strategy: PivotStrategy = MedianOfThreePivot
         else:
